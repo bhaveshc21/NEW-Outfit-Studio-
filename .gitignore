@@ -1,0 +1,21 @@
+# Python environment
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment secrets
+.env
+
+# Android build
+android/OutfitStudio/build/
+android/OutfitStudio/app/build/
+android/OutfitStudio/.gradle/
+android/OutfitStudio/local.properties
+android/OutfitStudio/.idea/
+android/OutfitStudio/*.iml
+
+# OS specific
+.DS_Store
+Thumbs.db
