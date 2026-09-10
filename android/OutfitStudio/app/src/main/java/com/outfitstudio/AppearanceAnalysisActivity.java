@@ -86,8 +86,10 @@ public class AppearanceAnalysisActivity extends AppCompatActivity {
 
     private void openCamera() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+        try {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        } catch (Exception e) {
+            Toast.makeText(this, "No camera app found", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -115,6 +117,18 @@ public class AppearanceAnalysisActivity extends AppCompatActivity {
                     e.printStackTrace();
                     Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show();
                 }
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CAMERA) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openCamera();
+            } else {
+                Toast.makeText(this, "Camera permission is required to take photos", Toast.LENGTH_SHORT).show();
             }
         }
     }
