@@ -53,12 +53,15 @@ def create_app():
     # Register blueprints (routes)
     from routes.auth_routes import auth_bp
     from routes.profile_routes import profile_bp
+    from routes.appearance_routes import appearance_bp
     
     app.register_blueprint(auth_bp, url_prefix='/api')
     app.register_blueprint(profile_bp, url_prefix='/api/profile')
+    app.register_blueprint(appearance_bp, url_prefix='/api/appearance')
 
     return app
 
 if __name__ == '__main__':
     app = create_app()
     app.run(debug=True, host='0.0.0.0', port=5000)
+    # Trigger hot reload

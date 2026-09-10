@@ -57,6 +57,23 @@ def init_db():
             cursor.execute(profiles_table_query)
             print("Table 'profiles' created or already exists.")
             
+            # Create appearance_analysis table
+            appearance_table_query = """
+            CREATE TABLE IF NOT EXISTS appearance_analysis (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id INT NOT NULL UNIQUE,
+                face_shape VARCHAR(50),
+                skin_tone VARCHAR(50),
+                body_type VARCHAR(50),
+                image_path VARCHAR(255),
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            )
+            """
+            cursor.execute(appearance_table_query)
+            print("Table 'appearance_analysis' created or already exists.")
+            
             connection.commit()
             cursor.close()
             connection.close()

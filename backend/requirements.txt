@@ -3,3 +3,6 @@ mysql-connector-python==8.4.0
 python-dotenv==1.0.1
 PyJWT==2.8.0
 Werkzeug==3.0.1
+opencv-python
+mediapipe==0.10.35
+Pillow
