@@ -13,4 +13,6 @@ class Config:
     DATABASE_PORT = int(os.environ.get('DATABASE_PORT', 3306))
     DATABASE_NAME = os.environ.get('DATABASE_NAME', 'outfit_studio')
     DATABASE_USER = os.environ.get('DATABASE_USER', 'root')
-    DATABASE_PASSWORD = os.environ.get('DATABASE_PASSWORD', 'bhaveshc@123')
+
+    DATABASE_PASSWORD = os.environ.get('DATABASE_PASSWORD', 'mukul@0906')
+
