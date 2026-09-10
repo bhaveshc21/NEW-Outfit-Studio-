@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#E5C0A4</color> <!-- Dusty Rose/Soft Pink Accent -->
+    <color name="primary_variant">#D8A58B</color>
+    <color name="secondary">#FDFBF9</color> <!-- Warm Ivory Background -->
+    <color name="secondary_variant">#F4EFEA</color>
+    <color name="background">#FDFBF9</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="error">#B00020</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="on_secondary">#3E3C3A</color>
+    <color name="on_background">#3E3C3A</color>
+    <color name="on_surface">#3E3C3A</color>
+    <color name="on_error">#FFFFFF</color>
+    <color name="text_hint">#A09D9B</color>
+    <color name="card_border">#EAE1D9</color>
+</resources>

@@ -50,9 +50,12 @@ def create_app():
             "message": "Internal server error"
         }), 500
 
-    # Register blueprints (routes) here in the future
-    # from routes.auth import auth_bp
-    # app.register_blueprint(auth_bp, url_prefix='/api/auth')
+    # Register blueprints (routes)
+    from routes.auth_routes import auth_bp
+    from routes.profile_routes import profile_bp
+    
+    app.register_blueprint(auth_bp, url_prefix='/api')
+    app.register_blueprint(profile_bp, url_prefix='/api/profile')
 
     return app
 
