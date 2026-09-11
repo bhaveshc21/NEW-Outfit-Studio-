@@ -26,7 +26,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private EditText etName, etHeight, etChest, etWaist, etHip, etShoulder, etInseam;
     private EditText etStyle, etColors, etOccasions;
-    private Button btnSave, btnLogout;
+    private Button btnSave, btnLogout, btnAnalyzeAppearance;
     private ProgressBar progressBar;
     private AuthApiService apiService;
     private TokenManager tokenManager;
@@ -44,6 +44,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         btnSave.setOnClickListener(v -> saveProfile());
         btnLogout.setOnClickListener(v -> logout());
+        btnAnalyzeAppearance.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, AppearanceAnalysisActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void initViews() {
@@ -59,6 +63,7 @@ public class ProfileActivity extends AppCompatActivity {
         etOccasions = findViewById(R.id.etOccasions);
         btnSave = findViewById(R.id.btnSave);
         btnLogout = findViewById(R.id.btnLogout);
+        btnAnalyzeAppearance = findViewById(R.id.btnAnalyzeAppearance);
         progressBar = findViewById(R.id.progressBar);
     }
 
@@ -174,6 +179,7 @@ public class ProfileActivity extends AppCompatActivity {
     private void setLoading(boolean isLoading) {
         btnSave.setEnabled(!isLoading);
         btnLogout.setEnabled(!isLoading);
+        btnAnalyzeAppearance.setEnabled(!isLoading);
         progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
     }
 }

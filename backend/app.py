@@ -1,7 +1,8 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, send_from_directory
 import mysql.connector
 from mysql.connector import Error
 from config import Config
+import os
 
 def create_app():
     app = Flask(__name__)
@@ -53,12 +54,21 @@ def create_app():
     # Register blueprints (routes)
     from routes.auth_routes import auth_bp
     from routes.profile_routes import profile_bp
+    from routes.appearance_routes import appearance_bp
+    from routes.wardrobe_routes import wardrobe_bp
     
     app.register_blueprint(auth_bp, url_prefix='/api')
     app.register_blueprint(profile_bp, url_prefix='/api/profile')
+    app.register_blueprint(appearance_bp, url_prefix='/api/appearance')
+    app.register_blueprint(wardrobe_bp, url_prefix='/api/wardrobe')
+
+    @app.route('/uploads/<path:filename>')
+    def serve_uploads(filename):
+        return send_from_directory(os.path.join(app.root_path, 'uploads'), filename)
 
     return app
 
 if __name__ == '__main__':
     app = create_app()
     app.run(debug=True, host='0.0.0.0', port=5000)
+    # Trigger hot reload

@@ -26,5 +26,10 @@ public class HomeActivity extends AppCompatActivity {
         btnProfile.setOnClickListener(v -> {
             startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
         });
+
+        Button btnWardrobe = findViewById(R.id.btnWardrobe);
+        btnWardrobe.setOnClickListener(v -> {
+            startActivity(new Intent(HomeActivity.this, WardrobeActivity.class));
+        });
     }
 }
