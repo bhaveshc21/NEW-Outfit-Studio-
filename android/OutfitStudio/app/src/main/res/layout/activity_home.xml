@@ -43,6 +43,7 @@
         app:backgroundTint="@null"
         app:layout_constraintTop_toBottomOf="@id/tvSubtitle"
         app:layout_constraintBottom_toTopOf="@id/btnWardrobe"
+        app:layout_constraintVertical_chainStyle="packed"
         android:layout_marginTop="64dp"/>
 
     <Button
@@ -54,6 +55,18 @@
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         app:strokeColor="@color/primary"
         app:layout_constraintTop_toBottomOf="@id/btnProfile"
+        app:layout_constraintBottom_toTopOf="@id/btnGenerateOutfit"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/btnGenerateOutfit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Generate Outfit"
+        android:textColor="@color/on_primary"
+        android:background="@drawable/bg_button_rounded"
+        app:backgroundTint="@null"
+        app:layout_constraintTop_toBottomOf="@id/btnWardrobe"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginTop="16dp"/>
 
