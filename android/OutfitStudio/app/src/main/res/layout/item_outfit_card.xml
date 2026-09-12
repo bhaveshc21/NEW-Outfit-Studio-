@@ -116,6 +116,15 @@
 
         </LinearLayout>
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnRateOutfit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Rate My Outfit"
+            app:cornerRadius="8dp"
+            android:backgroundTint="@color/primary"/>
+
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

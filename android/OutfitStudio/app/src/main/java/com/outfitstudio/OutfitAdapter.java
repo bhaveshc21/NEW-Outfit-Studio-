@@ -68,6 +68,20 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
                  .centerCrop()
                  .into(holder.ivFootwear);
         }
+        
+        holder.btnRateOutfit.setOnClickListener(v -> {
+            android.content.Intent intent = new android.content.Intent(context, FashionScoreActivity.class);
+            com.google.gson.Gson gson = new com.google.gson.Gson();
+            intent.putExtra("outfit_json", gson.toJson(outfit));
+            if (context instanceof android.app.Activity) {
+                android.app.Activity activity = (android.app.Activity) context;
+                String occasion = activity.getIntent().getStringExtra("occasion");
+                if (occasion != null) {
+                    intent.putExtra("occasion", occasion);
+                }
+            }
+            context.startActivity(intent);
+        });
     }
 
     @Override
@@ -79,6 +93,7 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
         TextView tvScore, tvReason;
         TextView tvTopName, tvBottomName, tvFootwearName;
         ImageView ivTop, ivBottom, ivFootwear;
+        android.widget.Button btnRateOutfit;
 
         public OutfitViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -90,6 +105,7 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
             ivTop = itemView.findViewById(R.id.ivTop);
             ivBottom = itemView.findViewById(R.id.ivBottom);
             ivFootwear = itemView.findViewById(R.id.ivFootwear);
+            btnRateOutfit = itemView.findViewById(R.id.btnRateOutfit);
         }
     }
 }

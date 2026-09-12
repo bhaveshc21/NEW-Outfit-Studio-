@@ -54,3 +54,29 @@ def generate_outfits(current_user_id):
     finally:
         if db.is_connected():
             db.close()
+
+@outfit_bp.route('/score', methods=['POST'])
+@token_required
+def score_outfit(current_user_id):
+    db = get_db()
+    try:
+        from services.outfit_score_service import OutfitScoreService
+        service = OutfitScoreService(db)
+        
+        data = request.get_json(silent=True)
+        if not data:
+            return jsonify({"success": False, "message": "Invalid JSON request"}), 400
+            
+        result = service.score_outfit(current_user_id, data)
+        
+        if not result.get('success'):
+            return jsonify(result), 400
+            
+        return jsonify(result), 200
+        
+    except Exception as e:
+        print(f"Outfit Score error: {e}")
+        return jsonify({"success": False, "message": "Internal server error"}), 500
+    finally:
+        if db.is_connected():
+            db.close()

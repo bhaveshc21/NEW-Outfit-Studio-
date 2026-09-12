@@ -34,6 +34,7 @@
         <activity android:name=".OccasionSelectionActivity" />
         <activity android:name=".GenerateOutfitActivity" />
         <activity android:name=".RecommendedOutfitActivity" />
+        <activity android:name=".FashionScoreActivity" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
