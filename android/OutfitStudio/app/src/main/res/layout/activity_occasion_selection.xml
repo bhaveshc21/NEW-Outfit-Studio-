@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="#FAF9F6"> <!-- Warm Ivory -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="What are you dressing for?"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        android:fontFamily="serif" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <RadioGroup
+            android:id="@+id/rgOccasions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton android:id="@+id/rbCollege" android:text="College" android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp" android:textSize="18sp" android:layout_marginBottom="8dp" android:background="@drawable/rounded_card_bg" android:buttonTint="#C18C8D" />
+            <RadioButton android:id="@+id/rbOffice" android:text="Office" android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp" android:textSize="18sp" android:layout_marginBottom="8dp" android:background="@drawable/rounded_card_bg" android:buttonTint="#C18C8D" />
+            <RadioButton android:id="@+id/rbInterview" android:text="Interview" android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp" android:textSize="18sp" android:layout_marginBottom="8dp" android:background="@drawable/rounded_card_bg" android:buttonTint="#C18C8D" />
+            <RadioButton android:id="@+id/rbParty" android:text="Party" android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp" android:textSize="18sp" android:layout_marginBottom="8dp" android:background="@drawable/rounded_card_bg" android:buttonTint="#C18C8D" />
+            <RadioButton android:id="@+id/rbWedding" android:text="Wedding" android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp" android:textSize="18sp" android:layout_marginBottom="8dp" android:background="@drawable/rounded_card_bg" android:buttonTint="#C18C8D" />
+            <RadioButton android:id="@+id/rbTravel" android:text="Travel" android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp" android:textSize="18sp" android:layout_marginBottom="8dp" android:background="@drawable/rounded_card_bg" android:buttonTint="#C18C8D" />
+            <RadioButton android:id="@+id/rbCasual" android:text="Casual" android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp" android:textSize="18sp" android:layout_marginBottom="8dp" android:background="@drawable/rounded_card_bg" android:buttonTint="#C18C8D" />
+
+        </RadioGroup>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnContinue"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Continue"
+        android:backgroundTint="#C18C8D" 
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        app:cornerRadius="12dp" />
+
+</LinearLayout>

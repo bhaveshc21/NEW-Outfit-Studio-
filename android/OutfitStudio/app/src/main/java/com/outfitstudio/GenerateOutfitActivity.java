@@ -25,14 +25,23 @@ public class GenerateOutfitActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private TextView tvStatus;
     
+    private String occasion;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generate_outfit);
         
+        occasion = getIntent().getStringExtra("occasion");
+        
         btnGenerate = findViewById(R.id.btnGenerate);
         progressBar = findViewById(R.id.progressBar);
         tvStatus = findViewById(R.id.tvStatus);
+        
+        if (occasion != null) {
+            TextView tvSubtitle = findViewById(R.id.tvSubtitle);
+            tvSubtitle.setText("Getting current weather and assembling the perfect " + occasion + " outfit for you...");
+        }
         
         btnGenerate.setOnClickListener(v -> generateOutfits());
     }
@@ -43,7 +52,9 @@ public class GenerateOutfitActivity extends AppCompatActivity {
         tvStatus.setText("");
         
         OutfitApiService apiService = ApiClient.getClient(this).create(OutfitApiService.class);
-        Call<OutfitResponse> call = apiService.generateOutfits();
+        
+        com.outfitstudio.api.models.OutfitRequest request = new com.outfitstudio.api.models.OutfitRequest(occasion, "Pune");
+        Call<OutfitResponse> call = apiService.generateOutfits(request);
         
         call.enqueue(new Callback<OutfitResponse>() {
             @Override
@@ -55,12 +66,19 @@ public class GenerateOutfitActivity extends AppCompatActivity {
                     OutfitResponse outfitResponse = response.body();
                     
                     if (outfitResponse.getData().getOutfits() == null || outfitResponse.getData().getOutfits().isEmpty()) {
-                        tvStatus.setText("Could not generate an outfit. Make sure you have a Top, Bottom, and Footwear in your wardrobe.");
+                        tvStatus.setText("Could not generate an outfit. Make sure you have enough items in your wardrobe.");
                     } else {
                         // Pass results to next activity as JSON string
-                        String jsonOutfits = new Gson().toJson(outfitResponse.getData().getOutfits());
+                        Gson gson = new Gson();
+                        String jsonOutfits = gson.toJson(outfitResponse.getData().getOutfits());
+                        String jsonWeather = gson.toJson(outfitResponse.getData().getWeather());
+                        String jsonSuggestions = gson.toJson(outfitResponse.getData().getShoppingSuggestions());
+                        
                         Intent intent = new Intent(GenerateOutfitActivity.this, RecommendedOutfitActivity.class);
                         intent.putExtra("outfits_json", jsonOutfits);
+                        intent.putExtra("weather_json", jsonWeather);
+                        intent.putExtra("suggestions_json", jsonSuggestions);
+                        intent.putExtra("occasion", outfitResponse.getData().getOccasion());
                         startActivity(intent);
                     }
                 } else {

@@ -5,7 +5,7 @@ class OutfitService:
     def __init__(self, db_connection):
         self.db = db_connection
         
-    def generate_outfits(self, user_id, limit=10):
+    def generate_outfits(self, user_id, limit=10, occasion=None, weather_data=None):
         try:
             cursor = self.db.cursor(dictionary=True)
             
@@ -21,7 +21,7 @@ class OutfitService:
             
             # Initialize Generator
             generator = OutfitGenerator(wardrobe_items, profile)
-            result = generator.generate_outfits(limit=limit)
+            result = generator.generate_outfits(limit=limit, occasion=occasion, weather_data=weather_data)
             
             return result
             

@@ -22,14 +22,29 @@ def generate_outfits(current_user_id):
     try:
         service = OutfitService(db)
         
-        # We can accept an optional limit in the body
+        # We can accept an optional limit, occasion, and location in the body
         data = request.get_json(silent=True) or {}
         limit = data.get('limit', 10)
+        occasion = data.get('occasion', None)
+        location = data.get('location', 'Pune') # Default fallback
         
-        result = service.generate_outfits(current_user_id, limit=limit)
+        weather_data = None
+        if occasion:
+            from services.weather_service import WeatherService
+            weather_service = WeatherService()
+            weather_data = weather_service.get_weather(location)
+            
+        result = service.generate_outfits(current_user_id, limit=limit, occasion=occasion, weather_data=weather_data)
         
         if not result.get('success'):
             return jsonify(result), 400
+            
+        # Add context back to the response if it's context-aware
+        if occasion:
+            if 'data' not in result:
+                result['data'] = {}
+            result['data']['occasion'] = occasion
+            result['data']['weather'] = weather_data
             
         return jsonify(result), 200
         

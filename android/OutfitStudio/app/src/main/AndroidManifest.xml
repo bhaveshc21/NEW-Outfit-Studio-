@@ -31,6 +31,7 @@
         <activity android:name=".AddClothingActivity" />
         <activity android:name=".ClothingDetailsActivity" />
         <activity android:name=".EditClothingActivity" />
+        <activity android:name=".OccasionSelectionActivity" />
         <activity android:name=".GenerateOutfitActivity" />
         <activity android:name=".RecommendedOutfitActivity" />
         <provider

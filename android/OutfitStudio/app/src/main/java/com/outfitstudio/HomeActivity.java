@@ -34,7 +34,7 @@ public class HomeActivity extends AppCompatActivity {
         
         Button btnGenerateOutfit = findViewById(R.id.btnGenerateOutfit);
         btnGenerateOutfit.setOnClickListener(v -> {
-            startActivity(new Intent(HomeActivity.this, GenerateOutfitActivity.class));
+            startActivity(new Intent(HomeActivity.this, OccasionSelectionActivity.class));
         });
     }
 }
