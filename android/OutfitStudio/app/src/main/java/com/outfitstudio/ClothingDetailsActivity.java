@@ -105,7 +105,7 @@ public class ClothingDetailsActivity extends AppCompatActivity {
         tvDetailCategory.setText(item.getCategory());
         tvDetailColor.setText(item.getColor());
 
-        String imageUrl = "http://192.168.1.103:5000/" + item.getImagePath().replace("\\", "/");
+        String imageUrl = "http://192.168.1.7:5000/" + item.getImagePath().replace("\\", "/");
         Glide.with(this)
                 .load(imageUrl)
                 .centerCrop()

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/primary"
+        app:title="Closet Statistics"
+        app:titleTextColor="@color/on_primary"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Loading State -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+        
+    <TextView
+        android:id="@+id/tvLoadingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Analyzing your wardrobe..."
+        android:layout_marginTop="16dp"
+        android:textColor="@color/on_background"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/progressBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Empty / Error State -->
+    <LinearLayout
+        android:id="@+id/emptyStateLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="32dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/tvEmptyTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your wardrobe is empty."
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/on_background"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/tvEmptyMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add clothing items to start seeing your closet statistics."
+            android:textAlignment="center"
+            android:textColor="@color/primary_variant"
+            android:layout_marginBottom="24dp"/>
+
+        <Button
+            android:id="@+id/btnEmptyGoToWardrobe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Go to Wardrobe"
+            android:textColor="@color/on_primary"
+            android:background="@drawable/bg_button_rounded"
+            app:backgroundTint="@null"/>
+    </LinearLayout>
+
+    <!-- Content ScrollView -->
+    <ScrollView
+        android:id="@+id/contentScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Total Items -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Items"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/on_background" />
+            
+            <TextView
+                android:id="@+id/tvTotalItems"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="25"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary"
+                android:layout_marginBottom="24dp" />
+
+            <!-- Category Distribution -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Category Distribution"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/on_background"
+                android:layout_marginBottom="8dp"/>
+                
+            <LinearLayout
+                android:id="@+id/layoutCategoryChart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="24dp"/>
+
+            <!-- Color Distribution -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Color Distribution"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/on_background"
+                android:layout_marginBottom="8dp"/>
+                
+            <LinearLayout
+                android:id="@+id/layoutColorChart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="24dp"/>
+
+            <!-- Usage Insights -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Usage Insights"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/on_background"
+                android:layout_marginBottom="8dp"/>
+                
+            <TextView
+                android:id="@+id/tvUsage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary_variant"
+                tools:text="Usage tracking is not available yet."
+                android:layout_marginBottom="24dp"/>
+
+            <!-- Saved Outfits -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Saved Outfits"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/on_background"
+                android:layout_marginBottom="8dp"/>
+                
+            <TextView
+                android:id="@+id/tvSavedOutfits"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary_variant"
+                tools:text="Saved outfit tracking is not available yet."
+                android:layout_marginBottom="24dp"/>
+
+            <!-- Wardrobe Gaps -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wardrobe Gaps"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/on_background"
+                android:layout_marginBottom="8dp"/>
+                
+            <TextView
+                android:id="@+id/tvWardrobeGaps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/on_background"
+                tools:text="Missing: Tops\nUnderrepresented: Jackets"
+                android:layout_marginBottom="24dp"/>
+
+            <!-- Insights -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Insights"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/on_background"
+                android:layout_marginBottom="8dp"/>
+                
+            <LinearLayout
+                android:id="@+id/layoutInsights"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="32dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

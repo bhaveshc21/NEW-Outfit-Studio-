@@ -6,3 +6,4 @@ Werkzeug==3.0.1
 opencv-python
 mediapipe==0.10.35
 Pillow
+requests

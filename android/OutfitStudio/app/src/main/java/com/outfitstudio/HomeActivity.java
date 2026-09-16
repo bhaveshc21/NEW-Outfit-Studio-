@@ -41,5 +41,10 @@ public class HomeActivity extends AppCompatActivity {
         btnSmartShopping.setOnClickListener(v -> {
             startActivity(new Intent(HomeActivity.this, SmartShoppingActivity.class));
         });
+
+        Button btnClosetStatistics = findViewById(R.id.btnClosetStatistics);
+        btnClosetStatistics.setOnClickListener(v -> {
+            startActivity(new Intent(HomeActivity.this, ClosetStatisticsActivity.class));
+        });
     }
 }

@@ -45,7 +45,7 @@ public class WardrobeAdapter extends RecyclerView.Adapter<WardrobeAdapter.Wardro
         holder.tvCategory.setText(item.getCategory());
         holder.tvColor.setText(item.getColor());
 
-        String imageUrl = "http://192.168.1.103:5000/" + item.getImagePath().replace("\\", "/");
+        String imageUrl = "http://192.168.1.7:5000/" + item.getImagePath().replace("\\", "/");
         
         Glide.with(context)
                 .load(imageUrl)
