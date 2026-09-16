@@ -57,12 +57,14 @@ def create_app():
     from routes.appearance_routes import appearance_bp
     from routes.wardrobe_routes import wardrobe_bp
     from routes.outfit_routes import outfit_bp
+    from routes.shopping_routes import shopping_bp
     
     app.register_blueprint(auth_bp, url_prefix='/api')
     app.register_blueprint(profile_bp, url_prefix='/api/profile')
     app.register_blueprint(appearance_bp, url_prefix='/api/appearance')
     app.register_blueprint(wardrobe_bp, url_prefix='/api/wardrobe')
     app.register_blueprint(outfit_bp, url_prefix='/api/outfits')
+    app.register_blueprint(shopping_bp, url_prefix='/api/shopping')
 
     @app.route('/uploads/<path:filename>')
     def serve_uploads(filename):

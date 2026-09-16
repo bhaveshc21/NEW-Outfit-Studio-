@@ -35,6 +35,8 @@
         <activity android:name=".GenerateOutfitActivity" />
         <activity android:name=".RecommendedOutfitActivity" />
         <activity android:name=".FashionScoreActivity" />
+        <activity android:name=".SmartShoppingActivity" />
+        <activity android:name=".ShoppingResultActivity" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
