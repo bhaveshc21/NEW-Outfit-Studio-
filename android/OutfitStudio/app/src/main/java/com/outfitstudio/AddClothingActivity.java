@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -77,9 +78,18 @@ public class AddClothingActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
         spinnerCategory.setAdapter(adapter);
 
-        btnCamera.setOnClickListener(v -> checkCameraPermission());
-        btnGallery.setOnClickListener(v -> openGallery());
+        btnCamera.setOnClickListener(v -> showUploadGuidelinesDialog(this::checkCameraPermission));
+        btnGallery.setOnClickListener(v -> showUploadGuidelinesDialog(this::openGallery));
         btnSave.setOnClickListener(v -> saveClothing());
+    }
+
+    private void showUploadGuidelinesDialog(Runnable onAccept) {
+        new AlertDialog.Builder(this)
+                .setTitle("Upload Guidelines")
+                .setMessage("Please upload user face and clothes as clear image, with proper white background.")
+                .setPositiveButton("Proceed", (dialog, which) -> onAccept.run())
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 
     private void checkCameraPermission() {

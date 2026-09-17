@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -69,11 +70,20 @@ public class AppearanceAnalysisActivity extends AppCompatActivity {
 
         apiService = ApiClient.getClient(this).create(AppearanceApiService.class);
 
-        btnCamera.setOnClickListener(v -> checkCameraPermission());
-        btnGallery.setOnClickListener(v -> openGallery());
+        btnCamera.setOnClickListener(v -> showUploadGuidelinesDialog(this::checkCameraPermission));
+        btnGallery.setOnClickListener(v -> showUploadGuidelinesDialog(this::openGallery));
         btnAnalyze.setOnClickListener(v -> analyzeAppearance());
 
         loadExistingAnalysis();
+    }
+
+    private void showUploadGuidelinesDialog(Runnable onAccept) {
+        new AlertDialog.Builder(this)
+                .setTitle("Upload Guidelines")
+                .setMessage("Please upload user face and clothes as clear image, with proper white background.")
+                .setPositiveButton("Proceed", (dialog, which) -> onAccept.run())
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 
     private void checkCameraPermission() {

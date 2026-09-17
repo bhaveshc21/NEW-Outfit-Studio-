@@ -21,7 +21,7 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
     private List<GeneratedOutfit> outfits;
     
     // Change if hosting backend elsewhere or using emulator 10.0.2.2
-    private static final String BASE_IMAGE_URL = "http://192.168.1.7:5000/";
+    private static final String BASE_IMAGE_URL = "http://192.168.1.103:5000/";
 
     public OutfitAdapter(Context context, List<GeneratedOutfit> outfits) {
         this.context = context;
