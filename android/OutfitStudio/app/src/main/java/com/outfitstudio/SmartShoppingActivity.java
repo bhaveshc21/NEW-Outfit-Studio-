@@ -48,7 +48,6 @@ public class SmartShoppingActivity extends AppCompatActivity {
 
     private ImageView ivClothingPreview;
     private View llImagePlaceholder;
-    private TextInputEditText etColor;
     private Spinner spinnerCategory;
     private Button btnAnalyze;
     private ProgressBar progressBar;
@@ -63,7 +62,7 @@ public class SmartShoppingActivity extends AppCompatActivity {
 
         ivClothingPreview = findViewById(R.id.ivClothingPreview);
         llImagePlaceholder = findViewById(R.id.llImagePlaceholder);
-        etColor = findViewById(R.id.etColor);
+
         spinnerCategory = findViewById(R.id.spinnerCategory);
         btnAnalyze = findViewById(R.id.btnAnalyze);
         progressBar = findViewById(R.id.progressBar);
@@ -156,7 +155,7 @@ public class SmartShoppingActivity extends AppCompatActivity {
 
     private void analyzePurchase() {
         String category = spinnerCategory.getSelectedItem().toString();
-        String color = etColor.getText().toString().trim();
+        String color = "Unknown";
         int userId = TokenManager.getInstance(this).getUserId();
 
         if (selectedBitmap == null) {

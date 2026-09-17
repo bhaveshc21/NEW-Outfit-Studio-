@@ -21,12 +21,12 @@ class ShoppingService:
             image_file.seek(0)
             image_file.save(image_path)
             
-            # Use basic heuristics if category or color missing
+            from cv.color_analysis import detect_dominant_color
+            color = detect_dominant_color(image_path)
+            
+            # Use basic heuristics if category missing
             if not category or category == "Unknown":
                 category = "Top" # fallback heuristic
-                
-            if not color or color == "Unknown":
-                color = "Black" # fallback heuristic
                 
             new_item = {
                 'name': 'Potential Purchase',

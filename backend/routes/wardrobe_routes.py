@@ -26,9 +26,9 @@ def add_wardrobe_item():
     user_id = request.form.get('user_id')
     name = request.form.get('name')
     category = request.form.get('category')
-    color = request.form.get('color')
+    color = request.form.get('color', 'Unknown')
     
-    if not all([user_id, name, category, color]):
+    if not all([user_id, name, category]):
         return jsonify({"success": False, "message": "Missing required fields"}), 400
         
     try:
@@ -114,9 +114,9 @@ def update_wardrobe_item(item_id):
     user_id = request.form.get('user_id')
     name = request.form.get('name')
     category = request.form.get('category')
-    color = request.form.get('color')
+    color = request.form.get('color', 'Unknown')
     
-    if not all([user_id, name, category, color]):
+    if not all([user_id, name, category]):
         return jsonify({"success": False, "message": "Missing required fields"}), 400
         
     try:

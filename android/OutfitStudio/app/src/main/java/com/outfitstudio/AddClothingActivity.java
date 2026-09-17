@@ -47,7 +47,7 @@ public class AddClothingActivity extends AppCompatActivity {
 
     private ImageView ivClothingPreview;
     private View llImagePlaceholder;
-    private TextInputEditText etName, etColor;
+    private TextInputEditText etName;
     private Spinner spinnerCategory;
     private Button btnSave;
     private ProgressBar progressBar;
@@ -63,7 +63,7 @@ public class AddClothingActivity extends AppCompatActivity {
         ivClothingPreview = findViewById(R.id.ivClothingPreview);
         llImagePlaceholder = findViewById(R.id.llImagePlaceholder);
         etName = findViewById(R.id.etName);
-        etColor = findViewById(R.id.etColor);
+
         spinnerCategory = findViewById(R.id.spinnerCategory);
         btnSave = findViewById(R.id.btnSave);
         progressBar = findViewById(R.id.progressBar);
@@ -157,14 +157,14 @@ public class AddClothingActivity extends AppCompatActivity {
     private void saveClothing() {
         String name = etName.getText().toString().trim();
         String category = spinnerCategory.getSelectedItem().toString();
-        String color = etColor.getText().toString().trim();
+        String color = "Unknown";
         int userId = TokenManager.getInstance(this).getUserId();
 
         if (selectedBitmap == null) {
             Toast.makeText(this, "Please select an image", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (name.isEmpty() || color.isEmpty()) {
+        if (name.isEmpty()) {
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
             return;
         }

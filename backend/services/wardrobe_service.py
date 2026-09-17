@@ -18,6 +18,9 @@ class WardrobeService:
             image_file.seek(0)
             image_file.save(image_path)
             
+            from cv.color_analysis import detect_dominant_color
+            color = detect_dominant_color(image_path)
+            
             # Database insert
             cursor = self.db.cursor()
             query = """
@@ -74,6 +77,9 @@ class WardrobeService:
                 image_path = os.path.join(self.upload_dir, unique_filename)
                 image_file.seek(0)
                 image_file.save(image_path)
+                
+                from cv.color_analysis import detect_dominant_color
+                color = detect_dominant_color(image_path)
                 
                 # Delete old image safely (optional but good practice)
                 if os.path.exists(item['image_path']):
