@@ -79,7 +79,9 @@ public class LoginActivity extends AppCompatActivity {
                     if (apiResponse.isSuccess()) {
                         LoginResponse loginData = apiResponse.getData();
                         TokenManager.getInstance(LoginActivity.this).saveAuthData(
-                                loginData.getToken(), loginData.getUser().getId());
+                                loginData.getToken(), 
+                                loginData.getUser().getId(),
+                                loginData.getUser().getGender());
                         
                         Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(LoginActivity.this, HomeActivity.class));

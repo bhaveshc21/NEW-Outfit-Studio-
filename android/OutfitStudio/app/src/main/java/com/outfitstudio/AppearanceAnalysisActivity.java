@@ -83,8 +83,8 @@ public class AppearanceAnalysisActivity extends AppCompatActivity {
 
     private void showUploadGuidelinesDialog(Runnable onAccept) {
         new AlertDialog.Builder(this)
-                .setTitle("Upload Guidelines")
-                .setMessage("Please upload user face and clothes as clear image, with proper white background.")
+                .setTitle("Instructions for uploading image:  ")
+                .setMessage("1. Please upload user face and clothes as clear image, with proper white background\n2. Please crop the image as much as you can before uploading for proper detection")
                 .setPositiveButton("Proceed", (dialog, which) -> onAccept.run())
                 .setNegativeButton("Cancel", null)
                 .show();

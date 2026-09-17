@@ -66,6 +66,42 @@
         app:layout_constraintTop_toBottomOf="@id/etPassword"
         android:layout_marginTop="16dp"/>
 
+    <TextView
+        android:id="@+id/tvGenderLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Gender"
+        android:textColor="@color/on_surface"
+        app:layout_constraintTop_toBottomOf="@id/etConfirmPassword"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="8dp"/>
+
+    <RadioGroup
+        android:id="@+id/rgGender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/tvGenderLabel"
+        android:layout_marginTop="8dp">
+
+        <RadioButton
+            android:id="@+id/rbMale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Male"
+            android:textColor="@color/on_surface"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/rbFemale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Female"
+            android:textColor="@color/on_surface"
+            android:layout_marginStart="32dp"/>
+    </RadioGroup>
+
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="match_parent"
@@ -73,8 +109,8 @@
         android:text="Sign Up"
         android:textColor="@color/on_primary"
         android:background="@drawable/bg_button_rounded"
-        app:layout_constraintTop_toBottomOf="@id/etConfirmPassword"
-        android:layout_marginTop="48dp"
+        app:layout_constraintTop_toBottomOf="@id/rgGender"
+        android:layout_marginTop="32dp"
         app:backgroundTint="@null"/>
 
     <ProgressBar

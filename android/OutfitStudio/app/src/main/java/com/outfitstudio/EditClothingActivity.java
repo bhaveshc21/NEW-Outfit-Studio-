@@ -82,7 +82,8 @@ public class EditClothingActivity extends AppCompatActivity {
         apiService = ApiClient.getClient(this).create(WardrobeApiService.class);
 
         // Setup Spinner
-        String[] categories = {"T-Shirts", "Shirts", "Jeans", "Trousers", "Jackets", "Sneakers", "Slippers", "Sandals", "Sports shoes", "Formal Shoes", "Heels", "Crocs"};
+        String gender = TokenManager.getInstance(this).getGender();
+        String[] categories = CategoryConstants.getCategoriesByGender(gender);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
         spinnerCategory.setAdapter(adapter);
 
@@ -125,7 +126,8 @@ public class EditClothingActivity extends AppCompatActivity {
         etName.setText(currentItem.getName());
         etColor.setText(currentItem.getColor());
         
-        String[] categories = {"T-Shirts", "Shirts", "Jeans", "Trousers", "Jackets", "Sneakers", "Slippers", "Sandals", "Sports shoes", "Formal Shoes", "Heels", "Crocs"};
+        String gender = TokenManager.getInstance(this).getGender();
+        String[] categories = CategoryConstants.getCategoriesByGender(gender);
         for (int i = 0; i < categories.length; i++) {
             if (categories[i].equalsIgnoreCase(currentItem.getCategory())) {
                 spinnerCategory.setSelection(i);

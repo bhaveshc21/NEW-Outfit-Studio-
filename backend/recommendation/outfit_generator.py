@@ -11,6 +11,7 @@ class OutfitGenerator:
         self.bottoms = []
         self.footwear = []
         self.accessories = []
+        self.dresses = []
         
         self.preferred_colors = []
         if self.profile and self.profile.get('preferred_colors'):
@@ -21,9 +22,11 @@ class OutfitGenerator:
     def _categorize_wardrobe(self):
         for item in self.wardrobe:
             cat = item.get('category', '').lower()
-            if 'shirt' in cat or 'top' in cat or 'jacket' in cat:
+            if 'dress' in cat or 'bodycon' in cat or 'frock' in cat:
+                self.dresses.append(item)
+            elif 'shirt' in cat or 'top' in cat or 'jacket' in cat or 'blazer' in cat:
                 self.tops.append(item)
-            elif 'jean' in cat or 'trouser' in cat or 'pant' in cat or 'bottom' in cat or 'short' in cat:
+            elif 'jean' in cat or 'trouser' in cat or 'pant' in cat or 'bottom' in cat or 'short' in cat or 'skirt' in cat or 'legging' in cat:
                 self.bottoms.append(item)
             elif any(keyword in cat for keyword in ['shoe', 'footwear', 'sneaker', 'slipper', 'sandal', 'sport', 'formal', 'heel', 'croc', 'boot']):
                 self.footwear.append(item)
@@ -31,22 +34,30 @@ class OutfitGenerator:
                 self.accessories.append(item)
 
     def generate_outfits(self, limit=10, occasion=None, weather_data=None):
-        if not self.tops or not self.bottoms or not self.footwear:
+        if (not self.tops or not self.bottoms) and not self.dresses:
             return {
                 "success": True, 
-                "message": "Not enough items in wardrobe to create a complete outfit (need Top, Bottom, and Footwear).",
+                "message": "Not enough items in wardrobe to create a complete outfit (need Top+Bottom or a Dress).",
+                "data": {"outfits": []}
+            }
+            
+        if not self.footwear:
+            return {
+                "success": True, 
+                "message": "Not enough items in wardrobe to create a complete outfit (need Footwear).",
                 "data": {"outfits": []}
             }
 
         outfits = []
         outfit_id_counter = 1
 
+        # Generate Top + Bottom outfits
         for top in self.tops:
             for bottom in self.bottoms:
                 for shoe in self.footwear:
                     score, reason, is_invalid = self._evaluate_combination(top, bottom, shoe, occasion, weather_data)
                     
-                    if score >= 15 and not is_invalid: # Minimum threshold for a reasonable outfit
+                    if score >= 15 and not is_invalid:
                         outfit = {
                             "id": outfit_id_counter,
                             "top": top,
@@ -56,14 +67,30 @@ class OutfitGenerator:
                             "reason": reason,
                             "recommendation_score": score
                         }
-                        
-                        # Optionally add an accessory
                         if self.accessories:
-                            acc = random.choice(self.accessories)
-                            outfit["accessories"].append(acc)
-                            
+                            outfit["accessories"].append(random.choice(self.accessories))
                         outfits.append(outfit)
                         outfit_id_counter += 1
+
+        # Generate Dress outfits
+        for dress in self.dresses:
+            for shoe in self.footwear:
+                score, reason, is_invalid = self._evaluate_combination(dress, None, shoe, occasion, weather_data)
+                
+                if score >= 15 and not is_invalid:
+                    outfit = {
+                        "id": outfit_id_counter,
+                        "top": dress, # Treating dress as top and no bottom
+                        "bottom": None,
+                        "footwear": shoe,
+                        "accessories": [],
+                        "reason": reason,
+                        "recommendation_score": score
+                    }
+                    if self.accessories:
+                        outfit["accessories"].append(random.choice(self.accessories))
+                    outfits.append(outfit)
+                    outfit_id_counter += 1
 
         # Sort by recommendation score descending
         outfits.sort(key=lambda x: x["recommendation_score"], reverse=True)
@@ -87,33 +114,40 @@ class OutfitGenerator:
     def _evaluate_combination(self, top, bottom, shoe, occasion=None, weather_data=None):
         is_invalid = False
         
-        color_score_raw = calculate_outfit_color_score(top.get('color'), bottom.get('color'), shoe.get('color'))
+        # Determine items list
+        items = [top, shoe]
+        if bottom:
+            items.append(bottom)
+            color_score_raw = calculate_outfit_color_score(top.get('color'), bottom.get('color'), shoe.get('color'))
+        else:
+            # If dress, just evaluate top and shoe color harmony
+            color_score_raw = calculate_outfit_color_score(top.get('color'), top.get('color'), shoe.get('color'))
         
         occ_avg = 50.0
         if occasion:
             occ_scores = []
-            for item in [top, bottom, shoe]:
+            for item in items:
                 occ_score, occ_inv = get_occasion_score(item, occasion)
                 occ_scores.append(occ_score)
                 if occ_inv: is_invalid = True
-            occ_avg = sum(occ_scores) / 3.0
+            occ_avg = sum(occ_scores) / len(items)
             
         wea_avg = 50.0
         if weather_data:
             wea_scores = []
-            for item in [top, bottom, shoe]:
+            for item in items:
                 wea_score, wea_inv = get_weather_score(item, weather_data)
                 wea_scores.append(wea_score)
                 if wea_inv: is_invalid = True
-            wea_avg = sum(wea_scores) / 3.0
+            wea_avg = sum(wea_scores) / len(items)
             
         # Combination logic
         top_cat = top.get('category', '').lower()
-        bot_cat = bottom.get('category', '').lower()
+        bot_cat = bottom.get('category', '').lower() if bottom else ""
         shoe_cat = shoe.get('category', '').lower()
         
         comb_penalty = 0.0
-        if ('formal' in top_cat or 'suit' in top_cat) and ('short' in bot_cat or 'sweat' in bot_cat or 'jean' in bot_cat):
+        if bottom and ('formal' in top_cat or 'suit' in top_cat) and ('short' in bot_cat or 'sweat' in bot_cat or 'jean' in bot_cat):
             comb_penalty += 30.0
         if ('formal' in top_cat or 'formal' in bot_cat) and ('sneaker' in shoe_cat or 'sport' in shoe_cat):
             comb_penalty += 20.0
@@ -126,13 +160,13 @@ class OutfitGenerator:
         
         # User preferences bonus (up to 5 points)
         if self.preferred_colors:
-            colors_in_outfit = {normalize_color(top.get('color')), normalize_color(bottom.get('color')), normalize_color(shoe.get('color'))}
+            colors_in_outfit = {normalize_color(item.get('color')) for item in items}
             matches = colors_in_outfit.intersection(set(self.preferred_colors))
             score += (len(matches) * 2.0)
             
         # Tie-breaker (so it's deterministic and visually unique in the UI)
         t_id = top.get('id', 0) or 0
-        b_id = bottom.get('id', 0) or 0
+        b_id = bottom.get('id', 0) or 0 if bottom else 0
         s_id = shoe.get('id', 0) or 0
         # A visible deterministic bump between 0.0 and 0.9
         tie_breaker = ((t_id * 7) + (b_id * 13) + (s_id * 17)) % 10 / 10.0

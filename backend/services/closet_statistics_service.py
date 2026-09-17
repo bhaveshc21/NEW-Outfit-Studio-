@@ -47,7 +47,7 @@ def get_closet_statistics(user_id):
                     },
                     "wardrobe_gaps": {
                         "critical": ["Tops", "Bottoms", "Footwear"],
-                        "optional": ["Accessories", "Jackets"],
+                        "optional": ["Accessories", "Jackets", "Dresses"],
                         "underrepresented": []
                     },
                     "insights": ["Your wardrobe is currently empty."]
@@ -60,8 +60,11 @@ def get_closet_statistics(user_id):
             raw_cat = item.get('category')
             cat = raw_cat.title().strip() if raw_cat else "Unspecified"
             # Normalize missing 's' for some common categories but keep it safe
-            if cat.lower() in ['t-shirt', 'shirt', 'jean', 'trouser', 'shoe', 'jacket']:
-                cat += 's'
+            if cat.lower() in ['t-shirt', 'shirt', 'jean', 'trouser', 'shoe', 'jacket', 'skirt', 'legging', 'dress']:
+                if cat.lower() == 'dress':
+                    cat += 'es'
+                else:
+                    cat += 's'
             category_counts[cat] = category_counts.get(cat, 0) + 1
             
         category_distribution = []
@@ -89,15 +92,17 @@ def get_closet_statistics(user_id):
             
         # Wardrobe Gaps
         # Broad categories based on outfit_generator.py logic
-        broad_counts = {"Tops": 0, "Bottoms": 0, "Footwear": 0, "Accessories": 0, "Jackets": 0}
+        broad_counts = {"Tops": 0, "Bottoms": 0, "Footwear": 0, "Accessories": 0, "Jackets": 0, "Dresses": 0}
         
         for item in items:
             cat = item.get('category', '').lower() if item.get('category') else ''
-            if 'shirt' in cat or 'top' in cat:
+            if 'dress' in cat or 'bodycon' in cat or 'frock' in cat:
+                broad_counts["Dresses"] += 1
+            elif 'shirt' in cat or 'top' in cat:
                 broad_counts["Tops"] += 1
-            if 'jacket' in cat:
+            elif 'jacket' in cat or 'blazer' in cat:
                 broad_counts["Jackets"] += 1
-            elif 'jean' in cat or 'trouser' in cat or 'pant' in cat or 'bottom' in cat or 'short' in cat:
+            elif 'jean' in cat or 'trouser' in cat or 'pant' in cat or 'bottom' in cat or 'short' in cat or 'skirt' in cat or 'legging' in cat:
                 broad_counts["Bottoms"] += 1
             elif any(keyword in cat for keyword in ['shoe', 'footwear', 'sneaker', 'slipper', 'sandal', 'sport', 'formal', 'heel', 'croc', 'boot']):
                 broad_counts["Footwear"] += 1
@@ -108,8 +113,8 @@ def get_closet_statistics(user_id):
         optional_gaps = []
         underrepresented = []
         
-        if broad_counts["Tops"] == 0: critical_gaps.append("Tops")
-        if broad_counts["Bottoms"] == 0: critical_gaps.append("Bottoms")
+        if broad_counts["Tops"] == 0 and broad_counts["Dresses"] == 0: critical_gaps.append("Tops or Dresses")
+        if broad_counts["Bottoms"] == 0 and broad_counts["Dresses"] == 0: critical_gaps.append("Bottoms (unless wearing Dress)")
         if broad_counts["Footwear"] == 0: critical_gaps.append("Footwear")
         
         if broad_counts["Jackets"] == 0: optional_gaps.append("Jackets")

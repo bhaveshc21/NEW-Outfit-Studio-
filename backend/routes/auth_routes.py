@@ -36,6 +36,7 @@ def register():
     name = data.get('name', '').strip()
     email = data.get('email', '').strip()
     password = data.get('password', '')
+    gender = data.get('gender', 'Male').strip()
     
     # Validation
     if not name:
@@ -44,6 +45,8 @@ def register():
         return jsonify({'success': False, 'message': 'Valid email is required'}), 400
     if not password or len(password) < 6:
         return jsonify({'success': False, 'message': 'Password must be at least 6 characters'}), 400
+    if gender not in ['Male', 'Female']:
+        return jsonify({'success': False, 'message': 'Invalid gender specified'}), 400
         
     hashed_password = generate_password_hash(password)
     
@@ -59,9 +62,12 @@ def register():
         if cursor.fetchone():
             return jsonify({'success': False, 'message': 'Email already registered'}), 400
             
-        # Insert user
-        insert_user_query = "INSERT INTO users (name, email, password) VALUES (%s, %s, %s)"
-        cursor.execute(insert_user_query, (name, email, hashed_password))
+        # Insert new user
+        insert_query = """
+        INSERT INTO users (name, email, password, gender) 
+        VALUES (%s, %s, %s, %s)
+        """
+        cursor.execute(insert_query, (name, email, hashed_password, gender))
         user_id = cursor.lastrowid
         
         # Insert empty profile
@@ -84,7 +90,8 @@ def register():
                 'user': {
                     'id': user_id,
                     'name': name,
-                    'email': email
+                    'email': email,
+                    'gender': gender
                 }
             }
         }), 201
@@ -119,7 +126,7 @@ def login():
         cursor = connection.cursor(dictionary=True)
         
         # Get user
-        cursor.execute("SELECT id, name, email, password FROM users WHERE email = %s", (email,))
+        cursor.execute("SELECT id, name, email, password, gender FROM users WHERE email = %s", (email,))
         user = cursor.fetchone()
         
         if not user or not check_password_hash(user['password'], password):
@@ -139,7 +146,8 @@ def login():
                 'user': {
                     'id': user['id'],
                     'name': user['name'],
-                    'email': user['email']
+                    'email': user['email'],
+                    'gender': user['gender']
                 }
             }
         }), 200

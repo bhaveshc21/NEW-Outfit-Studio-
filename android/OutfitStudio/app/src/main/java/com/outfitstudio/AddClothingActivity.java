@@ -74,7 +74,8 @@ public class AddClothingActivity extends AppCompatActivity {
         apiService = ApiClient.getClient(this).create(WardrobeApiService.class);
 
         // Setup Spinner
-        String[] categories = {"T-Shirts", "Shirts", "Jeans", "Trousers", "Jackets", "Sneakers", "Slippers", "Sandals", "Sports shoes", "Formal Shoes", "Heels", "Crocs"};
+        String gender = TokenManager.getInstance(this).getGender();
+        String[] categories = CategoryConstants.getCategoriesByGender(gender);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
         spinnerCategory.setAdapter(adapter);
 
@@ -87,8 +88,8 @@ public class AddClothingActivity extends AppCompatActivity {
 
     private void showUploadGuidelinesDialog(Runnable onAccept) {
         new AlertDialog.Builder(this)
-                .setTitle("Upload Guidelines")
-                .setMessage("Please upload user face and clothes as clear image, with proper white background.")
+                .setTitle("Instructions for uploading image:  ")
+                .setMessage("1. Please upload user face and clothes as clear image, with proper white background\n2. Please crop the image as much as you can before uploading for proper detection")
                 .setPositiveButton("Proceed", (dialog, which) -> onAccept.run())
                 .setNegativeButton("Cancel", null)
                 .show();

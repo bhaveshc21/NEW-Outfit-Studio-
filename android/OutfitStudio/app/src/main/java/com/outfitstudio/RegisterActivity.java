@@ -8,6 +8,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,6 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Button btnRegister;
     private TextView tvToLogin;
     private ProgressBar progressBar;
+    private RadioGroup rgGender;
     private AuthApiService apiService;
 
     @Override
@@ -41,6 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
+        rgGender = findViewById(R.id.rgGender);
         btnRegister = findViewById(R.id.btnRegister);
         tvToLogin = findViewById(R.id.tvToLogin);
         progressBar = findViewById(R.id.progressBar);
@@ -73,7 +77,13 @@ public class RegisterActivity extends AppCompatActivity {
 
         setLoading(true);
 
-        RegisterRequest request = new RegisterRequest(name, email, password);
+        String gender = "Male";
+        int selectedId = rgGender.getCheckedRadioButtonId();
+        if (selectedId == R.id.rbFemale) {
+            gender = "Female";
+        }
+
+        RegisterRequest request = new RegisterRequest(name, email, password, gender);
         apiService.register(request).enqueue(new Callback<ApiResponse<LoginResponse>>() {
             @Override
             public void onResponse(Call<ApiResponse<LoginResponse>> call, Response<ApiResponse<LoginResponse>> response) {
@@ -83,7 +93,9 @@ public class RegisterActivity extends AppCompatActivity {
                     if (apiResponse.isSuccess()) {
                         LoginResponse loginData = apiResponse.getData();
                         TokenManager.getInstance(RegisterActivity.this).saveAuthData(
-                                loginData.getToken(), loginData.getUser().getId());
+                                loginData.getToken(), 
+                                loginData.getUser().getId(),
+                                loginData.getUser().getGender());
                         
                         Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
                         // Navigate to profile to complete details

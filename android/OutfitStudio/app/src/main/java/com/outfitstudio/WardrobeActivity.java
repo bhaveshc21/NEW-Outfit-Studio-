@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import android.util.TypedValue;
 import com.outfitstudio.api.ApiClient;
 import com.outfitstudio.api.TokenManager;
 import com.outfitstudio.api.WardrobeApiService;
@@ -59,6 +60,8 @@ public class WardrobeActivity extends AppCompatActivity {
             startActivity(new Intent(WardrobeActivity.this, AddClothingActivity.class));
         });
 
+        setupCategoryChips();
+
         cgCategories.setOnCheckedStateChangeListener((group, checkedIds) -> {
             if (!checkedIds.isEmpty()) {
                 int checkedId = checkedIds.get(0);
@@ -68,6 +71,27 @@ public class WardrobeActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void setupCategoryChips() {
+        cgCategories.removeAllViews();
+        
+        // Add "All" chip
+        Chip chipAll = new Chip(this);
+        chipAll.setText("All");
+        chipAll.setCheckable(true);
+        chipAll.setChecked(true);
+        cgCategories.addView(chipAll);
+
+        // Add gender specific chips
+        String gender = TokenManager.getInstance(this).getGender();
+        String[] categories = CategoryConstants.getCategoriesByGender(gender);
+        for (String category : categories) {
+            Chip chip = new Chip(this);
+            chip.setText(category);
+            chip.setCheckable(true);
+            cgCategories.addView(chip);
+        }
     }
 
     @Override
