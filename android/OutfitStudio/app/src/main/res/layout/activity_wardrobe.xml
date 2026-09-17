@@ -71,11 +71,53 @@
                 android:text="Trousers"/>
                 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chipFootwear"
+                android:id="@+id/chipSneakers"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Footwear"/>
+                android:text="Sneakers"/>
+                
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipSlippers"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Slippers"/>
+                
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipSandals"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sandals"/>
+                
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipSportsShoes"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sports shoes"/>
+                
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipFormalShoes"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Formal Shoes"/>
+                
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipHeels"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Heels"/>
+                
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipCrocs"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Crocs"/>
                 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipJackets"

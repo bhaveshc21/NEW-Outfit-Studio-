@@ -99,7 +99,7 @@ def get_closet_statistics(user_id):
                 broad_counts["Jackets"] += 1
             elif 'jean' in cat or 'trouser' in cat or 'pant' in cat or 'bottom' in cat or 'short' in cat:
                 broad_counts["Bottoms"] += 1
-            elif 'shoe' in cat or 'footwear' in cat or 'sneaker' in cat or 'boot' in cat:
+            elif any(keyword in cat for keyword in ['shoe', 'footwear', 'sneaker', 'slipper', 'sandal', 'sport', 'formal', 'heel', 'croc', 'boot']):
                 broad_counts["Footwear"] += 1
             elif 'accessory' in cat or 'watch' in cat or 'belt' in cat or 'hat' in cat:
                 broad_counts["Accessories"] += 1

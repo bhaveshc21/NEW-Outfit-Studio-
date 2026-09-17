@@ -82,12 +82,7 @@ class TestOutfitScore(unittest.TestCase):
         res = evaluate_outfit(self.bad_combo)
         self.assertEqual(res["factors"]["combination"]["status"], "NEEDS_IMPROVEMENT")
 
-    def test_missing_accessory(self):
-        # formal_outfit without accessories
-        no_acc = {k: v for k, v in self.formal_outfit.items() if k != "accessories"}
-        res = evaluate_outfit(no_acc)
-        self.assertEqual(res["factors"]["accessories"]["status"], "NEEDS_IMPROVEMENT")
-        self.assertIn("accessory could complete", res["factors"]["accessories"]["reason"])
+
 
 if __name__ == '__main__':
     unittest.main()

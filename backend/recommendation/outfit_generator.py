@@ -25,7 +25,7 @@ class OutfitGenerator:
                 self.tops.append(item)
             elif 'jean' in cat or 'trouser' in cat or 'pant' in cat or 'bottom' in cat or 'short' in cat:
                 self.bottoms.append(item)
-            elif 'shoe' in cat or 'footwear' in cat or 'sneaker' in cat or 'boot' in cat:
+            elif any(keyword in cat for keyword in ['shoe', 'footwear', 'sneaker', 'slipper', 'sandal', 'sport', 'formal', 'heel', 'croc', 'boot']):
                 self.footwear.append(item)
             elif 'accessory' in cat or 'watch' in cat or 'belt' in cat or 'hat' in cat:
                 self.accessories.append(item)

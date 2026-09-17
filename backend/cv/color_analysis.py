@@ -53,11 +53,11 @@ def rgb_to_color_name(rgb):
     v = v * 100
     
     # Grayscale/Black/White check
-    if v < 15:
+    if v < 20:
         return "Black"
-    if v > 85 and s < 15:
+    if v > 75 and s < 25:
         return "White"
-    if s < 15:
+    if s < 25:
         return "Grey"
         
     # Hue-based classification

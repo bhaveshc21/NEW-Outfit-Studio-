@@ -73,7 +73,7 @@ public class SmartShoppingActivity extends AppCompatActivity {
         apiService = ApiClient.getClient(this).create(ShoppingApiService.class);
 
         // Setup Spinner
-        String[] categories = {"Unknown", "T-Shirts", "Shirts", "Jeans", "Trousers", "Footwear", "Jackets"};
+        String[] categories = {"Unknown", "T-Shirts", "Shirts", "Jeans", "Trousers", "Jackets", "Sneakers", "Slippers", "Sandals", "Sports shoes", "Formal Shoes", "Heels", "Crocs"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
         spinnerCategory.setAdapter(adapter);
 
