@@ -85,39 +85,67 @@ class OutfitGenerator:
         }
 
     def _evaluate_combination(self, top, bottom, shoe, occasion=None, weather_data=None):
-        score = 50 # Base score for having all parts
         is_invalid = False
         
-        # Color harmony
-        color_score = calculate_outfit_color_score(top.get('color'), bottom.get('color'), shoe.get('color'))
-        score += color_score
+        color_score_raw = calculate_outfit_color_score(top.get('color'), bottom.get('color'), shoe.get('color'))
         
-        # User preferences (colors)
+        occ_avg = 50.0
+        if occasion:
+            occ_scores = []
+            for item in [top, bottom, shoe]:
+                occ_score, occ_inv = get_occasion_score(item, occasion)
+                occ_scores.append(occ_score)
+                if occ_inv: is_invalid = True
+            occ_avg = sum(occ_scores) / 3.0
+            
+        wea_avg = 50.0
+        if weather_data:
+            wea_scores = []
+            for item in [top, bottom, shoe]:
+                wea_score, wea_inv = get_weather_score(item, weather_data)
+                wea_scores.append(wea_score)
+                if wea_inv: is_invalid = True
+            wea_avg = sum(wea_scores) / 3.0
+            
+        # Combination logic
+        top_cat = top.get('category', '').lower()
+        bot_cat = bottom.get('category', '').lower()
+        shoe_cat = shoe.get('category', '').lower()
+        
+        comb_penalty = 0.0
+        if ('formal' in top_cat or 'suit' in top_cat) and ('short' in bot_cat or 'sweat' in bot_cat or 'jean' in bot_cat):
+            comb_penalty += 30.0
+        if ('formal' in top_cat or 'formal' in bot_cat) and ('sneaker' in shoe_cat or 'sport' in shoe_cat):
+            comb_penalty += 20.0
+        if ('t-shirt' in top_cat or 'sport' in top_cat or 'casual' in top_cat) and ('formal' in shoe_cat):
+            comb_penalty += 25.0
+            
+        # Weighting: 40% Color, 30% Occasion, 30% Weather
+        score = (color_score_raw * 0.4) + (occ_avg * 0.3) + (wea_avg * 0.3)
+        score -= comb_penalty
+        
+        # User preferences bonus (up to 5 points)
         if self.preferred_colors:
             colors_in_outfit = {normalize_color(top.get('color')), normalize_color(bottom.get('color')), normalize_color(shoe.get('color'))}
             matches = colors_in_outfit.intersection(set(self.preferred_colors))
-            score += (len(matches) * 5)
+            score += (len(matches) * 2.0)
             
-        # Occasion rules
-        if occasion:
-            for item in [top, bottom, shoe]:
-                occ_score, occ_inv = get_occasion_score(item, occasion)
-                score += (occ_score - 50) # apply delta
-                if occ_inv: is_invalid = True
-                
-        # Weather rules
-        if weather_data:
-            for item in [top, bottom, shoe]:
-                wea_score, wea_inv = get_weather_score(item, weather_data)
-                score += (wea_score - 50) # apply delta
-                if wea_inv: is_invalid = True
+        # Tie-breaker (so it's deterministic and visually unique in the UI)
+        t_id = top.get('id', 0) or 0
+        b_id = bottom.get('id', 0) or 0
+        s_id = shoe.get('id', 0) or 0
+        # A visible deterministic bump between 0.0 and 0.9
+        tie_breaker = ((t_id * 7) + (b_id * 13) + (s_id * 17)) % 10 / 10.0
+        
+        score = round(max(0.0, min(99.0, score)), 0) # Base integer out of 99
+        score += tie_breaker
                 
         reason = "A well-balanced outfit."
         if occasion and weather_data:
             reason = f"Suitable combination for {occasion.lower()} and the current weather."
-        elif color_score >= 25:
+        elif color_score_raw >= 85:
             reason = "Excellent color harmony."
-        elif color_score >= 15:
+        elif color_score_raw >= 70:
             reason = "Good color combination."
             
         if self.preferred_colors and score > 80:

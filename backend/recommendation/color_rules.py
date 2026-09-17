@@ -68,17 +68,41 @@ def is_compatible(color1, color2):
         
     return False
 
+def color_pair_score(color1, color2):
+    """Calculate a compatibility score between 0 and 100 for two colors."""
+    c1 = normalize_color(color1)
+    c2 = normalize_color(color2)
+    
+    if not c1 or not c2:
+        return 70.0  # Default safe score if colors are unknown
+        
+    if c1 == c2:
+        if c1 in NEUTRAL_COLORS:
+            return 85.0
+        return 80.0  # Monochromatic look
+        
+    pair = frozenset([c1, c2])
+    if pair in COMPATIBLE_PAIRS:
+        return 100.0
+        
+    is_c1_neutral = c1 in NEUTRAL_COLORS
+    is_c2_neutral = c2 in NEUTRAL_COLORS
+    
+    if is_c1_neutral and is_c2_neutral:
+        return 90.0
+        
+    if is_c1_neutral or is_c2_neutral:
+        return 95.0
+        
+    return 30.0  # Clashing colors
+
 def calculate_outfit_color_score(top_color, bottom_color, footwear_color):
     """
-    Calculate a basic color harmony score.
-    Max score 30 for perfect combinations.
+    Calculate a basic color harmony score out of 100.
     """
-    score = 0
-    if is_compatible(top_color, bottom_color):
-        score += 15
-    if is_compatible(bottom_color, footwear_color):
-        score += 10
-    if is_compatible(top_color, footwear_color):
-        score += 5
-        
-    return score
+    tb_score = color_pair_score(top_color, bottom_color)
+    bf_score = color_pair_score(bottom_color, footwear_color)
+    tf_score = color_pair_score(top_color, footwear_color)
+    
+    # Weights: Top/Bottom is most important (50%), Bottom/Footwear (30%), Top/Footwear (20%)
+    return (tb_score * 0.5) + (bf_score * 0.3) + (tf_score * 0.2)

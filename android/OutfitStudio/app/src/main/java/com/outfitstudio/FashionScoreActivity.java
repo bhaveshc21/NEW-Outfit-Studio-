@@ -158,18 +158,18 @@ public class FashionScoreActivity extends AppCompatActivity {
 
     private void populateUI(FashionScoreResponse.Data data) {
         // Overall Score
-        tvOverallScore.setText(data.getFashionScore() + " / 100");
+        tvOverallScore.setText(String.format("%.1f / 100", data.getFashionScore()));
         tvOverallRating.setText(data.getRating());
 
         // Current Outfit
         bindOutfitToViews(data.getCurrentOutfit(), ivTop, ivBottom, ivFootwear, tvTopName, tvBottomName, tvFootwearName);
-        tvCurrentScore.setText("Current Score: " + data.getFashionScore());
+        tvCurrentScore.setText(String.format("Current Score: %.1f", data.getFashionScore()));
         tvCurrentReason.setText("");
 
         // Factors
         llFactors.removeAllViews();
-        String[] keys = {"color_coordination", "occasion", "weather", "combination", "accessories"};
-        String[] titles = {"Color Coordination", "Occasion", "Weather", "Combination", "Accessories"};
+        String[] keys = {"color_coordination", "occasion", "weather", "combination"};
+        String[] titles = {"Color Coordination", "Occasion", "Weather", "Combination"};
         
         for (int i = 0; i < keys.length; i++) {
             FashionScoreResponse.FactorEvaluation eval = data.getFactors().get(keys[i]);
@@ -197,7 +197,7 @@ public class FashionScoreActivity extends AppCompatActivity {
             incImprovedOutfit.setVisibility(View.VISIBLE);
             tvNoImprovedOutfit.setVisibility(View.GONE);
             bindOutfitToViews(data.getImprovedOutfit(), ivImpTop, ivImpBottom, ivImpFootwear, tvImpTopName, tvImpBottomName, tvImpFootwearName);
-            tvImpScore.setText("Improved Score: " + data.getImprovedScore());
+            tvImpScore.setText(String.format("Improved Score: %.1f", data.getImprovedScore()));
             tvImpReason.setText("Suggested better combination from your wardrobe.");
         } else {
             incImprovedOutfit.setVisibility(View.GONE);
@@ -225,7 +225,7 @@ public class FashionScoreActivity extends AppCompatActivity {
         tvTitle.setTextColor(Color.BLACK);
 
         TextView tvScore = new TextView(this);
-        tvScore.setText(eval.getScore() + " / " + eval.getMaxScore());
+        tvScore.setText(String.format("%.1f / %.1f", eval.getScore(), eval.getMaxScore()));
         tvScore.setTextSize(14);
         tvScore.setTextColor(Color.parseColor("#666666"));
 

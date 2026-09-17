@@ -23,7 +23,7 @@ public class GeneratedOutfit {
     private String reason;
 
     @SerializedName("recommendation_score")
-    private int recommendationScore;
+    private double recommendationScore;
 
     public int getId() { return id; }
     public WardrobeItem getTop() { return top; }
@@ -31,5 +31,5 @@ public class GeneratedOutfit {
     public WardrobeItem getFootwear() { return footwear; }
     public List<WardrobeItem> getAccessories() { return accessories; }
     public String getReason() { return reason; }
-    public int getRecommendationScore() { return recommendationScore; }
+    public double getRecommendationScore() { return recommendationScore; }
 }

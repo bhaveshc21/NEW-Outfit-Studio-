@@ -21,7 +21,7 @@ public class FashionScoreResponse {
 
     public static class Data {
         @SerializedName("fashion_score")
-        private int fashionScore;
+        private double fashionScore;
 
         @SerializedName("rating")
         private String rating;
@@ -39,23 +39,23 @@ public class FashionScoreResponse {
         private GeneratedOutfit improvedOutfit;
 
         @SerializedName("improved_score")
-        private Integer improvedScore;
+        private Double improvedScore;
 
-        public int getFashionScore() { return fashionScore; }
+        public double getFashionScore() { return fashionScore; }
         public String getRating() { return rating; }
         public Map<String, FactorEvaluation> getFactors() { return factors; }
         public GeneratedOutfit getCurrentOutfit() { return currentOutfit; }
         public List<String> getImprovementSuggestions() { return improvementSuggestions; }
         public GeneratedOutfit getImprovedOutfit() { return improvedOutfit; }
-        public Integer getImprovedScore() { return improvedScore; }
+        public Double getImprovedScore() { return improvedScore; }
     }
 
     public static class FactorEvaluation {
         @SerializedName("score")
-        private int score;
+        private double score;
 
         @SerializedName("max_score")
-        private int maxScore;
+        private double maxScore;
 
         @SerializedName("status")
         private String status;
@@ -66,8 +66,8 @@ public class FashionScoreResponse {
         @SerializedName("reason")
         private String reason;
 
-        public int getScore() { return score; }
-        public int getMaxScore() { return maxScore; }
+        public double getScore() { return score; }
+        public double getMaxScore() { return maxScore; }
         public String getStatus() { return status; }
         public String getLabel() { return label; }
         public String getReason() { return reason; }

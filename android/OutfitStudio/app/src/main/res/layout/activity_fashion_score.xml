@@ -19,8 +19,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="RATE MY OUTFIT"
-                android:textSize="24sp"
+                android:text="ANALYSE THIS OUTFIT"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/on_background"
                 android:textAlignment="center"

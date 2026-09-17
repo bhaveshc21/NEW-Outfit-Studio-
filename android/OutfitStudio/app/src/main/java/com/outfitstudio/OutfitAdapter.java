@@ -39,7 +39,7 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
     public void onBindViewHolder(@NonNull OutfitViewHolder holder, int position) {
         GeneratedOutfit outfit = outfits.get(position);
         
-        holder.tvScore.setText("Recommendation Score: " + outfit.getRecommendationScore());
+        holder.tvScore.setText(String.format("Recommendation Score: %.1f", outfit.getRecommendationScore()));
         holder.tvReason.setText(outfit.getReason());
         
         if (outfit.getTop() != null && outfit.getTop().getImagePath() != null) {
