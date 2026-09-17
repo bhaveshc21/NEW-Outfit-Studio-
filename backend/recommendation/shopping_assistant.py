@@ -49,6 +49,19 @@ class ShoppingAssistant:
                         
             if includes_new_item:
                 matching_outfits.append(outfit)
+                
+        # Check if a highly similar item already exists in the wardrobe
+        duplicate_exists = False
+        new_cat = str(new_item.get('category', '')).lower()
+        new_color = str(new_item.get('color', '')).lower()
+        
+        if new_cat and new_color and new_cat != "unknown" and new_color != "unknown":
+            for item in self.current_wardrobe:
+                item_cat = str(item.get('category', '')).lower()
+                item_color = str(item.get('color', '')).lower()
+                if item_cat == new_cat and item_color == new_color:
+                    duplicate_exists = True
+                    break
 
         # Calculate score and verdict
         # If we can form at least 3 high-scoring outfits (e.g., score >= 50), it's very compatible.
@@ -59,12 +72,17 @@ class ShoppingAssistant:
         # Max score if you can form 5+ good outfits.
         compatibility_score = min(100, int((good_outfits_count / 5.0) * 100))
         
-        if compatibility_score >= 80:
-            verdict = "Must Buy! Matches perfectly with your wardrobe."
-        elif compatibility_score >= 50:
-            verdict = "Good Addition. Fits well with some items."
+        if duplicate_exists:
+            # Heavily penalize the purchase if they already own it
+            compatibility_score = min(compatibility_score, 15) 
+            verdict = "Similar clothing already exists in your wardrobe and hence you should not consider buying it."
         else:
-            verdict = "Think Twice. Hard to style with your current closet."
+            if compatibility_score >= 80:
+                verdict = "Must Buy! Matches perfectly with your wardrobe."
+            elif compatibility_score >= 50:
+                verdict = "Good Addition. Fits well with some items."
+            else:
+                verdict = "Think Twice. Hard to style with your current closet."
 
         return {
             "compatibility_score": compatibility_score,

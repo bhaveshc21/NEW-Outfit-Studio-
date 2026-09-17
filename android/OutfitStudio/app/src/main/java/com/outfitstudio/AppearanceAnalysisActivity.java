@@ -45,6 +45,7 @@ public class AppearanceAnalysisActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_CAMERA = 100;
 
     private ImageView ivPreview;
+    private View llImagePlaceholder;
     private Button btnCamera, btnGallery, btnAnalyze;
     private ProgressBar progressBar;
     private LinearLayout llResults;
@@ -59,6 +60,7 @@ public class AppearanceAnalysisActivity extends AppCompatActivity {
         setContentView(R.layout.activity_appearance_analysis);
 
         ivPreview = findViewById(R.id.ivPreview);
+        llImagePlaceholder = findViewById(R.id.llImagePlaceholder);
         btnCamera = findViewById(R.id.btnCamera);
         btnGallery = findViewById(R.id.btnGallery);
         btnAnalyze = findViewById(R.id.btnAnalyze);
@@ -72,6 +74,8 @@ public class AppearanceAnalysisActivity extends AppCompatActivity {
 
         btnCamera.setOnClickListener(v -> showUploadGuidelinesDialog(this::checkCameraPermission));
         btnGallery.setOnClickListener(v -> showUploadGuidelinesDialog(this::openGallery));
+        llImagePlaceholder.setOnClickListener(v -> openGallery());
+        ivPreview.setOnClickListener(v -> openGallery());
         btnAnalyze.setOnClickListener(v -> analyzeAppearance());
 
         loadExistingAnalysis();
@@ -117,12 +121,14 @@ public class AppearanceAnalysisActivity extends AppCompatActivity {
                 Bundle extras = data.getExtras();
                 selectedBitmap = (Bitmap) extras.get("data");
                 ivPreview.setImageBitmap(selectedBitmap);
+                llImagePlaceholder.setVisibility(View.GONE);
             } else if (requestCode == REQUEST_IMAGE_PICK) {
                 Uri imageUri = data.getData();
                 try {
                     InputStream imageStream = getContentResolver().openInputStream(imageUri);
                     selectedBitmap = BitmapFactory.decodeStream(imageStream);
                     ivPreview.setImageBitmap(selectedBitmap);
+                    llImagePlaceholder.setVisibility(View.GONE);
                 } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show();

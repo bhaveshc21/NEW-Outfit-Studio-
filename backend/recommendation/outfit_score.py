@@ -3,6 +3,7 @@ from recommendation.occasion_rules import get_occasion_score
 from recommendation.weather_rules import get_weather_score
 
 def evaluate_outfit(outfit, occasion=None, weather_data=None):
+    """
     Evaluates an outfit out of 100 points based on 4 factors:
     - Color Coordination (25)
     - Occasion Suitability (25)
@@ -132,31 +133,40 @@ def evaluate_outfit(outfit, occasion=None, weather_data=None):
     # 4. Clothing Combination (0-25)
     comb_score = 25.0
     
-    top_cat = top.get('category', '').lower()
-    bot_cat = bottom.get('category', '').lower()
-    shoe_cat = footwear.get('category', '').lower()
+    # Combine category and name for a wider keyword search
+    top_str = (top.get('category', '') + ' ' + top.get('name', '')).lower()
+    bot_str = (bottom.get('category', '') + ' ' + bottom.get('name', '')).lower()
+    shoe_str = (footwear.get('category', '') + ' ' + footwear.get('name', '')).lower()
     
     # Check styles
-    top_is_formal = 'formal' in top_cat or 'suit' in top_cat or 'shirt' in top_cat
-    top_is_casual = 't-shirt' in top_cat or 'sport' in top_cat or 'casual' in top_cat
-    bot_is_formal = 'formal' in bot_cat or 'trouser' in bot_cat
-    bot_is_casual = 'jean' in bot_cat or 'short' in bot_cat or 'sweat' in bot_cat
-    shoe_is_formal = 'formal' in shoe_cat
-    shoe_is_casual = 'sneaker' in shoe_cat or 'sport' in shoe_cat or 'casual' in shoe_cat
+    top_is_formal = 'formal' in top_str or 'suit' in top_str or ('shirt' in top_str and 't-shirt' not in top_str)
+    top_is_casual = 't-shirt' in top_str or 'sport' in top_str or 'casual' in top_str or 'hood' in top_str or 'jacket' in top_str
+    bot_is_formal = 'formal' in bot_str or 'trouser' in bot_str or 'pant' in bot_str
+    bot_is_casual = 'jean' in bot_str or 'short' in bot_str or 'sweat' in bot_str or 'cargo' in bot_str
+    shoe_is_formal = 'formal' in shoe_str or 'leather' in shoe_str or 'oxford' in shoe_str or 'derby' in shoe_str
+    shoe_is_casual = 'sneaker' in shoe_str or 'sport' in shoe_str or 'casual' in shoe_str or 'runner' in shoe_str or 'boot' in shoe_str
 
     # Major penalties for completely incompatible styles
-    if ('formal' in top_cat or 'suit' in top_cat) and ('short' in bot_cat or 'sweat' in bot_cat):
-        comb_score -= 15.0
-    if ('formal' in top_cat or 'formal' in bot_cat) and ('sneaker' in shoe_cat or 'sport' in shoe_cat):
-        comb_score -= 10.0
-    if ('t-shirt' in top_cat or 'sport' in top_cat) and ('formal' in shoe_cat):
-        comb_score -= 15.0
+    if top_is_formal and (bot_is_casual and 'jean' not in bot_str):
+        comb_score -= 15.0 # Formal top with shorts/sweats
+    if (top_is_formal and 'jean' not in bot_str) and shoe_is_casual:
+        comb_score -= 10.0 # Full formal with sneakers
+    if top_is_casual and shoe_is_formal:
+        comb_score -= 12.0 # T-shirt with formal shoes
 
-    # Minor penalties for mixing slightly different styles (e.g., smart casual vs pure casual)
+    # Minor penalties for mixing styles (e.g., smart casual vs pure casual)
     if top_is_formal and bot_is_casual:
-        comb_score -= 5.0
+        comb_score -= 5.0 # Shirt with Jeans
     if bot_is_formal and top_is_casual:
-        comb_score -= 5.0
+        comb_score -= 4.0 # T-shirt with Trousers
+        
+    # If it's a completely uniform outfit but not strictly categorized, give a tiny realistic penalty
+    # so not everything perfectly hits 25/25 unless it's a dedicated matched suit/set.
+    if comb_score == 25.0:
+        if not (top_is_formal and bot_is_formal and shoe_is_formal) and not (top_is_casual and bot_is_casual and shoe_is_casual):
+            comb_score -= 2.0 # Slight deduction for mixed styles that missed major penalties
+        else:
+            comb_score -= 1.0 # Very slight deduction for standard outfits so 25 is rare
 
     comb_score = max(0.0, comb_score)
     

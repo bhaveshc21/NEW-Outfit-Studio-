@@ -80,6 +80,8 @@ public class AddClothingActivity extends AppCompatActivity {
 
         btnCamera.setOnClickListener(v -> showUploadGuidelinesDialog(this::checkCameraPermission));
         btnGallery.setOnClickListener(v -> showUploadGuidelinesDialog(this::openGallery));
+        llImagePlaceholder.setOnClickListener(v -> openGallery());
+        ivClothingPreview.setOnClickListener(v -> openGallery());
         btnSave.setOnClickListener(v -> saveClothing());
     }
 
