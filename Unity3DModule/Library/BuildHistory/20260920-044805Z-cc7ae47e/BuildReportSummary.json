@@ -1,0 +1,34 @@
+{
+    "Version": 2,
+    "BuildContentOptions": [
+        "None"
+    ],
+    "BuildManifestHash": "00000000000000000000000000000000",
+    "BuildName": "Unity3DModule",
+    "BuildOptions": [
+        "ForceOptimizeScriptCompilation",
+        "Il2CPP",
+        "CompressTextures",
+        "StripDebugSymbols",
+        "ShaderLivelinkSupport",
+        "ShowBuiltPlayer",
+        "CompressWithLz4"
+    ],
+    "BuildProfilePath": "",
+    "BuildResult": 2,
+    "BuildResultName": "Failed",
+    "BuildSessionGUID": "cc7ae47ef5b68aa4cacb65cbf0ee5cd3",
+    "BuildStartedAt": "2026-09-20T04:48:05.3123365Z",
+    "BuildType": 1,
+    "BuildTypeName": "Player",
+    "ContentSourceBuildSessionGUID": "00000000000000000000000000000000",
+    "OutputPath": "C:/Users/anish/OneDrive/Desktop/NEW-Outfit-Studio-/UnityExport",
+    "Platform": 13,
+    "PlatformName": "Android",
+    "Subtarget": 0,
+    "SubtargetName": "0",
+    "TotalErrors": 1,
+    "TotalSizeBytes": 0,
+    "TotalTimeMs": 110401,
+    "TotalWarnings": 0
+}

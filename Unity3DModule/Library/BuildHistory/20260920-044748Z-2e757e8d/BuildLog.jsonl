@@ -1,0 +1,10 @@
+{"timestamp":"2026-09-20T04:47:48.877989500Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepStart\",\"stepName\":\"Call internal build started callbacks\",\"depth\":1}"}
+{"timestamp":"2026-09-20T04:47:48.879417900Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepEnd\",\"stepName\":\"Call internal build started callbacks\",\"depth\":1,\"durationTicks\":18552}"}
+{"timestamp":"2026-09-20T04:47:48.904582100Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepStart\",\"stepName\":\"Preprocess Player\",\"depth\":1}"}
+{"timestamp":"2026-09-20T04:47:48.920350000Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepEnd\",\"stepName\":\"Preprocess Player\",\"depth\":1,\"durationTicks\":157808}"}
+{"timestamp":"2026-09-20T04:47:48.920360100Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepStart\",\"stepName\":\"Save scenes before build\",\"depth\":1}"}
+{"timestamp":"2026-09-20T04:47:57.609554400Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepEnd\",\"stepName\":\"Save scenes before build\",\"depth\":1,\"durationTicks\":86891587}"}
+{"timestamp":"2026-09-20T04:47:57.609888700Z","thread_id":"12944","log_level":"Error","message":"Build was canceled."}
+{"timestamp":"2026-09-20T04:47:57.688870800Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepStart\",\"stepName\":\"Call Post-Process callbacks\",\"depth\":1}"}
+{"timestamp":"2026-09-20T04:47:57.689556000Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepEnd\",\"stepName\":\"Call Post-Process callbacks\",\"depth\":1,\"durationTicks\":7216}"}
+{"timestamp":"2026-09-20T04:47:57.689566100Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepEnd\",\"stepName\":\"Build player\",\"depth\":0,\"durationTicks\":88607114}"}

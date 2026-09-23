@@ -1,0 +1,12 @@
+{"timestamp":"2026-09-20T04:48:05.351097700Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepStart\",\"stepName\":\"Call internal build started callbacks\",\"depth\":1}"}
+{"timestamp":"2026-09-20T04:48:05.351260400Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepEnd\",\"stepName\":\"Call internal build started callbacks\",\"depth\":1,\"durationTicks\":1875}"}
+{"timestamp":"2026-09-20T04:48:05.351957100Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepStart\",\"stepName\":\"Preprocess Player\",\"depth\":1}"}
+{"timestamp":"2026-09-20T04:48:05.356506100Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepEnd\",\"stepName\":\"Preprocess Player\",\"depth\":1,\"durationTicks\":45304}"}
+{"timestamp":"2026-09-20T04:48:05.356529000Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepStart\",\"stepName\":\"Save scenes before build\",\"depth\":1}"}
+{"timestamp":"2026-09-20T04:49:51.100926600Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepEnd\",\"stepName\":\"Save scenes before build\",\"depth\":1,\"durationTicks\":1057443828}"}
+{"timestamp":"2026-09-20T04:49:51.140499700Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepStart\",\"stepName\":\"Prepare For Build\",\"depth\":1}"}
+{"timestamp":"2026-09-20T04:49:55.601843000Z","thread_id":"12944","log_level":"Error","message":"UnityException: Unable to package apk\nIL2CPP library missing for the selected architecture 'arm64-v8a' ('C:/Program Files/Unity/Hub/Editor/6000.6.2f1/Editor/Data/PlaybackEngines/AndroidPlayer\\Variations\\il2cpp\\Release\\StaticLibs\\arm64-v8a\\libunityruntime.a')!"}
+{"timestamp":"2026-09-20T04:49:55.608301400Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepEnd\",\"stepName\":\"Prepare For Build\",\"depth\":1,\"durationTicks\":44678239}"}
+{"timestamp":"2026-09-20T04:49:55.713334100Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepStart\",\"stepName\":\"Call Post-Process callbacks\",\"depth\":1}"}
+{"timestamp":"2026-09-20T04:49:55.713354500Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepEnd\",\"stepName\":\"Call Post-Process callbacks\",\"depth\":1,\"durationTicks\":603}"}
+{"timestamp":"2026-09-20T04:49:55.713358100Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepEnd\",\"stepName\":\"Build player\",\"depth\":0,\"durationTicks\":1104010196}"}

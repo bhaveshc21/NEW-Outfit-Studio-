@@ -21,13 +21,17 @@ public class WardrobeItem {
     @SerializedName("image_path")
     private String imagePath;
     
-    public WardrobeItem(int id, int userId, String name, String category, String color, String imagePath) {
+    @SerializedName("model_3d_url")
+    private String model3dUrl;
+    
+    public WardrobeItem(int id, int userId, String name, String category, String color, String imagePath, String model3dUrl) {
         this.id = id;
         this.userId = userId;
         this.name = name;
         this.category = category;
         this.color = color;
         this.imagePath = imagePath;
+        this.model3dUrl = model3dUrl;
     }
     
     public int getId() { return id; }
@@ -36,4 +40,5 @@ public class WardrobeItem {
     public String getCategory() { return category; }
     public String getColor() { return color; }
     public String getImagePath() { return imagePath; }
+    public String getModel3dUrl() { return model3dUrl; }
 }

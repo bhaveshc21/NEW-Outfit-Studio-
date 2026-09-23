@@ -44,6 +44,19 @@ def add_wardrobe_item():
         if error:
             return jsonify({"success": False, "message": error}), 400
             
+        # Smart Hybrid Logic: Trigger Tripo3D AI for complex geometry
+        complex_categories = ['jacket', 'coat', 'shoes', 'footwear', 'sneakers', 'boots']
+        if any(c in category.lower() for c in complex_categories):
+            from services.tripo_service import TripoService
+            tripo = TripoService(get_db)
+            
+            # Construct a full URL for Tripo to download the image
+            # In a real app, this would be a public S3 URL. For local dev, we construct it:
+            host = request.host_url.rstrip('/')
+            image_url = f"{host}/{data['image_path']}"
+            
+            tripo.generate_3d_model(data['id'], image_url)
+            
         return jsonify({
             "success": True,
             "message": "Wardrobe item added successfully",

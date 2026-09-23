@@ -1,0 +1,12 @@
+{"timestamp":"2026-09-20T05:02:04.134920600Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepStart\",\"stepName\":\"Call internal build started callbacks\",\"depth\":1}"}
+{"timestamp":"2026-09-20T05:02:04.135654400Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepEnd\",\"stepName\":\"Call internal build started callbacks\",\"depth\":1,\"durationTicks\":7977}"}
+{"timestamp":"2026-09-20T05:02:04.141213200Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepStart\",\"stepName\":\"Preprocess Player\",\"depth\":1}"}
+{"timestamp":"2026-09-20T05:02:04.155857900Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepEnd\",\"stepName\":\"Preprocess Player\",\"depth\":1,\"durationTicks\":144899}"}
+{"timestamp":"2026-09-20T05:02:04.155920800Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepStart\",\"stepName\":\"Save scenes before build\",\"depth\":1}"}
+{"timestamp":"2026-09-20T05:02:04.167545700Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepEnd\",\"stepName\":\"Save scenes before build\",\"depth\":1,\"durationTicks\":115910}"}
+{"timestamp":"2026-09-20T05:02:04.405246500Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepStart\",\"stepName\":\"Prepare For Build\",\"depth\":1}"}
+{"timestamp":"2026-09-20T05:02:10.155188900Z","thread_id":"12944","log_level":"Error","message":"UnityException: Unable to package apk\nIL2CPP library missing for the selected architecture 'arm64-v8a' ('C:/Program Files/Unity/Hub/Editor/6000.6.2f1/Editor/Data/PlaybackEngines/AndroidPlayer\\Variations\\il2cpp\\Release\\StaticLibs\\arm64-v8a\\libunityruntime.a')!"}
+{"timestamp":"2026-09-20T05:02:10.155825400Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepEnd\",\"stepName\":\"Prepare For Build\",\"depth\":1,\"durationTicks\":57506376}"}
+{"timestamp":"2026-09-20T05:02:10.719010200Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepStart\",\"stepName\":\"Call Post-Process callbacks\",\"depth\":1}"}
+{"timestamp":"2026-09-20T05:02:10.719061700Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepEnd\",\"stepName\":\"Call Post-Process callbacks\",\"depth\":1,\"durationTicks\":1732}"}
+{"timestamp":"2026-09-20T05:02:10.719078900Z","thread_id":"12944","log_level":"Info","message":"{\"type\":\"StepEnd\",\"stepName\":\"Build player\",\"depth\":0,\"durationTicks\":66343686}"}

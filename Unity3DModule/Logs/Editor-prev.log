@@ -1,0 +1,98 @@
+VBCSCompilerPreWarmer: pre-warm launched (dotnet PID 23504)
+VBCSCompiler prewarm took 752.91 ms
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-anish" at "2026-09-23T14:37:52.7832994Z"
+Built from '6000.6/staging' branch; Version is '6000.6.2f1 (770e33f6875c) revision 7802419'; Using compiler version '194234433'; Build Type 'Release'
+OS: 'Windows 11  (10.0.26200) CoreSingleLanguage' Language: 'en' Physical Memory: 16068 MB
+BatchMode: 0, IsHumanControllingUs: 1, StartBugReporterOnCrash: 1, Is64bit: 1
+System  architecture: x64
+Process architecture: x64
+Date: 2026-09-23T14:37:52Z
+[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 16404, path: "C:/Program Files/Unity Hub/UnityLicensingClient_V1/Unity.Licensing.Client.exe")
+[Licensing::Module] LicensingClient has failed validation; ignoring
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.18.3+d7ffd15
+  Session Id:              a99e8f74d9124cb0b95339a51db50186
+  Correlation Id:          4bd810fae499f48013b8c9448bdf4bc1
+  External correlation Id: 6442430138259537099
+  Machine Id:              uofCyZByye7+EtVxAlNeHAfyu2I=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-anish" (connect: 0.00s, validation: 0.19s, handshake: 11.54s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-anish-notifications" at "2026-09-23T14:38:04.5087894Z"
+[Licensing::Client] Successfully updated the access token
+[Licensing::Module] Successfully updated the access token NjoiP20W_f...
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: 13469975180648-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 1.08
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Licensing Background thread has ended after 14.93s
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\6000.6.2f1\Editor\Unity.exe
+-projectpath
+C:\Users\anish\OneDrive\Desktop\NEW-Outfit-Studio-\Unity3DModule
+-acceptSoftwareTermsForThisRunOnly
+-useHub
+-hubIPC
+-cloudEnvironment
+production
+-licensingIpc
+LicenseClient-anish
+-hubSessionId
+472841d0-e9ee-4429-a019-9b1fa47a9562
+-accessToken
+NjoiP20W_fy-c481AKlvAFECEp11O98WoMf1rmfx04U00cf
+Successfully changed project path to: C:\Users\anish\OneDrive\Desktop\NEW-Outfit-Studio-\Unity3DModule
+C:/Users/anish/OneDrive/Desktop/NEW-Outfit-Studio-/Unity3DModule
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gfx=262144"
+    "memorysetup-remapper-allocator-initial-capacity=32768"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-main-allocator-mimalloc-enabled=1"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+Player connection [24008]  Target information:
+
+Player connection [24008]  * "[IP] 192.168.1.12 [Port] 55504 [Flags] 2 [Guid] 4168195986 [EditorId] 4168195986 [Version] 1048832 [Id] WindowsEditor(7,Anisha) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [24008] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [24008] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Package Manager] Could not connect to IPC stream "Upm-20352" after 30.1 seconds.
+[Package Manager] Could not establish a connection with the Unity Package Manager local server process.
+[ExitDontLaunchBugReporter] Exiting without the bug reporter. Application will exit with return code 1

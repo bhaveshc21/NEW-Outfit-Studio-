@@ -21,7 +21,7 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
     private List<GeneratedOutfit> outfits;
     
     // Change if hosting backend elsewhere or using emulator 10.0.2.2
-    private static final String BASE_IMAGE_URL = "http://192.168.1.102:5000/";
+    private static final String BASE_IMAGE_URL = "http://192.168.1.7:5000/";
 
     public OutfitAdapter(Context context, List<GeneratedOutfit> outfits) {
         this.context = context;
@@ -82,6 +82,13 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
             }
             context.startActivity(intent);
         });
+
+        holder.btnViewIn3D.setOnClickListener(v -> {
+            android.content.Intent intent = new android.content.Intent(context, VisualizationActivity.class);
+            com.google.gson.Gson gson = new com.google.gson.Gson();
+            intent.putExtra("outfit_json", gson.toJson(outfit));
+            context.startActivity(intent);
+        });
     }
 
     @Override
@@ -93,7 +100,7 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
         TextView tvScore, tvReason;
         TextView tvTopName, tvBottomName, tvFootwearName;
         ImageView ivTop, ivBottom, ivFootwear;
-        android.widget.Button btnRateOutfit;
+        android.widget.Button btnRateOutfit, btnViewIn3D;
 
         public OutfitViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -106,6 +113,7 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
             ivBottom = itemView.findViewById(R.id.ivBottom);
             ivFootwear = itemView.findViewById(R.id.ivFootwear);
             btnRateOutfit = itemView.findViewById(R.id.btnRateOutfit);
+            btnViewIn3D = itemView.findViewById(R.id.btnViewIn3D);
         }
     }
 }

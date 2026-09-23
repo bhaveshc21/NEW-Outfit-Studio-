@@ -84,6 +84,7 @@ def init_db():
                 category VARCHAR(50),
                 color VARCHAR(50),
                 image_path VARCHAR(255),
+                model_3d_url VARCHAR(500),
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
             )

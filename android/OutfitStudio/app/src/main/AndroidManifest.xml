@@ -38,6 +38,7 @@
         <activity android:name=".SmartShoppingActivity" />
         <activity android:name=".ShoppingResultActivity" />
         <activity android:name=".ClosetStatisticsActivity" />
+        <activity android:name=".VisualizationActivity" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

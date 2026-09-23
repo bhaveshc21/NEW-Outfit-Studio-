@@ -125,6 +125,17 @@
             app:cornerRadius="8dp"
             android:backgroundTint="@color/primary"/>
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnViewIn3D"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="VIEW IN 3D"
+            app:cornerRadius="8dp"
+            app:strokeColor="@color/primary"
+            android:textColor="@color/primary"/>
+
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

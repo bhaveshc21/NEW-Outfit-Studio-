@@ -1,0 +1,53 @@
+﻿#include "pch-c.h"
+
+
+#include "codegen/il2cpp-codegen-metadata.h"
+
+
+
+
+
+extern void AvatarManager_ApplyProfile_m9931474ED6A9711999EA09271C180342301A0759 (void);
+extern void AvatarManager_GetSkinColorFromTone_mCB613587011F7B8CCF68380BF05887345FB78ABA (void);
+extern void AvatarManager__ctor_m46C1B1E12024F500C8C2A148F3D90D846F531F45 (void);
+extern void ClothingManager_ApplyOutfit_m5ECD09EE4182F8BC73AB8997CDCBC728F690ADDC (void);
+extern void ClothingManager_ApplyClothingItem_mE5FD4B7B595B4D54D858B3988E08D259F5A6DCEE (void);
+extern void ClothingManager__ctor_m825920251D4FE8020598BD68AA83770B98C6AE08 (void);
+extern void ClothingDictionary__ctor_m7EDDFFC01568FFED5846C0B78F3ABFBA54F23E02 (void);
+extern void VisualizationData__ctor_mF2B8FA918329291B3ACB5D0348F4ECC480492876 (void);
+extern void ProfileData__ctor_mC2ACA1F3B5D97970795BA1D3A36EBA61219C41B0 (void);
+extern void OutfitData__ctor_mBE89FB61CDCEF9F9C94FE69616C2971E8DCD04F4 (void);
+extern void ItemData__ctor_mE45701993578016C9B2E439E01BFD91E13EBEAF0 (void);
+extern void AndroidReceiver_ReceiveVisualizationData_m3692E7C4F2545AFC64071EE6AF163AC9B1F72DF6 (void);
+extern void AndroidReceiver__ctor_m56D0AEF3B7AE948DF28000DC977EFC9CBC7D8786 (void);
+static Il2CppMethodPointer s_methodPointers[13] = 
+{
+	AvatarManager_ApplyProfile_m9931474ED6A9711999EA09271C180342301A0759,
+	AvatarManager_GetSkinColorFromTone_mCB613587011F7B8CCF68380BF05887345FB78ABA,
+	AvatarManager__ctor_m46C1B1E12024F500C8C2A148F3D90D846F531F45,
+	ClothingManager_ApplyOutfit_m5ECD09EE4182F8BC73AB8997CDCBC728F690ADDC,
+	ClothingManager_ApplyClothingItem_mE5FD4B7B595B4D54D858B3988E08D259F5A6DCEE,
+	ClothingManager__ctor_m825920251D4FE8020598BD68AA83770B98C6AE08,
+	ClothingDictionary__ctor_m7EDDFFC01568FFED5846C0B78F3ABFBA54F23E02,
+	VisualizationData__ctor_mF2B8FA918329291B3ACB5D0348F4ECC480492876,
+	ProfileData__ctor_mC2ACA1F3B5D97970795BA1D3A36EBA61219C41B0,
+	OutfitData__ctor_mBE89FB61CDCEF9F9C94FE69616C2971E8DCD04F4,
+	ItemData__ctor_mE45701993578016C9B2E439E01BFD91E13EBEAF0,
+	AndroidReceiver_ReceiveVisualizationData_m3692E7C4F2545AFC64071EE6AF163AC9B1F72DF6,
+	AndroidReceiver__ctor_m56D0AEF3B7AE948DF28000DC977EFC9CBC7D8786,
+};
+IL2CPP_EXTERN_C const Il2CppCodeGenModule g_AssemblyU2DCSharp_CodeGenModule;
+const Il2CppCodeGenModule g_AssemblyU2DCSharp_CodeGenModule = 
+{
+	"Assembly-CSharp.dll",
+	13,
+	s_methodPointers,
+	0,
+	NULL,
+	0,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+};

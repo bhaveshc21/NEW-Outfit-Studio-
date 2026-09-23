@@ -1,0 +1,61 @@
+ScriptsOnlyBuild:
+  usedScripts:
+    Unity.Rider.Editor.dll:
+    - Packages.Rider.Editor.UnitTesting.CallbackData
+    UnityEditor.TestRunner.dll:
+    - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
+    - UnityEditor.TestTools.TestRunner.CommandLineTest.RunData
+    - UnityEditor.TestTools.TestRunner.TestListCacheData
+    - UnityEditor.TestTools.TestRunner.TestRun.TestJobDataHolder
+  serializedClasses: {}
+  methodsToPreserve: []
+  sceneClasses:
+    Assets/AvatarScene.unity:
+    - Class: 1
+      Script: {instanceID: 0}
+    - Class: 4
+      Script: {instanceID: 0}
+    - Class: 20
+      Script: {instanceID: 0}
+    - Class: 21
+      Script: {instanceID: 0}
+    - Class: 28
+      Script: {instanceID: 0}
+    - Class: 48
+      Script: {instanceID: 0}
+    - Class: 81
+      Script: {instanceID: 0}
+    - Class: 89
+      Script: {instanceID: 0}
+    - Class: 104
+      Script: {instanceID: 0}
+    - Class: 108
+      Script: {instanceID: 0}
+    - Class: 157
+      Script: {instanceID: 0}
+    - Class: 196
+      Script: {instanceID: 0}
+  scriptHashData:
+  - hash:
+      serializedVersion: 2
+      Hash: 900bf9548b2d1d91ac0c3ed0c6c97d87
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: AndroidReceiver
+  - hash:
+      serializedVersion: 2
+      Hash: ca3c4808d4cecc9407262aa69c4a509a
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: ClothingManager
+  - hash:
+      serializedVersion: 2
+      Hash: ee8cace76033777ec2a1363a692a7198
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: AvatarManager
+  platform: 13
+  scenePathNames:
+  - Assets/AvatarScene.unity
+  nativeClasses: 000000003000000012000000820000001c0000001b000000150000000600000031000000730000000900000081000000d50000000d000000c0a219270b000000370000007e0000000f1baa530a05df37130000007bce860a8d0000002f000000740000005e0000002c0100009300000005000000620000001e0000004e0000000400000001000000c4000000140000006c00000002000000590000009d00000003000000080000006800000051000000b4000000i
+  playerPath: C:/Users/anish/OneDrive/Desktop/NEW-Outfit-Studio-/UnityExport
