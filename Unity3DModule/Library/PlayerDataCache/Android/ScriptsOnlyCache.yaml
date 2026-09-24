@@ -1,5 +1,9 @@
 ScriptsOnlyBuild:
   usedScripts:
+    Assembly-CSharp.dll:
+    - AndroidReceiver
+    - AvatarManager
+    - ClothingManager
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
     UnityEditor.TestRunner.dll:
@@ -21,7 +25,11 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 28
       Script: {instanceID: 0}
+    - Class: 43
+      Script: {instanceID: 0}
     - Class: 48
+      Script: {instanceID: 0}
+    - Class: 49
       Script: {instanceID: 0}
     - Class: 81
       Script: {instanceID: 0}
@@ -31,11 +39,75 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 108
       Script: {instanceID: 0}
+    - Class: 114
+      Script: {fileID: 11500000, guid: ec79c3b6faf6a274286398101baf5f99, type: 3}
+    - Class: 114
+      Script: {fileID: 11500000, guid: 29014135921d83e41a5521f6e3c27d7f, type: 3}
+    - Class: 114
+      Script: {fileID: 11500000, guid: 258fe6e7981bccc4c93ba592c26b37fd, type: 3}
+    - Class: 115
+      Script: {instanceID: 0}
+    - Class: 137
+      Script: {instanceID: 0}
     - Class: 157
       Script: {instanceID: 0}
     - Class: 196
       Script: {instanceID: 0}
   scriptHashData:
+  - hash:
+      serializedVersion: 2
+      Hash: 97e077450d70dd1eba744eed0eae2436
+    assemblyName: glTFast
+    namespaceName: GLTFast
+    className: DefaultDeferAgent
+  - hash:
+      serializedVersion: 2
+      Hash: b1ce64e253efe70b32961246964143dc
+    assemblyName: glTFast
+    namespaceName: GLTFast
+    className: DontDestroyOnLoad
+  - hash:
+      serializedVersion: 2
+      Hash: 43c66b21b7309885eeb5acb046df62df
+    assemblyName: glTFast.Documentation.Examples
+    namespaceName: GLTFast.Documentation.Examples
+    className: ExtraData
+  - hash:
+      serializedVersion: 2
+      Hash: 56dac78b19ad0655529f171c4f8a9543
+    assemblyName: glTFast.Documentation.Examples
+    namespaceName: GLTFast.Documentation.Examples
+    className: LoadGltfFromMemory
+  - hash:
+      serializedVersion: 2
+      Hash: e2853a18df6c27aca9a6ea0733e7b8d8
+    assemblyName: glTFast.Documentation.Examples
+    namespaceName: GLTFast.Documentation.Examples
+    className: MultipleInstances
+  - hash:
+      serializedVersion: 2
+      Hash: ba0faa2897db7bcdb36e04a01cdd6339
+    assemblyName: glTFast
+    namespaceName: GLTFast
+    className: GltfBoundsAsset
+  - hash:
+      serializedVersion: 2
+      Hash: ab0ade711359d5979a62fbad360125cd
+    assemblyName: glTFast
+    namespaceName: GLTFast
+    className: GltfAsset
+  - hash:
+      serializedVersion: 2
+      Hash: ee8cace76033777ec2a1363a692a7198
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: AvatarManager
+  - hash:
+      serializedVersion: 2
+      Hash: 663040435de195824e056ea635f210e6
+    assemblyName: glTFast
+    namespaceName: GLTFast
+    className: MaterialsVariantsComponent
   - hash:
       serializedVersion: 2
       Hash: 900bf9548b2d1d91ac0c3ed0c6c97d87
@@ -44,18 +116,42 @@ ScriptsOnlyBuild:
     className: AndroidReceiver
   - hash:
       serializedVersion: 2
+      Hash: 2d7690f42906650f35566099cc508781
+    assemblyName: glTFast.Documentation.Examples
+    namespaceName: GLTFast.Documentation.Examples
+    className: ExportSamples
+  - hash:
+      serializedVersion: 2
+      Hash: 375f2bc75b873dff69dd5bdfa6497dfc
+    assemblyName: glTFast
+    namespaceName: GLTFast
+    className: UninterruptedDefaultDeferAgent
+  - hash:
+      serializedVersion: 2
+      Hash: 51e73e7470d92fa009a62a6d5d9e12b8
+    assemblyName: glTFast.Documentation.Examples
+    namespaceName: GLTFast.Documentation.Examples
+    className: TextureAddOnExample
+  - hash:
+      serializedVersion: 2
+      Hash: 0d4b61d56bb3274b788bf0a34f1e0cce
+    assemblyName: glTFast.Documentation.Examples
+    namespaceName: GLTFast.Documentation.Examples
+    className: SimpleExport
+  - hash:
+      serializedVersion: 2
+      Hash: 6dc6eeffa8c0836a1ee8d9a7e9df1caf
+    assemblyName: glTFast
+    namespaceName: GLTFast
+    className: TimeBudgetPerFrameDeferAgent
+  - hash:
+      serializedVersion: 2
       Hash: ca3c4808d4cecc9407262aa69c4a509a
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: ClothingManager
-  - hash:
-      serializedVersion: 2
-      Hash: ee8cace76033777ec2a1363a692a7198
-    assemblyName: Assembly-CSharp
-    namespaceName: 
-    className: AvatarManager
   platform: 13
   scenePathNames:
   - Assets/AvatarScene.unity
-  nativeClasses: 000000003000000012000000820000001c0000001b000000150000000600000031000000730000000900000081000000d50000000d000000c0a219270b000000370000007e0000000f1baa530a05df37130000007bce860a8d0000002f000000740000005e0000002c0100009300000005000000620000001e0000004e0000000400000001000000c4000000140000006c00000002000000590000009d00000003000000080000006800000051000000b4000000i
-  playerPath: C:/Users/anish/OneDrive/Desktop/NEW-Outfit-Studio-/UnityExport
+  nativeClasses: 000000003000000012000000820000001c0000001b000000150000000600000031000000730000000900000081000000d50000000d000000c0a219270b000000370000007e0000000f1baa530a05df37130000007bce860a8d0000002f000000740000005e0000002c0100009300000005000000620000001e0000004e00000004000000010000002b000000c40000001400000019000000890000006c0000000200000072000000590000009d00000003000000080000006800000051000000b4000000i
+  playerPath: C:/Users/bhave/Desktop/NEW-Outfit-Studio-/android/OutfitStudio/unityLibrary

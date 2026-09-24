@@ -29,7 +29,11 @@ public class AvatarManager : MonoBehaviour
             {
                 if (r != null && r.material != null)
                 {
-                    r.material.color = skinColor;
+                    r.material.color = skinColor; // Built-in Pipeline
+                    if (r.material.HasProperty("_BaseColor"))
+                    {
+                        r.material.SetColor("_BaseColor", skinColor); // URP
+                    }
                 }
             }
         }

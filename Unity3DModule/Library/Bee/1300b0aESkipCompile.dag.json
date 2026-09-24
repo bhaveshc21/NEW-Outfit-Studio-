@@ -18,7 +18,7 @@
     {
       "Annotation": "ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput",
       "DisplayName": "ILPP-Configuration ilpp-configuration",
-      "Action": "\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\Tools\\BuildPipeline\\Compilation\\Unity.ILPP.Trigger\\Unity.ILPP.Trigger.exe\" \"unity-ilpp-aa02e2c61b7140aeb2c2d4faf310a80a\" c \"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\Tools\\BuildPipeline\\BuiltinILPPs\\Unity.Burst.CodeGen.dll\" -h \"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\Tools\\BuildPipeline\\BuiltinILPPs\\Mono.Cecil.dll\" \"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\Tools\\BuildPipeline\\BuiltinILPPs\\Mono.Cecil.Mdb.dll\" \"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\Tools\\BuildPipeline\\BuiltinILPPs\\Mono.Cecil.Pdb.dll\" \"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\Tools\\BuildPipeline\\BuiltinILPPs\\Mono.Cecil.Rocks.dll\" \"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\Tools\\BuildPipeline\\BuiltinILPPs\\Unity.Burst.CodeGen.dll\"",
+      "Action": "\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\Tools\\BuildPipeline\\Compilation\\Unity.ILPP.Trigger\\Unity.ILPP.Trigger.exe\" \"unity-ilpp-be233cc1136eaebc0062f2f8f7b89d82\" c \"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\Tools\\BuildPipeline\\BuiltinILPPs\\Unity.Burst.CodeGen.dll\" -h \"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\Tools\\BuildPipeline\\BuiltinILPPs\\Mono.Cecil.dll\" \"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\Tools\\BuildPipeline\\BuiltinILPPs\\Mono.Cecil.Mdb.dll\" \"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\Tools\\BuildPipeline\\BuiltinILPPs\\Mono.Cecil.Pdb.dll\" \"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\Tools\\BuildPipeline\\BuiltinILPPs\\Mono.Cecil.Rocks.dll\" \"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\Tools\\BuildPipeline\\BuiltinILPPs\\Unity.Burst.CodeGen.dll\"",
       "Inputs": [],
       "InputFlags": [],
       "Outputs": [
@@ -43,15 +43,51 @@
     {
       "Annotation": "BuildPlayerDataGenerator Library/BuildPlayerData/Editor/TypeDb-All.json",
       "DisplayName": "Extracting script serialization layouts",
-      "Action": "\"C:/Program Files/Unity/Hub/Editor/6000.6.2f1/Editor/Data/DotNetSdk/dotnet.exe\" \"C:/Program Files/Unity/Hub/Editor/6000.6.2f1/Editor/Data/Tools/BuildPipeline/BuildPlayerDataGenerator/BuildPlayerDataGenerator.exe\" -a=\"C:\\Users\\anish\\OneDrive\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\ScriptAssemblies\\Assembly-CSharp.dll\" -a=\"C:\\Users\\anish\\OneDrive\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\ScriptAssemblies\\UnityEngine.TestRunner.dll\" -a=\"C:\\Users\\anish\\OneDrive\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\PackageCache\\com.unity.ext.nunit@0198eae3b53e\\net472\\unity-custom\\nunit.framework.dll\" -s=\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\BCLExtensions\\TargetingPacks\\netstandard2.1\\ref\" -s=\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\Managed\\Bootstrap\" -s=\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\Managed\\UnityEngine\" -s=\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\NetStandard\\compat\\2.1.0\\shims\\netfx\" -s=\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\NetStandard\\compat\\2.1.0\\shims\\netstandard\" -s=\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\NetStandard\\EditorExtensions\" -s=\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\NetStandard\\Extensions\\2.0.0\" -s=\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\NetStandard\\ref\\2.1.0\" -s=\"C:\\Users\\anish\\OneDrive\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\ScriptAssemblies\" -s=\"C:\\Users\\anish\\OneDrive\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\PackageCache\\com.unity.ext.nunit@0198eae3b53e\\net472\\unity-custom\" -o=\"Library/BuildPlayerData/Editor\" -rn=\"\" -tn=\"TypeDb-All.json\"",
+      "Action": "\"C:/Program Files/Unity/Hub/Editor/6000.6.2f1/Editor/Data/DotNetSdk/dotnet.exe\" \"C:/Program Files/Unity/Hub/Editor/6000.6.2f1/Editor/Data/Tools/BuildPipeline/BuildPlayerDataGenerator/BuildPlayerDataGenerator.exe\" -a=\"C:\\Users\\bhave\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\ScriptAssemblies\\Assembly-CSharp.dll\" -a=\"C:\\Users\\bhave\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\ScriptAssemblies\\glTFast.dll\" -a=\"C:\\Users\\bhave\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\ScriptAssemblies\\glTFast.Documentation.Examples.dll\" -a=\"C:\\Users\\bhave\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\ScriptAssemblies\\glTFast.dots.dll\" -a=\"C:\\Users\\bhave\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\ScriptAssemblies\\glTFast.Export.dll\" -a=\"C:\\Users\\bhave\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\ScriptAssemblies\\glTFast.Newtonsoft.dll\" -a=\"C:\\Users\\bhave\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\ScriptAssemblies\\Unity.Burst.dll\" -a=\"C:\\Users\\bhave\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\ScriptAssemblies\\Unity.Collections.dll\" -a=\"C:\\Users\\bhave\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\ScriptAssemblies\\Unity.Collections.Tests.CoreCLR.InternalJobNestedPrivate.dll\" -a=\"C:\\Users\\bhave\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\ScriptAssemblies\\Unity.Collections.Tests.CoreCLR.PrivateJobNested.dll\" -a=\"C:\\Users\\bhave\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\ScriptAssemblies\\Unity.Collections.Tests.CoreCLR.ProtectedJobNested.dll\" -a=\"C:\\Users\\bhave\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\ScriptAssemblies\\Unity.Collections.Tests.CoreCLR.PublicJobPrivateGeneric.dll\" -a=\"C:\\Users\\bhave\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\ScriptAssemblies\\Unity.Mathematics.dll\" -a=\"C:\\Users\\bhave\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\ScriptAssemblies\\Unity.PerformanceTesting.dll\" -a=\"C:\\Users\\bhave\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\ScriptAssemblies\\UnityEngine.TestRunner.dll\" -a=\"C:\\Users\\bhave\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\PackageCache\\com.unity.collections@10fff0607388\\Unity.Collections.LowLevel.ILSupport\\Unity.Collections.LowLevel.ILSupport.dll\" -a=\"C:\\Users\\bhave\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\PackageCache\\com.unity.ext.nunit@0198eae3b53e\\net472\\unity-custom\\nunit.framework.dll\" -a=\"C:\\Users\\bhave\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\PackageCache\\com.unity.nuget.mono-cecil@ecb9724e46ff\\Mono.Cecil.dll\" -a=\"C:\\Users\\bhave\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\PackageCache\\com.unity.nuget.mono-cecil@ecb9724e46ff\\Mono.Cecil.Mdb.dll\" -a=\"C:\\Users\\bhave\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\PackageCache\\com.unity.nuget.mono-cecil@ecb9724e46ff\\Mono.Cecil.Pdb.dll\" -a=\"C:\\Users\\bhave\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\PackageCache\\com.unity.nuget.mono-cecil@ecb9724e46ff\\Mono.Cecil.Rocks.dll\" -s=\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\BCLExtensions\\TargetingPacks\\netstandard2.1\\ref\" -s=\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\Managed\\Bootstrap\" -s=\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\Managed\\UnityEngine\" -s=\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\NetStandard\\compat\\2.1.0\\shims\\netfx\" -s=\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\NetStandard\\compat\\2.1.0\\shims\\netstandard\" -s=\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\NetStandard\\EditorExtensions\" -s=\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\NetStandard\\Extensions\\2.0.0\" -s=\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.2f1\\Editor\\Data\\NetStandard\\ref\\2.1.0\" -s=\"C:\\Users\\bhave\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\ScriptAssemblies\" -s=\"C:\\Users\\bhave\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\PackageCache\\com.unity.collections@10fff0607388\\Unity.Collections.LowLevel.ILSupport\" -s=\"C:\\Users\\bhave\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\PackageCache\\com.unity.ext.nunit@0198eae3b53e\\net472\\unity-custom\" -s=\"C:\\Users\\bhave\\Desktop\\NEW-Outfit-Studio-\\Unity3DModule\\Library\\PackageCache\\com.unity.nuget.mono-cecil@ecb9724e46ff\" -o=\"Library/BuildPlayerData/Editor\" -rn=\"\" -tn=\"TypeDb-All.json\"",
       "Inputs": [
         "C:/Program Files/Unity/Hub/Editor/6000.6.2f1/Editor/Data/DotNetSdk/dotnet.exe",
         "C:/Program Files/Unity/Hub/Editor/6000.6.2f1/Editor/Data/Tools/BuildPipeline/BuildPlayerDataGenerator/BuildPlayerDataGenerator.exe",
         "Library/ScriptAssemblies/Assembly-CSharp.dll",
+        "Library/ScriptAssemblies/glTFast.dll",
+        "Library/ScriptAssemblies/glTFast.Documentation.Examples.dll",
+        "Library/ScriptAssemblies/glTFast.dots.dll",
+        "Library/ScriptAssemblies/glTFast.Export.dll",
+        "Library/ScriptAssemblies/glTFast.Newtonsoft.dll",
+        "Library/ScriptAssemblies/Unity.Burst.dll",
+        "Library/ScriptAssemblies/Unity.Collections.dll",
+        "Library/ScriptAssemblies/Unity.Collections.Tests.CoreCLR.InternalJobNestedPrivate.dll",
+        "Library/ScriptAssemblies/Unity.Collections.Tests.CoreCLR.PrivateJobNested.dll",
+        "Library/ScriptAssemblies/Unity.Collections.Tests.CoreCLR.ProtectedJobNested.dll",
+        "Library/ScriptAssemblies/Unity.Collections.Tests.CoreCLR.PublicJobPrivateGeneric.dll",
+        "Library/ScriptAssemblies/Unity.Mathematics.dll",
+        "Library/ScriptAssemblies/Unity.PerformanceTesting.dll",
         "Library/ScriptAssemblies/UnityEngine.TestRunner.dll",
-        "Library/PackageCache/com.unity.ext.nunit@0198eae3b53e/net472/unity-custom/nunit.framework.dll"
+        "Library/PackageCache/com.unity.collections@10fff0607388/Unity.Collections.LowLevel.ILSupport/Unity.Collections.LowLevel.ILSupport.dll",
+        "Library/PackageCache/com.unity.ext.nunit@0198eae3b53e/net472/unity-custom/nunit.framework.dll",
+        "Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff/Mono.Cecil.dll",
+        "Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff/Mono.Cecil.Mdb.dll",
+        "Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff/Mono.Cecil.Pdb.dll",
+        "Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff/Mono.Cecil.Rocks.dll"
       ],
       "InputFlags": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
         0,
         0,
         0,
@@ -215,10 +251,64 @@
       "File": "Library/Bee/1300b0aESkipCompile-inputdata.json"
     },
     {
+      "File": "Library/PackageCache/com.unity.collections@10fff0607388/Unity.Collections.LowLevel.ILSupport/Unity.Collections.LowLevel.ILSupport.dll"
+    },
+    {
       "File": "Library/PackageCache/com.unity.ext.nunit@0198eae3b53e/net472/unity-custom/nunit.framework.dll"
     },
     {
+      "File": "Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff/Mono.Cecil.dll"
+    },
+    {
+      "File": "Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff/Mono.Cecil.Mdb.dll"
+    },
+    {
+      "File": "Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff/Mono.Cecil.Pdb.dll"
+    },
+    {
+      "File": "Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff/Mono.Cecil.Rocks.dll"
+    },
+    {
       "File": "Library/ScriptAssemblies/Assembly-CSharp.dll"
+    },
+    {
+      "File": "Library/ScriptAssemblies/glTFast.dll"
+    },
+    {
+      "File": "Library/ScriptAssemblies/glTFast.Documentation.Examples.dll"
+    },
+    {
+      "File": "Library/ScriptAssemblies/glTFast.dots.dll"
+    },
+    {
+      "File": "Library/ScriptAssemblies/glTFast.Export.dll"
+    },
+    {
+      "File": "Library/ScriptAssemblies/glTFast.Newtonsoft.dll"
+    },
+    {
+      "File": "Library/ScriptAssemblies/Unity.Burst.dll"
+    },
+    {
+      "File": "Library/ScriptAssemblies/Unity.Collections.dll"
+    },
+    {
+      "File": "Library/ScriptAssemblies/Unity.Collections.Tests.CoreCLR.InternalJobNestedPrivate.dll"
+    },
+    {
+      "File": "Library/ScriptAssemblies/Unity.Collections.Tests.CoreCLR.PrivateJobNested.dll"
+    },
+    {
+      "File": "Library/ScriptAssemblies/Unity.Collections.Tests.CoreCLR.ProtectedJobNested.dll"
+    },
+    {
+      "File": "Library/ScriptAssemblies/Unity.Collections.Tests.CoreCLR.PublicJobPrivateGeneric.dll"
+    },
+    {
+      "File": "Library/ScriptAssemblies/Unity.Mathematics.dll"
+    },
+    {
+      "File": "Library/ScriptAssemblies/Unity.PerformanceTesting.dll"
     },
     {
       "File": "Library/ScriptAssemblies/UnityEngine.TestRunner.dll"
@@ -270,6 +360,6 @@
   "SharedResources": [],
   "Scanners": [],
   "Identifier": "Library/Bee/1300b0aESkipCompile.dag.json",
-  "PayloadsFile": "C:/Users/anish/OneDrive/Desktop/NEW-Outfit-Studio-/Unity3DModule/Library/Bee/1300b0aESkipCompile.dag.payloads",
+  "PayloadsFile": "C:/Users/bhave/Desktop/NEW-Outfit-Studio-/Unity3DModule/Library/Bee/1300b0aESkipCompile.dag.payloads",
   "RelativePathToRoot": "../.."
 }

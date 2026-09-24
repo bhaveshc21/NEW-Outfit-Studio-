@@ -32,10 +32,14 @@ def prepare_visualization_data(user_id, outfit_data):
         skin_tone = appearance['skin_tone'] if appearance and appearance['skin_tone'] else "Medium"
         
         # Pre-fetch the wardrobe items to get their image_path and model_3d_url
+        top = outfit_data.get('top') or {}
+        bottom = outfit_data.get('bottom') or {}
+        footwear = outfit_data.get('footwear') or {}
+        
         item_ids = []
-        if outfit_data.get('top', {}).get('id'): item_ids.append(outfit_data['top']['id'])
-        if outfit_data.get('bottom', {}).get('id'): item_ids.append(outfit_data['bottom']['id'])
-        if outfit_data.get('footwear', {}).get('id'): item_ids.append(outfit_data['footwear']['id'])
+        if top.get('id'): item_ids.append(top['id'])
+        if bottom.get('id'): item_ids.append(bottom['id'])
+        if footwear.get('id'): item_ids.append(footwear['id'])
         
         item_details = {}
         if item_ids:

@@ -1,3 +1,10 @@
+Library\Bee\artifacts\mvdfrm\Unity.Burst.ref.dll_59592FE1C19AAD4D.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.Collections.Tests.CoreCLR.InternalJobNestedPrivate.ref.dll_62C53A7179D5388F.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.Collections.Tests.CoreCLR.PrivateJobNested.ref.dll_2011CE7A6D7A6884.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.Collections.Tests.CoreCLR.ProtectedJobNested.ref.dll_C19FA01DBF504AC9.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.Collections.Tests.CoreCLR.PublicJobPrivateGeneric.ref.dll_679D52B600ED4F3B.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.Collections.ref.dll_0F3DAD17CF6CCA92.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.Mathematics.ref.dll_92C0142275484313.mvfrm
 Library\Bee\artifacts\mvdfrm\Unity.Scripting.dll_451B1E91C937B781.mvfrm
 Library\Bee\artifacts\mvdfrm\UnityEngine.AIModule.dll_24AB96B335B91354.mvfrm
 Library\Bee\artifacts\mvdfrm\UnityEngine.ARModule.dll_DE1E5BB692D6721D.mvfrm
@@ -80,3 +87,4 @@ Library\Bee\artifacts\mvdfrm\UnityEngine.VideoModule.dll_B40947B82B310903.mvfrm
 Library\Bee\artifacts\mvdfrm\UnityEngine.WindModule.dll_DB45E05732EDCE94.mvfrm
 Library\Bee\artifacts\mvdfrm\UnityEngine.XRModule.dll_A5B01E6ABCF4EBD6.mvfrm
 Library\Bee\artifacts\mvdfrm\UnityEngine.dll_E07F64454CF1417A.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.Collections.LowLevel.ILSupport.dll_EE544B55637299A5.mvfrm

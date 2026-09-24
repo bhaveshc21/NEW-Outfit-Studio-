@@ -15,3 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "OutfitStudio"
 include ':app'
+include ':unityLibrary'
+project(':unityLibrary').projectDir = new File('unityLibrary/unityLibrary')

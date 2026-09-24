@@ -141,7 +141,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb75c42642c0ba64d90c506efd43707a, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb75c42642c0ba64d90c506efd43707a, type: 3}
       propertyPath: m_LocalRotation.x
@@ -149,7 +149,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb75c42642c0ba64d90c506efd43707a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb75c42642c0ba64d90c506efd43707a, type: 3}
       propertyPath: m_LocalRotation.z
@@ -161,7 +161,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb75c42642c0ba64d90c506efd43707a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb75c42642c0ba64d90c506efd43707a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -176,6 +176,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb75c42642c0ba64d90c506efd43707a, type: 3}
+--- !u!4 &166415777 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: cb75c42642c0ba64d90c506efd43707a, type: 3}
+  m_PrefabInstance: {fileID: 166415776}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1839501340
 GameObject:
   m_ObjectHideFlags: 0
@@ -225,7 +230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29014135921d83e41a5521f6e3c27d7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AvatarManager
-  avatarRoot: {fileID: 0}
+  avatarRoot: {fileID: 166415777}
   skinRenderers: []
 --- !u!114 &1839501343
 MonoBehaviour:
@@ -239,8 +244,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec79c3b6faf6a274286398101baf5f99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AndroidReceiver
-  avatarManager: {fileID: 0}
-  clothingManager: {fileID: 0}
+  avatarManager: {fileID: 1839501342}
+  clothingManager: {fileID: 1839501341}
 --- !u!4 &1839501344
 Transform:
   m_ObjectHideFlags: 0
@@ -342,7 +347,7 @@ Transform:
   m_GameObject: {fileID: 1900725046}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 2, y: 2, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -2,10 +2,31 @@
     "serializedTypes": [],
     "typesInScenes": [
         {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "AndroidReceiver",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "AvatarManager",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
             "managedAssemblyName": "",
             "nativeClass": "BuildSettings",
             "fullManagedTypeName": "",
             "moduleName": "Core",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "ClothingManager",
+            "moduleName": "",
             "usedInScenes": []
         },
         {
@@ -142,7 +163,9 @@
             "nativeClass": "MonoScript",
             "fullManagedTypeName": "UnityEditor.MonoScript",
             "moduleName": "Core",
-            "usedInScenes": []
+            "usedInScenes": [
+                "Assets/AvatarScene.unity"
+            ]
         },
         {
             "managedAssemblyName": "UnityEngine.dll",
@@ -278,6 +301,24 @@
         },
         {
             "managedAssemblyName": "UnityEngine.dll",
+            "nativeClass": "Mesh",
+            "fullManagedTypeName": "UnityEngine.Mesh",
+            "moduleName": "Core",
+            "usedInScenes": [
+                "Assets/AvatarScene.unity"
+            ]
+        },
+        {
+            "managedAssemblyName": "UnityEngine.dll",
+            "nativeClass": "MonoBehaviour",
+            "fullManagedTypeName": "UnityEngine.MonoBehaviour",
+            "moduleName": "Core",
+            "usedInScenes": [
+                "Assets/AvatarScene.unity"
+            ]
+        },
+        {
+            "managedAssemblyName": "UnityEngine.dll",
             "nativeClass": "Object",
             "fullManagedTypeName": "UnityEngine.Object",
             "moduleName": "Core",
@@ -291,6 +332,15 @@
             "fullManagedTypeName": "UnityEngine.QualitySettings",
             "moduleName": "Core",
             "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "UnityEngine.dll",
+            "nativeClass": "Renderer",
+            "fullManagedTypeName": "UnityEngine.Renderer",
+            "moduleName": "Core",
+            "usedInScenes": [
+                "Assets/AvatarScene.unity"
+            ]
         },
         {
             "managedAssemblyName": "UnityEngine.dll",
@@ -319,6 +369,15 @@
         },
         {
             "managedAssemblyName": "UnityEngine.dll",
+            "nativeClass": "SkinnedMeshRenderer",
+            "fullManagedTypeName": "UnityEngine.SkinnedMeshRenderer",
+            "moduleName": "Core",
+            "usedInScenes": [
+                "Assets/AvatarScene.unity"
+            ]
+        },
+        {
+            "managedAssemblyName": "UnityEngine.dll",
             "nativeClass": "Sprite",
             "fullManagedTypeName": "UnityEngine.Sprite",
             "moduleName": "Core",
@@ -329,7 +388,9 @@
             "nativeClass": "TextAsset",
             "fullManagedTypeName": "UnityEngine.TextAsset",
             "moduleName": "Core",
-            "usedInScenes": []
+            "usedInScenes": [
+                "Assets/AvatarScene.unity"
+            ]
         },
         {
             "managedAssemblyName": "UnityEngine.dll",

@@ -127,7 +127,13 @@ public class ClothingManager : MonoBehaviour
                 foreach (var r in renderers)
                 {
                     if (r.material != null)
-                        r.material.mainTexture = texture;
+                    {
+                        r.material.mainTexture = texture; // Built-in Pipeline
+                        if (r.material.HasProperty("_BaseMap"))
+                        {
+                            r.material.SetTexture("_BaseMap", texture); // URP
+                        }
+                    }
                 }
             }
         }

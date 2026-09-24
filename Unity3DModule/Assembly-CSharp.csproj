@@ -662,12 +662,12 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.6.2f1\Editor\Data\Managed\UnityEngine\UnityEditor.XRModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>Library\PackageCache\com.unity.ext.nunit@0198eae3b53e\net472\unity-custom\nunit.framework.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Unity.Collections.LowLevel.ILSupport">
       <HintPath>Library\PackageCache\com.unity.collections@10fff0607388\Unity.Collections.LowLevel.ILSupport\Unity.Collections.LowLevel.ILSupport.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>Library\PackageCache\com.unity.ext.nunit@0198eae3b53e\net472\unity-custom\nunit.framework.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Mono.Cecil">
@@ -1234,32 +1234,32 @@
       <HintPath>Library\ScriptAssemblies\Unity.Collections.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.Collections.Tests.CoreCLR.InternalJobNestedPrivate">
-      <HintPath>Library\ScriptAssemblies\Unity.Collections.Tests.CoreCLR.InternalJobNestedPrivate.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="glTFast.dots">
       <HintPath>Library\ScriptAssemblies\glTFast.dots.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Collections.Tests.CoreCLR.InternalJobNestedPrivate">
+      <HintPath>Library\ScriptAssemblies\Unity.Collections.Tests.CoreCLR.InternalJobNestedPrivate.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Collections.Tests.CoreCLR.PublicJobPrivateGeneric">
       <HintPath>Library\ScriptAssemblies\Unity.Collections.Tests.CoreCLR.PublicJobPrivateGeneric.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.Rider.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Unity.Mathematics">
       <HintPath>Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.Collections.Tests.CoreCLR.PrivateJobNested">
-      <HintPath>Library\ScriptAssemblies\Unity.Collections.Tests.CoreCLR.PrivateJobNested.dll</HintPath>
+    <Reference Include="Unity.Rider.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Burst">
       <HintPath>Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Collections.Tests.CoreCLR.PrivateJobNested">
+      <HintPath>Library\ScriptAssemblies\Unity.Collections.Tests.CoreCLR.PrivateJobNested.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>

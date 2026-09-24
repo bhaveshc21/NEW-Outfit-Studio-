@@ -13,7 +13,7 @@ def prepare_visualization(current_user_id):
     """
     try:
         data = request.get_json()
-        if not data:
+        if data is None:
             return jsonify({
                 "success": False,
                 "message": "No data provided"
