@@ -11,8 +11,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import java.io.IOException;
 
 public class ApiClient {
-    // 10.0.2.2 is the special alias for localhost on the Android Emulator
-    private static final String BASE_URL = "http://10.0.2.2:5000/api/";
+    // 192.168.1.103 is the local IP address of your PC on the Wi-Fi network
+    private static final String BASE_URL = "http://192.168.1.103:5000/api/";
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient(Context context) {

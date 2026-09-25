@@ -288,12 +288,14 @@ UnityEngine.Experimental.Rendering.GraphicsFormatUtility::IsSRGBFormat
 UnityEngine.Experimental.Rendering.ScriptableRuntimeReflectionSystemSettings::ScriptingDirtyReflectionSystemInstance
 UnityEngine.GameObject::GetComponentsInternal_Injected
 UnityEngine.GameObject::IsDestroying_Injected
+UnityEngine.GameObject::CreatePrimitive_Injected
 UnityEngine.GameObject::Internal_AddComponentWithType_Injected
 UnityEngine.GameObject::get_transform_Injected
 UnityEngine.GameObject::Internal_CreateGameObject_Injected
 UnityEngine.GameObject::SendMessage_Injected
 UnityEngine.GameObject::SetActive_Injected
 UnityEngine.GameObject::set_layer_Injected
+UnityEngine.GameObject::GetComponentFastPath_Injected
 UnityEngine.GeometryUtility::Internal_CalculateBounds_Injected
 UnityEngine.Gradient::Internal_Equals_Injected
 UnityEngine.Gradient::Init

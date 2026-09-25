@@ -10,10 +10,7 @@ public class AvatarManager : MonoBehaviour
         if (profile == null) return;
         
         // Apply Height (Scaling)
-        // Assume 170cm = scale 1.0
         float targetScale = profile.height > 0 ? (profile.height / 170f) : 1.0f;
-        
-        // Clamp scale to reasonable bounds to prevent distortion
         targetScale = Mathf.Clamp(targetScale, 0.85f, 1.15f);
         
         if (avatarRoot != null)
@@ -23,17 +20,23 @@ public class AvatarManager : MonoBehaviour
 
         // Apply Skin Tone
         Color skinColor = GetSkinColorFromTone(profile.skin_tone);
+        
+        // Auto-find renderers if array is empty
+        if (skinRenderers == null || skinRenderers.Length == 0)
+        {
+            if (avatarRoot != null) skinRenderers = avatarRoot.GetComponentsInChildren<Renderer>();
+            else skinRenderers = GetComponentsInChildren<Renderer>();
+        }
+
         if (skinRenderers != null)
         {
             foreach (var r in skinRenderers)
             {
                 if (r != null && r.material != null)
                 {
-                    r.material.color = skinColor; // Built-in Pipeline
-                    if (r.material.HasProperty("_BaseColor"))
-                    {
-                        r.material.SetColor("_BaseColor", skinColor); // URP
-                    }
+                    r.material.color = skinColor;
+                    if (r.material.HasProperty("_BaseColor")) r.material.SetColor("_BaseColor", skinColor);
+                    if (r.material.HasProperty("_Color")) r.material.SetColor("_Color", skinColor);
                 }
             }
         }

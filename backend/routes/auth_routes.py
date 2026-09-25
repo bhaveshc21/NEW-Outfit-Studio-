@@ -79,7 +79,7 @@ def register():
         # Generate token
         token = jwt.encode({
             'user_id': user_id,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=7)
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=365)
         }, Config.SECRET_KEY, algorithm="HS256")
         
         return jsonify({
@@ -135,7 +135,7 @@ def login():
         # Generate token
         token = jwt.encode({
             'user_id': user['id'],
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=7)
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=365)
         }, Config.SECRET_KEY, algorithm="HS256")
         
         return jsonify({

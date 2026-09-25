@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace 'com.outfitstudio'
-    compileSdk 34
+    compileSdk 36
 
     defaultConfig {
         applicationId "com.outfitstudio"
@@ -48,4 +48,5 @@ dependencies {
 
     // Unity Integration
     implementation project(':unityLibrary')
+    implementation 'androidx.games:games-activity:4.4.0'
 }

@@ -10,8 +10,5 @@ import retrofit2.http.POST;
 
 public interface VisualizationApiService {
     @POST("visualization/prepare")
-    Call<VisualizationResponse> prepareVisualization(
-            @Header("Authorization") String token,
-            @Body GeneratedOutfit outfit
-    );
+    Call<VisualizationResponse> prepareVisualization(@Body GeneratedOutfit outfit);
 }

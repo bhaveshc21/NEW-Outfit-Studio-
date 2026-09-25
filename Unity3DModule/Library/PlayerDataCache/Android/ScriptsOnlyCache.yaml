@@ -68,6 +68,12 @@ ScriptsOnlyBuild:
     className: DontDestroyOnLoad
   - hash:
       serializedVersion: 2
+      Hash: ca3c4808d4cecc9407262aa69c4a509a
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: ClothingManager
+  - hash:
+      serializedVersion: 2
       Hash: 43c66b21b7309885eeb5acb046df62df
     assemblyName: glTFast.Documentation.Examples
     namespaceName: GLTFast.Documentation.Examples
@@ -144,14 +150,8 @@ ScriptsOnlyBuild:
     assemblyName: glTFast
     namespaceName: GLTFast
     className: TimeBudgetPerFrameDeferAgent
-  - hash:
-      serializedVersion: 2
-      Hash: ca3c4808d4cecc9407262aa69c4a509a
-    assemblyName: Assembly-CSharp
-    namespaceName: 
-    className: ClothingManager
   platform: 13
   scenePathNames:
   - Assets/AvatarScene.unity
   nativeClasses: 000000003000000012000000820000001c0000001b000000150000000600000031000000730000000900000081000000d50000000d000000c0a219270b000000370000007e0000000f1baa530a05df37130000007bce860a8d0000002f000000740000005e0000002c0100009300000005000000620000001e0000004e00000004000000010000002b000000c40000001400000019000000890000006c0000000200000072000000590000009d00000003000000080000006800000051000000b4000000i
-  playerPath: C:/Users/bhave/Desktop/NEW-Outfit-Studio-/android/OutfitStudio/unityLibrary
+  playerPath: C:/Users/gunja/Desktop/NEW-Outfit-Studio-/android_export_temp

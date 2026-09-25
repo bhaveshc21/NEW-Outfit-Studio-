@@ -60,20 +60,22 @@ def prepare_visualization_data(user_id, outfit_data):
             color = item.get('color', '').lower()
             
             # Simple fallback model mapping
-            model_key = f"generic_item"
-            if 't-shirt' in category or 'shirt' in category:
-                model_key = f"{color}_tshirt" if color else "generic_tshirt"
+            model_key = "Top"
+            if 't-shirt' in category or 'shirt' in category or 'top' in category:
+                model_key = "Top"
             elif 'jeans' in category or 'pants' in category or 'bottom' in category:
-                model_key = f"{color}_jeans" if color else "generic_jeans"
+                model_key = "Bottoms"
             elif 'sneakers' in category or 'shoes' in category or 'footwear' in category:
-                model_key = f"{color}_sneakers" if color else "generic_sneakers"
+                model_key = "Shoes"
             elif 'jacket' in category or 'coat' in category:
-                model_key = f"{color}_jacket" if color else "generic_jacket"
+                model_key = "Top"
             
             item_id = item.get('id')
             details = item_details.get(item_id, {})
             
-            image_url = f"{host}/{details['image_path']}" if details.get('image_path') else None
+            # Ensure backslashes are replaced with forward slashes in the path
+            image_path_cleaned = details['image_path'].replace('\\', '/') if details.get('image_path') else None
+            image_url = f"{host}/{image_path_cleaned}" if image_path_cleaned else None
             
             return {
                 "id": item_id,

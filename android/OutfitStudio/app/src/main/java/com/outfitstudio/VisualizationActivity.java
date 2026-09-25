@@ -8,7 +8,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import com.unity3d.player.UnityPlayerGameActivity;
 
 import com.google.gson.Gson;
 import com.outfitstudio.api.ApiClient;
@@ -21,7 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class VisualizationActivity extends AppCompatActivity {
+public class VisualizationActivity extends UnityPlayerGameActivity {
 
     private TextView tvStatus, tvOutfitTop, tvOutfitBottom, tvOutfitFootwear;
     private ProgressBar progressBar;
@@ -34,7 +34,11 @@ public class VisualizationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_3d_visualization);
+        
+        View uiOverlay = getLayoutInflater().inflate(R.layout.activity_3d_visualization, null);
+        addContentView(uiOverlay, new android.widget.FrameLayout.LayoutParams(
+                android.view.ViewGroup.LayoutParams.MATCH_PARENT, 
+                android.view.ViewGroup.LayoutParams.MATCH_PARENT));
 
         tvStatus = findViewById(R.id.tvStatus);
         tvOutfitTop = findViewById(R.id.tvOutfitTop);
@@ -66,16 +70,23 @@ public class VisualizationActivity extends AppCompatActivity {
             return;
         }
 
-        apiService.prepareVisualization("Bearer " + token, currentOutfit).enqueue(new Callback<VisualizationResponse>() {
+        apiService.prepareVisualization(currentOutfit).enqueue(new Callback<VisualizationResponse>() {
             @Override
             public void onResponse(Call<VisualizationResponse> call, Response<VisualizationResponse> response) {
                 progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    tvStatus.setVisibility(View.GONE); // Clear the 'Preparing 3D Engine' message
                     VisualizationResponse.VisualizationData data = response.body().getData();
                     updateUI(data);
                     launchUnityModule(data);
                 } else {
-                    tvStatus.setText("Failed to prepare visualization data.");
+                    String errorMsg = "Failed to prepare visualization data.";
+                    try { 
+                        if (response.errorBody() != null) {
+                            errorMsg += " Code: " + response.code() + " Error: " + response.errorBody().string();
+                        }
+                    } catch (Exception e) {}
+                    tvStatus.setText(errorMsg);
                 }
             }
 
@@ -100,25 +111,25 @@ public class VisualizationActivity extends AppCompatActivity {
     }
 
     private void launchUnityModule(VisualizationResponse.VisualizationData data) {
-        // Here we simulate attempting to launch the Unity module.
-        // In a real UaaL setup, we would start UnityPlayerActivity and pass the JSON.
-        
         try {
-            // Attempt to resolve Unity class to see if it's integrated
-            Class<?> unityClass = Class.forName("com.unity3d.player.UnityPlayerGameActivity");
-            
-            // If found, launch it
-            Intent intent = new Intent(this, unityClass);
-            intent.putExtra("visualization_data", new Gson().toJson(data));
-            startActivity(intent);
-            
-        } catch (ClassNotFoundException e) {
-            // Unity library not linked yet
-            tvStatus.setText("3D module ready.\n(Unity library not linked in this build)\n\n" +
-                    "Profile: " + data.getProfile().getBodyType() + " | " + data.getProfile().getSkinTone() + "\n" +
-                    "Top Model: " + (data.getOutfit().getTop() != null ? data.getOutfit().getTop().getModelKey() : "None") + "\n" +
-                    "Bottom Model: " + (data.getOutfit().getBottom() != null ? data.getOutfit().getBottom().getModelKey() : "None") + "\n" +
-                    "Footwear Model: " + (data.getOutfit().getFootwear() != null ? data.getOutfit().getFootwear().getModelKey() : "None"));
+            String payload = new Gson().toJson(data);
+            android.os.Handler handler = new android.os.Handler();
+            Runnable sendTask = new Runnable() {
+                int attempts = 0;
+                @Override
+                public void run() {
+                    com.unity3d.player.UnityPlayer.UnitySendMessage("Avatar", "ReceiveVisualizationData", payload);
+                    com.unity3d.player.UnityPlayer.UnitySendMessage("Main Camera", "ReceiveVisualizationData", payload);
+                    com.unity3d.player.UnityPlayer.UnitySendMessage("AndroidReceiver", "ReceiveVisualizationData", payload);
+                    attempts++;
+                    if (attempts < 5) {
+                        handler.postDelayed(this, 3000); // Retry every 3 seconds, 5 times total
+                    }
+                }
+            };
+            handler.postDelayed(sendTask, 2000);
+        } catch (Exception e) {
+            tvStatus.setText("Failed to communicate with Unity: " + e.getMessage());
         }
     }
 }

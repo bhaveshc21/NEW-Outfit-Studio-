@@ -1,0 +1,13 @@
+# ninja log v5
+152	1135	8120200557119026	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	a5062db767c9518
+1137	4670	8120200584846979	C:/Users/gunja/Desktop/NEW-Outfit-Studio-/android/OutfitStudio/unityLibrary/build/intermediates/cxx/RelWithDebInfo/4dy57611/obj/arm64-v8a/libswappywrapper.so	82a1b68d8ad23d93
+64	6869	8120200613740992	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	b6b63a9c0e07dca1
+97	6994	8120200614155697	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	3c49e8e17de53b60
+118	6998	8120200614797266	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	a7ad0ed14dd957aa
+47	7133	8120200616359123	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	de5a6cac0f5d3078
+31	7145	8120200616259732	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	9ac7a05ab09c8c0b
+135	7493	8120200620569470	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	519c6a83eca41d
+81	8108	8120200626473593	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	46ff52597a22ad58
+2	8547	8120200630994901	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	2b074a7a91fba21f
+8547	10566	8120200644239165	C:/Users/gunja/Desktop/NEW-Outfit-Studio-/android/OutfitStudio/unityLibrary/build/intermediates/cxx/RelWithDebInfo/4dy57611/obj/arm64-v8a/libgame.so	f900d807db73cc88
+0	26	0	clean	790905056e4e4b4

@@ -1326,6 +1326,10 @@ void RegisterAllStrippedInternalCalls()
 		void Register_UnityEngine_GameObject_IsDestroying_Injected();
 		Register_UnityEngine_GameObject_IsDestroying_Injected();
 
+		//System.IntPtr UnityEngine.GameObject::CreatePrimitive_Injected(UnityEngine.PrimitiveType)
+		void Register_UnityEngine_GameObject_CreatePrimitive_Injected();
+		Register_UnityEngine_GameObject_CreatePrimitive_Injected();
+
 		//System.IntPtr UnityEngine.GameObject::Internal_AddComponentWithType_Injected(System.IntPtr,System.Type)
 		void Register_UnityEngine_GameObject_Internal_AddComponentWithType_Injected();
 		Register_UnityEngine_GameObject_Internal_AddComponentWithType_Injected();
@@ -1349,6 +1353,10 @@ void RegisterAllStrippedInternalCalls()
 		//System.Void UnityEngine.GameObject::set_layer_Injected(System.IntPtr,System.Int32)
 		void Register_UnityEngine_GameObject_set_layer_Injected();
 		Register_UnityEngine_GameObject_set_layer_Injected();
+
+		//UnityEngine.Component UnityEngine.GameObject::GetComponentFastPath_Injected(System.IntPtr,System.Type)
+		void Register_UnityEngine_GameObject_GetComponentFastPath_Injected();
+		Register_UnityEngine_GameObject_GetComponentFastPath_Injected();
 
 	//End Registrations for type : UnityEngine.GameObject
 

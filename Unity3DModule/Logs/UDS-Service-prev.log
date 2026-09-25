@@ -1,24 +1,24 @@
 
 Server arguments:
   --memory-size 1073741824
-  --shared-postfix f5698f5b0843bb564e0d37bad30a7deb
+  --shared-postfix c7c2b6740310dd5e3dca2a24d3a061b3
   --working-directory Library/DataStore
   --silent-console
   --shutdown-grace 0
   --client-process-check 0
-  --uds-log-file C:/Users/bhave/Desktop/NEW-Outfit-Studio-/Unity3DModule/Logs/UDS-Service.log
+  --uds-log-file C:/Users/gunja/Desktop/NEW-Outfit-Studio-/Unity3DModule/Logs/UDS-Service.log
   --debug-log 2
   -name
   Unity.DataStore
 
 Initialising UDS system complete:
   - System type: Service
-  - Resource namespace: f5698f5b0843bb564e0d37bad30a7deb
+  - Resource namespace: c7c2b6740310dd5e3dca2a24d3a061b3
   - Shared memory size: 1073741824
   - Command buffer id: 1052576
   - Command buffer size: 8192
   - Hashmap size: 4194304
 Starting Unity Data Store Application
 Unity Data Store Application Complete
-[Warning] Shutting down service while there are still connected clients, client count = 3
+[Warning] Shutting down service while there are still connected clients, client count = 2
 Shut down UDS service system complete

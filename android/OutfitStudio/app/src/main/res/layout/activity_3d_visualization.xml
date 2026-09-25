@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/background">
+    android:orientation="vertical">
 
     <!-- Header -->
     <LinearLayout
@@ -38,8 +37,7 @@
         android:id="@+id/unityContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#E0E0E0">
+        android:layout_weight="1">
         
         <ProgressBar
             android:id="@+id/progressBar"

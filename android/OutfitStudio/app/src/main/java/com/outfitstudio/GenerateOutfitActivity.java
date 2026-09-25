@@ -82,10 +82,12 @@ public class GenerateOutfitActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 } else {
-                    String errorMsg = "Failed to generate outfits.";
-                    if (response.body() != null && response.body().getMessage() != null) {
-                        errorMsg = response.body().getMessage();
-                    }
+                    String errorMsg = "Failed to generate outfits (HTTP " + response.code() + ")";
+                    try {
+                        if (response.errorBody() != null) {
+                            errorMsg += "\n" + response.errorBody().string();
+                        }
+                    } catch (Exception e) {}
                     tvStatus.setText(errorMsg);
                 }
             }

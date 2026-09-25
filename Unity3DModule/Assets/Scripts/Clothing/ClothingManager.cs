@@ -72,22 +72,36 @@ public class ClothingManager : MonoBehaviour
         // 2. Dictionary Fallback
         GameObject prefabToLoad = FindPrefabInDictionary(itemData.model_key, dictionary);
 
+        GameObject inst = null;
         if (prefabToLoad != null)
         {
-            GameObject inst = Instantiate(prefabToLoad, mountPoint);
-            inst.transform.localPosition = Vector3.zero;
-            inst.transform.localRotation = Quaternion.identity;
-            currentInstance = inst;
-
-            // 3. 2D Texture Mapping on Blank Prefab
-            if (!string.IsNullOrEmpty(itemData.image_url))
-            {
-                StartCoroutine(DownloadAndApplyTexture(itemData.image_url, inst));
-            }
+            inst = Instantiate(prefabToLoad, mountPoint);
         }
         else
         {
-            Debug.LogWarning("No clothing model found for key: " + itemData.model_key);
+            Debug.LogWarning("No clothing model found for key: " + itemData.model_key + ". Generating primitive fallback.");
+            if (itemData.model_key == "Top") inst = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            else if (itemData.model_key == "Bottoms") inst = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            else if (itemData.model_key == "Shoes") inst = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            else inst = GameObject.CreatePrimitive(PrimitiveType.Quad);
+            
+            inst.transform.SetParent(mountPoint, false);
+            // Destroy the default primitive collider to avoid physics issues
+            Collider col = inst.GetComponent<Collider>();
+            if (col != null) Destroy(col);
+            
+            // Give it a generic offset so it doesn't clip directly inside the avatar
+            inst.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        }
+
+        inst.transform.localPosition = Vector3.zero;
+        inst.transform.localRotation = Quaternion.identity;
+        currentInstance = inst;
+
+        // 3. 2D Texture Mapping on Blank Prefab
+        if (!string.IsNullOrEmpty(itemData.image_url))
+        {
+            StartCoroutine(DownloadAndApplyTexture(itemData.image_url, inst));
         }
     }
 
@@ -126,13 +140,15 @@ public class ClothingManager : MonoBehaviour
                 Renderer[] renderers = targetObj.GetComponentsInChildren<Renderer>();
                 foreach (var r in renderers)
                 {
-                    if (r.material != null)
+                    if (r != null && r.material != null)
                     {
-                        r.material.mainTexture = texture; // Built-in Pipeline
-                        if (r.material.HasProperty("_BaseMap"))
-                        {
-                            r.material.SetTexture("_BaseMap", texture); // URP
-                        }
+                        r.material.mainTexture = texture; 
+                        if (r.material.HasProperty("_BaseMap")) r.material.SetTexture("_BaseMap", texture);
+                        if (r.material.HasProperty("_MainTex")) r.material.SetTexture("_MainTex", texture);
+                        
+                        r.material.color = Color.white;
+                        if (r.material.HasProperty("_BaseColor")) r.material.SetColor("_BaseColor", Color.white);
+                        if (r.material.HasProperty("_Color")) r.material.SetColor("_Color", Color.white);
                     }
                 }
             }
