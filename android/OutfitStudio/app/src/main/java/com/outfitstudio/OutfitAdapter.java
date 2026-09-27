@@ -14,18 +14,27 @@ import com.bumptech.glide.Glide;
 import com.outfitstudio.api.models.GeneratedOutfit;
 
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitViewHolder> {
 
     private Context context;
     private List<GeneratedOutfit> outfits;
+    private Set<GeneratedOutfit> selectedOutfits = new HashSet<>();
     
     // Change if hosting backend elsewhere or using emulator 10.0.2.2
-    private static final String BASE_IMAGE_URL = "http://192.168.1.102:5000/";
+    private static final String BASE_IMAGE_URL = "http://192.168.1.7:5000/";
 
     public OutfitAdapter(Context context, List<GeneratedOutfit> outfits) {
         this.context = context;
         this.outfits = outfits;
+    }
+
+    public List<GeneratedOutfit> getSelectedOutfits() {
+        return new java.util.ArrayList<>(selectedOutfits);
     }
 
     @NonNull
@@ -94,6 +103,30 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
             }
             context.startActivity(intent);
         });
+
+        holder.btnExplainOutfit.setOnClickListener(v -> {
+            android.content.Intent intent = new android.content.Intent(context, OutfitExplanationActivity.class);
+            com.google.gson.Gson gson = new com.google.gson.Gson();
+            intent.putExtra("outfit_json", gson.toJson(outfit));
+            if (context instanceof android.app.Activity) {
+                android.app.Activity activity = (android.app.Activity) context;
+                String occasion = activity.getIntent().getStringExtra("occasion");
+                if (occasion != null) {
+                    intent.putExtra("occasion", occasion);
+                }
+            }
+            context.startActivity(intent);
+        });
+
+        holder.cbSelect.setOnCheckedChangeListener(null);
+        holder.cbSelect.setChecked(selectedOutfits.contains(outfit));
+        holder.cbSelect.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                selectedOutfits.add(outfit);
+            } else {
+                selectedOutfits.remove(outfit);
+            }
+        });
     }
 
     @Override
@@ -106,7 +139,8 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
         TextView tvTopName, tvOuterwearName, tvBottomName, tvFootwearName;
         ImageView ivTop, ivOuterwear, ivBottom, ivFootwear;
         View layoutOuterwear;
-        android.widget.Button btnRateOutfit;
+        android.widget.Button btnRateOutfit, btnExplainOutfit;
+        CheckBox cbSelect;
 
         public OutfitViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -122,6 +156,8 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
             ivFootwear = itemView.findViewById(R.id.ivFootwear);
             layoutOuterwear = itemView.findViewById(R.id.layoutOuterwear);
             btnRateOutfit = itemView.findViewById(R.id.btnRateOutfit);
+            btnExplainOutfit = itemView.findViewById(R.id.btnExplainOutfit);
+            cbSelect = itemView.findViewById(R.id.cbSelect);
         }
     }
 }

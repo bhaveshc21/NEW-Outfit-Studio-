@@ -116,4 +116,15 @@
         </LinearLayout>
     </ScrollView>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCompare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Compare Selected"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cornerRadius="24dp"
+        android:backgroundTint="@color/primary" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,4 +15,10 @@ public interface OutfitApiService {
 
     @POST("outfits/score")
     Call<FashionScoreResponse> scoreOutfit(@Body FashionScoreRequest request);
+
+    @POST("outfits/compare")
+    Call<com.outfitstudio.api.models.ComparisonResponse> compareOutfits(@Body com.outfitstudio.api.models.ComparisonRequest request);
+
+    @POST("outfits/explain")
+    Call<com.outfitstudio.api.models.ExplanationResponse> explainOutfit(@Body com.outfitstudio.api.models.ExplanationRequest request);
 }

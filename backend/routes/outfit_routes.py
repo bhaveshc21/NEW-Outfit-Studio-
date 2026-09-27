@@ -80,3 +80,55 @@ def score_outfit(current_user_id):
     finally:
         if db.is_connected():
             db.close()
+
+@outfit_bp.route('/compare', methods=['POST'])
+@token_required
+def compare_outfits(current_user_id):
+    db = get_db()
+    try:
+        from services.outfit_comparison_service import OutfitComparisonService
+        service = OutfitComparisonService(db)
+        
+        data = request.get_json(silent=True)
+        if not data:
+            return jsonify({"success": False, "message": "Invalid JSON request"}), 400
+            
+        result = service.compare_outfits(current_user_id, data)
+        
+        if not result.get('success'):
+            return jsonify(result), 400
+            
+        return jsonify(result), 200
+        
+    except Exception as e:
+        print(f"Outfit Compare error: {e}")
+        return jsonify({"success": False, "message": "Internal server error"}), 500
+    finally:
+        if db.is_connected():
+            db.close()
+
+@outfit_bp.route('/explain', methods=['POST'])
+@token_required
+def explain_outfit(current_user_id):
+    db = get_db()
+    try:
+        from services.outfit_explanation_service import OutfitExplanationService
+        service = OutfitExplanationService(db)
+        
+        data = request.get_json(silent=True)
+        if not data:
+            return jsonify({"success": False, "message": "Invalid JSON request"}), 400
+            
+        result = service.explain_outfit(current_user_id, data)
+        
+        if not result.get('success'):
+            return jsonify(result), 400
+            
+        return jsonify(result), 200
+        
+    except Exception as e:
+        print(f"Outfit Explain error: {e}")
+        return jsonify({"success": False, "message": "Internal server error"}), 500
+    finally:
+        if db.is_connected():
+            db.close()

@@ -8,8 +8,8 @@ for r, _, fs in os.walk(d):
             try:
                 with open(f, 'r', encoding='utf-8') as file_obj:
                     c = file_obj.read()
-                if '192.168.1.103' in c:
-                    c = c.replace('192.168.1.103', '192.168.1.7')
+                if '192.168.1.102' in c:
+                    c = c.replace('192.168.1.102', '192.168.1.7')
                     with open(f, 'w', encoding='utf-8') as file_obj:
                         file_obj.write(c)
             except Exception:
