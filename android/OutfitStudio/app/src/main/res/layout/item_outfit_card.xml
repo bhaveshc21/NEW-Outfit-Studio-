@@ -15,23 +15,42 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/tvScore"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Score: 95"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@color/primary"/>
+            android:layout_marginBottom="16dp">
 
-        <TextView
-            android:id="@+id/tvReason"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Excellent color harmony."
-            android:textSize="14sp"
-            android:textColor="@color/text_hint"
-            android:layout_marginBottom="16dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/cbSelect"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvScore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Score: 95"
+                    android:textColor="@color/primary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvReason"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Excellent color harmony."
+                    android:textColor="@color/text_hint"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/cbSelect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -142,15 +161,13 @@
 
         </LinearLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnRateOutfit"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="ANALYZE THIS OUTFIT"
-            app:cornerRadius="8dp"
-            android:backgroundTint="@color/primary"/>
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
 
+<<<<<<< HEAD
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnViewIn3D"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -162,6 +179,28 @@
             app:strokeColor="@color/primary"
             android:textColor="@color/primary"/>
 
-    </LinearLayout>
+=======
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnExplainOutfit"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="Why this outfit?"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                app:cornerRadius="8dp"
+                app:strokeColor="@color/primary"
+                android:textColor="@color/primary"/>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRateOutfit"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Analyze"
+                app:cornerRadius="8dp"
+                android:backgroundTint="@color/primary"/>
+        </LinearLayout>
+>>>>>>> 3f8dbc9c79e08c41ea827a5cc98239423fbbd7b9
+    </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

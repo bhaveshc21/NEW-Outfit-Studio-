@@ -19,6 +19,12 @@ import android.view.View;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.view.ViewGroup;
 
 import com.outfitstudio.api.models.WeatherData;
 import com.outfitstudio.api.models.ShoppingSuggestion;
@@ -117,5 +123,25 @@ public class RecommendedOutfitActivity extends AppCompatActivity {
                 }
             }
         }
+        
+        Button btnCompare = findViewById(R.id.btnCompare);
+        btnCompare.setOnClickListener(v -> {
+            List<GeneratedOutfit> selected = adapter.getSelectedOutfits();
+            if (selected.size() < 2) {
+                Toast.makeText(RecommendedOutfitActivity.this, "Please select at least two outfits to compare.", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent compareIntent = new Intent(RecommendedOutfitActivity.this, CompareOutfitsActivity.class);
+                compareIntent.putExtra("selected_outfits_json", new Gson().toJson(selected));
+                String occasionIntent = getIntent().getStringExtra("occasion");
+                if (occasionIntent != null) {
+                    compareIntent.putExtra("occasion", occasionIntent);
+                }
+                String jsonWeatherIntent = getIntent().getStringExtra("weather_json");
+                if (jsonWeatherIntent != null) {
+                    compareIntent.putExtra("weather_json", jsonWeatherIntent);
+                }
+                startActivity(compareIntent);
+            }
+        });
     }
 }
