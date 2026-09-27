@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="16dp"
+    android:background="@drawable/rounded_card_bg"
+    android:padding="16dp"
+    android:elevation="2dp">
+
+    <!-- Day Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Monday 28"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/on_background" />
+                
+            <TextView
+                android:id="@+id/tvOccasion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Office"
+                android:textSize="14sp"
+                android:textColor="#C18C8D"
+                android:textStyle="bold" />
+        </LinearLayout>
+        
+        <!-- Weather Info -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="end">
+            <TextView
+                android:id="@+id/tvWeatherTemp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="28°C"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/on_background" />
+            <TextView
+                android:id="@+id/tvWeatherCond"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sunny"
+                android:textSize="12sp"
+                android:textColor="@color/text_hint" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E0E0E0"
+        android:layout_marginVertical="12dp" />
+
+    <!-- Empty State -->
+    <TextView
+        android:id="@+id/tvEmptyState"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No suitable outfit found."
+        android:textAlignment="center"
+        android:textColor="@color/error"
+        android:padding="16dp"
+        android:visibility="gone" />
+
+    <!-- Outfit Images Container -->
+    <LinearLayout
+        android:id="@+id/llOutfitContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="12dp">
+        
+        <ImageView
+            android:id="@+id/ivTop"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_margin="4dp"
+            android:scaleType="centerCrop"
+            android:background="#F5F5F5"
+            android:visibility="gone"/>
+            
+        <ImageView
+            android:id="@+id/ivOuterwear"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_margin="4dp"
+            android:scaleType="centerCrop"
+            android:background="#F5F5F5"
+            android:visibility="gone"/>
+            
+        <ImageView
+            android:id="@+id/ivBottom"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_margin="4dp"
+            android:scaleType="centerCrop"
+            android:background="#F5F5F5"
+            android:visibility="gone"/>
+            
+        <ImageView
+            android:id="@+id/ivFootwear"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_margin="4dp"
+            android:scaleType="centerCrop"
+            android:background="#F5F5F5"
+            android:visibility="gone"/>
+    </LinearLayout>
+    
+    <TextView
+        android:id="@+id/tvScore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Fashion Score: 92%"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textColor="#333333"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Actions -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+        
+        <Button
+            android:id="@+id/btnRegenerate"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="48dp"
+            android:text="Regenerate"
+            android:textSize="12sp"
+            android:layout_marginEnd="4dp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:cornerRadius="8dp" />
+            
+        <Button
+            android:id="@+id/btnLock"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="48dp"
+            android:text="Lock"
+            android:textSize="12sp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            style="@style/Widget.MaterialComponents.Button"
+            app:backgroundTint="#C18C8D"
+            app:cornerRadius="8dp" />
+
+        <Button
+            android:id="@+id/btnWhy"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="48dp"
+            android:text="Why?"
+            android:textSize="12sp"
+            android:layout_marginStart="4dp"
+            style="@style/Widget.MaterialComponents.Button.TextButton" />
+    </LinearLayout>
+
+</LinearLayout>

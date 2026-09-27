@@ -15,4 +15,7 @@ public interface OutfitApiService {
 
     @POST("outfits/score")
     Call<FashionScoreResponse> scoreOutfit(@Body FashionScoreRequest request);
+
+    @POST("outfits/complete-look")
+    Call<com.outfitstudio.api.models.CompleteLookResponse> completeLook(@Body com.outfitstudio.api.models.CompleteLookRequest request);
 }

@@ -46,6 +46,7 @@ public class ClothingDetailsActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         btnDelete = findViewById(R.id.btnDelete);
         btnEdit = findViewById(R.id.btnEdit);
+        Button btnCompleteLook = findViewById(R.id.btnCompleteLook);
 
         itemId = getIntent().getIntExtra("ITEM_ID", -1);
         apiService = ApiClient.getClient(this).create(WardrobeApiService.class);
@@ -55,6 +56,12 @@ public class ClothingDetailsActivity extends AppCompatActivity {
             finish();
             return;
         }
+
+        btnCompleteLook.setOnClickListener(v -> {
+            Intent intent = new Intent(ClothingDetailsActivity.this, CompleteLookActivity.class);
+            intent.putExtra("ITEM_ID", itemId);
+            startActivity(intent);
+        });
 
         btnDelete.setOnClickListener(v -> showDeleteConfirmation());
         btnEdit.setOnClickListener(v -> {
@@ -105,7 +112,7 @@ public class ClothingDetailsActivity extends AppCompatActivity {
         tvDetailCategory.setText(item.getCategory());
         tvDetailColor.setText(item.getColor());
 
-        String imageUrl = "http://192.168.1.102:5000/" + item.getImagePath().replace("\\", "/");
+        String imageUrl = "http://192.168.1.6:5000/" + item.getImagePath().replace("\\", "/");
         Glide.with(this)
                 .load(imageUrl)
                 .centerCrop()

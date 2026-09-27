@@ -60,6 +60,7 @@ def create_app():
     from routes.shopping_routes import shopping_bp
     from routes.closet_routes import closet_bp
     from routes.visualization_routes import visualization_bp
+    from routes.planner_routes import planner_bp
     
     app.register_blueprint(auth_bp, url_prefix='/api')
     app.register_blueprint(profile_bp, url_prefix='/api/profile')
@@ -69,6 +70,7 @@ def create_app():
     app.register_blueprint(shopping_bp, url_prefix='/api/shopping')
     app.register_blueprint(closet_bp, url_prefix='/api/closet')
     app.register_blueprint(visualization_bp, url_prefix='/api/visualization')
+    app.register_blueprint(planner_bp, url_prefix='/api/planner')
 
     @app.route('/uploads/<path:filename>')
     def serve_uploads(filename):

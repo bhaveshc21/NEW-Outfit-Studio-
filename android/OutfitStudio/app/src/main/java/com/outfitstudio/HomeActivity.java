@@ -46,5 +46,12 @@ public class HomeActivity extends AppCompatActivity {
         btnClosetStatistics.setOnClickListener(v -> {
             startActivity(new Intent(HomeActivity.this, ClosetStatisticsActivity.class));
         });
+
+        Button btnWeeklyPlanner = findViewById(R.id.btnWeeklyPlanner);
+        if (btnWeeklyPlanner != null) {
+            btnWeeklyPlanner.setOnClickListener(v -> {
+                startActivity(new Intent(HomeActivity.this, WeeklyPlannerActivity.class));
+            });
+        }
     }
 }

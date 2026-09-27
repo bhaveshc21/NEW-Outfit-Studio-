@@ -137,6 +137,34 @@ class OutfitGenerator:
             }
         }
 
+    def get_all_combinations(self):
+        combinations = []
+        for top in self.tops:
+            for bottom in self.bottoms:
+                for shoe in self.footwear:
+                    combinations.append({
+                        "top": top,
+                        "bottom": bottom,
+                        "footwear": shoe
+                    })
+        for top in self.tops:
+            for out in self.outerwear:
+                for bottom in self.bottoms:
+                    for shoe in self.footwear:
+                        combinations.append({
+                            "top": top,
+                            "outerwear": out,
+                            "bottom": bottom,
+                            "footwear": shoe
+                        })
+        for dress in self.dresses:
+            for shoe in self.footwear:
+                combinations.append({
+                    "top": dress,
+                    "footwear": shoe
+                })
+        return combinations
+
     def _evaluate_combination(self, top, bottom, shoe, outerwear=None, occasion=None, weather_data=None):
         is_invalid = False
         

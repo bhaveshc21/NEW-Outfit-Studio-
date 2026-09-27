@@ -39,6 +39,8 @@
         <activity android:name=".ShoppingResultActivity" />
         <activity android:name=".ClosetStatisticsActivity" />
         <activity android:name=".VisualizationActivity" />
+        <activity android:name=".CompleteLookActivity" />
+        <activity android:name=".WeeklyPlannerActivity" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

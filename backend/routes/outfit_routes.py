@@ -80,3 +80,41 @@ def score_outfit(current_user_id):
     finally:
         if db.is_connected():
             db.close()
+
+@outfit_bp.route('/complete-look', methods=['POST'])
+@token_required
+def complete_look(current_user_id):
+    db = get_db()
+    try:
+        from services.complete_look_service import CompleteLookService
+        service = CompleteLookService(db)
+        
+        data = request.get_json(silent=True) or {}
+        locked_item_id = data.get('locked_item_id')
+        
+        if not locked_item_id:
+            return jsonify({"success": False, "message": "locked_item_id is required"}), 400
+            
+        limit = data.get('limit', 5)
+        occasion = data.get('occasion', None)
+        location = data.get('location', None)
+        
+        result = service.generate_complete_look(
+            current_user_id, 
+            locked_item_id=locked_item_id, 
+            limit=limit, 
+            occasion=occasion, 
+            location=location
+        )
+        
+        if not result.get('success'):
+            return jsonify(result), 400
+            
+        return jsonify(result), 200
+        
+    except Exception as e:
+        print(f"Complete Look error: {e}")
+        return jsonify({"success": False, "message": "Internal server error"}), 500
+    finally:
+        if db.is_connected():
+            db.close()

@@ -62,6 +62,62 @@ class WeatherService:
         except Exception as e:
             traceback.print_exc()
             return None
+
+    def get_weekly_weather(self, location="Pune"):
+        """
+        Fetches the 7-day daily weather forecast for a given location.
+        Returns a dictionary mapping YYYY-MM-DD to weather info.
+        """
+        try:
+            geo_params = {
+                "name": location,
+                "count": 1,
+                "language": "en",
+                "format": "json"
+            }
+            geo_response = requests.get(self.geocoding_url, params=geo_params, timeout=5)
+            geo_response.raise_for_status()
+            geo_data = geo_response.json()
+            
+            if not geo_data.get("results"):
+                return None
+                
+            lat = geo_data["results"][0]["latitude"]
+            lon = geo_data["results"][0]["longitude"]
+            city_name = geo_data["results"][0]["name"]
+            
+            weather_params = {
+                "latitude": lat,
+                "longitude": lon,
+                "daily": ["temperature_2m_max", "temperature_2m_min", "weather_code"],
+                "timezone": "auto"
+            }
+            weather_response = requests.get(self.weather_url, params=weather_params, timeout=5)
+            weather_response.raise_for_status()
+            weather_data = weather_response.json()
+            
+            if "daily" not in weather_data:
+                return None
+                
+            daily = weather_data["daily"]
+            result = {}
+            for i, date_str in enumerate(daily["time"]):
+                temp_max = daily["temperature_2m_max"][i]
+                temp_min = daily["temperature_2m_min"][i]
+                code = daily["weather_code"][i]
+                
+                # Approximate daily temp as average of min and max
+                avg_temp = (temp_max + temp_min) / 2
+                
+                result[date_str] = {
+                    "temperature": round(avg_temp),
+                    "condition": self._get_condition_from_code(code),
+                    "location": city_name
+                }
+            return result
+        except Exception as e:
+            print(f"Weekly Weather API error: {e}")
+            return None
             
     def _get_condition_from_code(self, code):
         """Maps WMO weather codes to simple string conditions"""

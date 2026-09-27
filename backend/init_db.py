@@ -92,6 +92,46 @@ def init_db():
             cursor.execute(wardrobe_items_table_query)
             print("Table 'wardrobe_items' created or already exists.")
             
+            # Create planner_schedules table
+            planner_schedules_table_query = """
+            CREATE TABLE IF NOT EXISTS planner_schedules (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id INT NOT NULL,
+                occasion VARCHAR(50) NOT NULL,
+                is_recurring BOOLEAN NOT NULL DEFAULT 1,
+                day_of_week INT NULL,
+                specific_date DATE NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            )
+            """
+            cursor.execute(planner_schedules_table_query)
+            print("Table 'planner_schedules' created or already exists.")
+            
+            # Create planned_outfits table
+            planned_outfits_table_query = """
+            CREATE TABLE IF NOT EXISTS planned_outfits (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id INT NOT NULL,
+                planned_date DATE NOT NULL,
+                occasion VARCHAR(50) NOT NULL,
+                top_id INT NULL,
+                outerwear_id INT NULL,
+                bottom_id INT NULL,
+                footwear_id INT NULL,
+                accessories_ids VARCHAR(255) NULL,
+                fashion_score FLOAT NULL,
+                reason TEXT NULL,
+                is_locked BOOLEAN NOT NULL DEFAULT 0,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+                UNIQUE KEY unique_user_date (user_id, planned_date)
+            )
+            """
+            cursor.execute(planned_outfits_table_query)
+            print("Table 'planned_outfits' created or already exists.")
+            
             connection.commit()
             cursor.close()
             connection.close()
