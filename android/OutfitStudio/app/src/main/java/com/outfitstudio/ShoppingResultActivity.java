@@ -22,7 +22,7 @@ public class ShoppingResultActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private OutfitAdapter adapter;
-    private static final String BASE_IMAGE_URL = "http://192.168.1.102:5000/";
+    private static final String BASE_IMAGE_URL = "http://192.168.1.12:5000/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

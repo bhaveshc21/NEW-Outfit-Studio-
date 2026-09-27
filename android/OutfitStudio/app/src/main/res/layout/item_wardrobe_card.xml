@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="2dp"
+    app:cardCornerRadius="24dp"
+    app:cardElevation="4dp"
     app:cardBackgroundColor="@color/surface"
     app:strokeColor="@color/card_border"
     app:strokeWidth="1dp">
@@ -18,15 +18,15 @@
         <ImageView
             android:id="@+id/ivClothingImage"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="200dp"
             android:scaleType="centerCrop"
-            android:background="@color/secondary_variant" />
+            android:background="@color/secondary" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="12dp">
+            android:padding="16dp">
 
             <TextView
                 android:id="@+id/tvClothingName"
@@ -34,28 +34,43 @@
                 android:layout_height="wrap_content"
                 android:text="Clothing Name"
                 android:textColor="@color/on_surface"
-                android:textSize="16sp"
+                android:textSize="18sp"
+                android:fontFamily="serif"
                 android:textStyle="bold"
                 android:maxLines="1"
                 android:ellipsize="end"/>
 
-            <TextView
-                android:id="@+id/tvClothingCategory"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Category"
-                android:textColor="@color/primary_variant"
-                android:textSize="14sp"
-                android:layout_marginTop="4dp"/>
+                android:orientation="horizontal"
+                android:layout_marginTop="6dp">
                 
-            <TextView
-                android:id="@+id/tvClothingColor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Color"
-                android:textColor="@color/text_hint"
-                android:textSize="12sp"
-                android:layout_marginTop="2dp"/>
+                <TextView
+                    android:id="@+id/tvClothingCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Category"
+                    android:textColor="@color/primary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
+                    
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" • "
+                    android:textColor="@color/text_hint"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/tvClothingColor"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Color"
+                    android:textColor="@color/text_hint"
+                    android:textSize="14sp"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
