@@ -26,11 +26,7 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
     private Set<GeneratedOutfit> selectedOutfits = new HashSet<>();
     
     // Change if hosting backend elsewhere or using emulator 10.0.2.2
-<<<<<<< HEAD
-    private static final String BASE_IMAGE_URL = "http://192.168.1.6:5000/";
-=======
-    private static final String BASE_IMAGE_URL = "http://192.168.1.7:5000/";
->>>>>>> 3f8dbc9c79e08c41ea827a5cc98239423fbbd7b9
+    private static final String BASE_IMAGE_URL = "http://192.168.1.102:5000/";
 
     public OutfitAdapter(Context context, List<GeneratedOutfit> outfits) {
         this.context = context;
@@ -108,14 +104,6 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
             context.startActivity(intent);
         });
 
-<<<<<<< HEAD
-        holder.btnViewIn3D.setOnClickListener(v -> {
-            android.content.Intent intent = new android.content.Intent(context, VisualizationActivity.class);
-            com.google.gson.Gson gson = new com.google.gson.Gson();
-            intent.putExtra("outfit_json", gson.toJson(outfit));
-            context.startActivity(intent);
-        });
-=======
         holder.btnExplainOutfit.setOnClickListener(v -> {
             android.content.Intent intent = new android.content.Intent(context, OutfitExplanationActivity.class);
             com.google.gson.Gson gson = new com.google.gson.Gson();
@@ -139,7 +127,6 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
                 selectedOutfits.remove(outfit);
             }
         });
->>>>>>> 3f8dbc9c79e08c41ea827a5cc98239423fbbd7b9
     }
 
     @Override
@@ -152,12 +139,8 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
         TextView tvTopName, tvOuterwearName, tvBottomName, tvFootwearName;
         ImageView ivTop, ivOuterwear, ivBottom, ivFootwear;
         View layoutOuterwear;
-<<<<<<< HEAD
-        android.widget.Button btnRateOutfit, btnViewIn3D;
-=======
         android.widget.Button btnRateOutfit, btnExplainOutfit;
         CheckBox cbSelect;
->>>>>>> 3f8dbc9c79e08c41ea827a5cc98239423fbbd7b9
 
         public OutfitViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -173,12 +156,8 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
             ivFootwear = itemView.findViewById(R.id.ivFootwear);
             layoutOuterwear = itemView.findViewById(R.id.layoutOuterwear);
             btnRateOutfit = itemView.findViewById(R.id.btnRateOutfit);
-<<<<<<< HEAD
-            btnViewIn3D = itemView.findViewById(R.id.btnViewIn3D);
-=======
             btnExplainOutfit = itemView.findViewById(R.id.btnExplainOutfit);
             cbSelect = itemView.findViewById(R.id.cbSelect);
->>>>>>> 3f8dbc9c79e08c41ea827a5cc98239423fbbd7b9
         }
     }
 }

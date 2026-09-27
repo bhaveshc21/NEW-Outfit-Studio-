@@ -15,4 +15,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "OutfitStudio"
 include ':app'
-include ':unityLibrary'
