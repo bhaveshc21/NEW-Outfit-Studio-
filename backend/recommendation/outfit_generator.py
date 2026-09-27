@@ -8,6 +8,7 @@ class OutfitGenerator:
         self.wardrobe = wardrobe_items
         self.profile = profile
         self.tops = []
+        self.outerwear = []
         self.bottoms = []
         self.footwear = []
         self.accessories = []
@@ -24,7 +25,9 @@ class OutfitGenerator:
             cat = item.get('category', '').lower()
             if 'dress' in cat or 'bodycon' in cat or 'frock' in cat:
                 self.dresses.append(item)
-            elif 'shirt' in cat or 'top' in cat or 'jacket' in cat or 'blazer' in cat:
+            elif 'jacket' in cat or 'blazer' in cat or 'coat' in cat or 'cardigan' in cat or 'sweater' in cat:
+                self.outerwear.append(item)
+            elif 'shirt' in cat or 'top' in cat:
                 self.tops.append(item)
             elif 'jean' in cat or 'trouser' in cat or 'pant' in cat or 'bottom' in cat or 'short' in cat or 'skirt' in cat or 'legging' in cat:
                 self.bottoms.append(item)
@@ -55,7 +58,7 @@ class OutfitGenerator:
         for top in self.tops:
             for bottom in self.bottoms:
                 for shoe in self.footwear:
-                    score, reason, is_invalid = self._evaluate_combination(top, bottom, shoe, occasion, weather_data)
+                    score, reason, is_invalid = self._evaluate_combination(top, bottom, shoe, None, occasion, weather_data)
                     
                     if score >= 15 and not is_invalid:
                         outfit = {
@@ -72,10 +75,33 @@ class OutfitGenerator:
                         outfits.append(outfit)
                         outfit_id_counter += 1
 
+        # Generate Layered outfits
+        for top in self.tops:
+            for out in self.outerwear:
+                for bottom in self.bottoms:
+                    for shoe in self.footwear:
+                        score, reason, is_invalid = self._evaluate_combination(top, bottom, shoe, out, occasion, weather_data)
+                        
+                        if score >= 15 and not is_invalid:
+                            outfit = {
+                                "id": outfit_id_counter,
+                                "top": top,
+                                "outerwear": out,
+                                "bottom": bottom,
+                                "footwear": shoe,
+                                "accessories": [],
+                                "reason": reason,
+                                "recommendation_score": score
+                            }
+                            if self.accessories:
+                                outfit["accessories"].append(random.choice(self.accessories))
+                            outfits.append(outfit)
+                            outfit_id_counter += 1
+
         # Generate Dress outfits
         for dress in self.dresses:
             for shoe in self.footwear:
-                score, reason, is_invalid = self._evaluate_combination(dress, None, shoe, occasion, weather_data)
+                score, reason, is_invalid = self._evaluate_combination(dress, None, shoe, None, occasion, weather_data)
                 
                 if score >= 15 and not is_invalid:
                     outfit = {
@@ -111,14 +137,17 @@ class OutfitGenerator:
             }
         }
 
-    def _evaluate_combination(self, top, bottom, shoe, occasion=None, weather_data=None):
+    def _evaluate_combination(self, top, bottom, shoe, outerwear=None, occasion=None, weather_data=None):
         is_invalid = False
         
         # Determine items list
         items = [top, shoe]
+        if outerwear:
+            items.append(outerwear)
+            
         if bottom:
             items.append(bottom)
-            color_score_raw = calculate_outfit_color_score(top.get('color'), bottom.get('color'), shoe.get('color'))
+            color_score_raw = calculate_outfit_color_score(top.get('color'), bottom.get('color'), shoe.get('color'), outerwear.get('color') if outerwear else None)
         else:
             # If dress, just evaluate top and shoe color harmony
             color_score_raw = calculate_outfit_color_score(top.get('color'), top.get('color'), shoe.get('color'))
@@ -145,13 +174,20 @@ class OutfitGenerator:
         top_cat = top.get('category', '').lower()
         bot_cat = bottom.get('category', '').lower() if bottom else ""
         shoe_cat = shoe.get('category', '').lower()
+        out_cat = outerwear.get('category', '').lower() if outerwear else ""
         
         comb_penalty = 0.0
-        if bottom and ('formal' in top_cat or 'suit' in top_cat) and ('short' in bot_cat or 'sweat' in bot_cat or 'jean' in bot_cat):
+        
+        top_is_formal = 'formal' in top_cat or 'suit' in top_cat or 'shirt' in top_cat
+        if out_cat:
+            if 'blazer' in out_cat or 'suit' in out_cat or 'formal' in out_cat:
+                top_is_formal = True
+                
+        if bottom and top_is_formal and ('short' in bot_cat or 'sweat' in bot_cat or 'jean' in bot_cat):
             comb_penalty += 30.0
-        if ('formal' in top_cat or 'formal' in bot_cat) and ('sneaker' in shoe_cat or 'sport' in shoe_cat):
+        if (top_is_formal or 'formal' in bot_cat) and ('sneaker' in shoe_cat or 'sport' in shoe_cat):
             comb_penalty += 20.0
-        if ('t-shirt' in top_cat or 'sport' in top_cat or 'casual' in top_cat) and ('formal' in shoe_cat):
+        if ('t-shirt' in top_cat or 'sport' in top_cat or 'casual' in top_cat) and ('formal' in shoe_cat) and not out_cat:
             comb_penalty += 25.0
             
         # Weighting: 40% Color, 30% Occasion, 30% Weather
@@ -168,8 +204,9 @@ class OutfitGenerator:
         t_id = top.get('id', 0) or 0
         b_id = bottom.get('id', 0) or 0 if bottom else 0
         s_id = shoe.get('id', 0) or 0
+        o_id = outerwear.get('id', 0) or 0 if outerwear else 0
         # A visible deterministic bump between 0.0 and 0.9
-        tie_breaker = ((t_id * 7) + (b_id * 13) + (s_id * 17)) % 10 / 10.0
+        tie_breaker = ((t_id * 7) + (b_id * 13) + (s_id * 17) + (o_id * 19)) % 10 / 10.0
         
         score = round(max(0.0, min(99.0, score)), 0) # Base integer out of 99
         score += tie_breaker

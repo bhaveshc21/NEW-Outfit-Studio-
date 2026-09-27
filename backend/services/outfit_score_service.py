@@ -12,7 +12,8 @@ class OutfitScoreService:
         outfit_request: {
             "outfit": {
                 "top_id": 1,
-                "bottom_id": 2,
+                "outerwear_id": 5, # optional
+                "bottom_id": 2, # optional if dress
                 "footwear_id": 3,
                 "accessory_ids": [4]
             },
@@ -26,17 +27,21 @@ class OutfitScoreService:
         try:
             outfit_data = outfit_request.get("outfit", {})
             top_id = outfit_data.get("top_id")
+            outerwear_id = outfit_data.get("outerwear_id")
             bottom_id = outfit_data.get("bottom_id")
             footwear_id = outfit_data.get("footwear_id")
             accessory_ids = outfit_data.get("accessory_ids", [])
 
-            if not top_id or not bottom_id or not footwear_id:
-                return {"success": False, "message": "A valid outfit with at least a top, bottom and footwear is required."}
+            if not top_id or not footwear_id:
+                return {"success": False, "message": "A valid outfit with at least a top/dress and footwear is required."}
 
             cursor = self.db.cursor(dictionary=True)
 
             # Fetch all required items and verify ownership
-            item_ids = [top_id, bottom_id, footwear_id] + accessory_ids
+            item_ids = [top_id, footwear_id] + accessory_ids
+            if bottom_id: item_ids.append(bottom_id)
+            if outerwear_id: item_ids.append(outerwear_id)
+            
             format_strings = ','.join(['%s'] * len(item_ids))
             
             query = f"SELECT * FROM wardrobe_items WHERE id IN ({format_strings}) AND user_id = %s"
@@ -50,7 +55,8 @@ class OutfitScoreService:
             item_map = {item['id']: item for item in items}
             current_outfit = {
                 "top": item_map.get(top_id),
-                "bottom": item_map.get(bottom_id),
+                "outerwear": item_map.get(outerwear_id) if outerwear_id else None,
+                "bottom": item_map.get(bottom_id) if bottom_id else None,
                 "footwear": item_map.get(footwear_id),
                 "accessories": [item_map.get(acc_id) for acc_id in accessory_ids if acc_id in item_map]
             }
@@ -93,7 +99,8 @@ class OutfitScoreService:
                 best_gen_eval = evaluate_outfit(
                     {
                         "top": best_generated["top"],
-                        "bottom": best_generated["bottom"],
+                        "outerwear": best_generated.get("outerwear"),
+                        "bottom": best_generated.get("bottom"),
                         "footwear": best_generated["footwear"],
                         "accessories": best_generated.get("accessories", [])
                     },
@@ -105,7 +112,8 @@ class OutfitScoreService:
                     improved_score = best_gen_eval["fashion_score"]
                     improved_outfit = {
                         "top": best_generated["top"],
-                        "bottom": best_generated["bottom"],
+                        "outerwear": best_generated.get("outerwear"),
+                        "bottom": best_generated.get("bottom"),
                         "footwear": best_generated["footwear"],
                         "accessories": best_generated.get("accessories", [])
                     }

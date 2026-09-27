@@ -96,13 +96,20 @@ def color_pair_score(color1, color2):
         
     return 30.0  # Clashing colors
 
-def calculate_outfit_color_score(top_color, bottom_color, footwear_color):
+def calculate_outfit_color_score(top_color, bottom_color, footwear_color, outerwear_color=None):
     """
     Calculate a basic color harmony score out of 100.
     """
-    tb_score = color_pair_score(top_color, bottom_color)
-    bf_score = color_pair_score(bottom_color, footwear_color)
-    tf_score = color_pair_score(top_color, footwear_color)
-    
-    # Weights: Top/Bottom is most important (50%), Bottom/Footwear (30%), Top/Footwear (20%)
-    return (tb_score * 0.5) + (bf_score * 0.3) + (tf_score * 0.2)
+    if outerwear_color:
+        io_score = color_pair_score(top_color, outerwear_color)
+        ob_score = color_pair_score(outerwear_color, bottom_color)
+        ib_score = color_pair_score(top_color, bottom_color)
+        bf_score = color_pair_score(bottom_color, footwear_color)
+        of_score = color_pair_score(outerwear_color, footwear_color)
+        return (io_score * 0.25) + (ob_score * 0.3) + (ib_score * 0.15) + (bf_score * 0.2) + (of_score * 0.1)
+    else:
+        tb_score = color_pair_score(top_color, bottom_color)
+        bf_score = color_pair_score(bottom_color, footwear_color)
+        tf_score = color_pair_score(top_color, footwear_color)
+        # Weights: Top/Bottom is most important (50%), Bottom/Footwear (30%), Top/Footwear (20%)
+        return (tb_score * 0.5) + (bf_score * 0.3) + (tf_score * 0.2)
