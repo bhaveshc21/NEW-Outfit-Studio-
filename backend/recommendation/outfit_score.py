@@ -17,16 +17,22 @@ def evaluate_outfit(outfit, occasion=None, weather_data=None):
     top = outfit.get("top")
     bottom = outfit.get("bottom")
     footwear = outfit.get("footwear")
+    outerwear = outfit.get("outerwear")
     accessories = outfit.get("accessories", [])
 
-    if not top or not bottom or not footwear:
+    if not top or not footwear:
         return {
             "success": False,
-            "message": "A complete outfit must have a top, bottom, and footwear."
+            "message": "A complete outfit must have at least a top/dress and footwear."
         }
 
     # 1. Color Coordination (0-25)
-    color_raw = calculate_outfit_color_score(top.get('color'), bottom.get('color'), footwear.get('color'))
+    color_raw = calculate_outfit_color_score(
+        top.get('color'),
+        bottom.get('color') if bottom else top.get('color'),
+        footwear.get('color'),
+        outerwear.get('color') if outerwear else None
+    )
     color_score = min(25.0, (color_raw / 100.0) * 25.0) if color_raw > 0 else 0.0
     
     if color_score >= 15:
@@ -54,14 +60,24 @@ def evaluate_outfit(outfit, occasion=None, weather_data=None):
     # 2. Occasion Suitability (0-25)
     if occasion:
         top_occ_raw, top_occ_inv = get_occasion_score(top, occasion)
-        bot_occ_raw, bot_occ_inv = get_occasion_score(bottom, occasion)
+        bot_occ_raw, bot_occ_inv = get_occasion_score(bottom, occasion) if bottom else (50, False)
         shoe_occ_raw, shoe_occ_inv = get_occasion_score(footwear, occasion)
         
-        occ_avg = (top_occ_raw + bot_occ_raw + shoe_occ_raw) / 3.0
+        items_count = 3 if bottom else 2
+        occ_total = top_occ_raw + bot_occ_raw + shoe_occ_raw
+        is_inv = top_occ_inv or bot_occ_inv or shoe_occ_inv
+        
+        if outerwear:
+            out_occ_raw, out_occ_inv = get_occasion_score(outerwear, occasion)
+            occ_total += out_occ_raw
+            is_inv = is_inv or out_occ_inv
+            items_count += 1
+            
+        occ_avg = occ_total / items_count
         # get_occasion_score is 0-100. Scale to 25.
         occ_score = min(25.0, (occ_avg / 100.0) * 25.0)
         
-        if top_occ_inv or bot_occ_inv or shoe_occ_inv:
+        if is_inv:
             occ_score = max(0, occ_score - 10) # Heavy penalty
             
         if occ_score >= 15:
@@ -94,13 +110,23 @@ def evaluate_outfit(outfit, occasion=None, weather_data=None):
     # 3. Weather Suitability (0-25)
     if weather_data:
         top_wea_raw, top_wea_inv = get_weather_score(top, weather_data)
-        bot_wea_raw, bot_wea_inv = get_weather_score(bottom, weather_data)
+        bot_wea_raw, bot_wea_inv = get_weather_score(bottom, weather_data) if bottom else (50, False)
         shoe_wea_raw, shoe_wea_inv = get_weather_score(footwear, weather_data)
         
-        wea_avg = (top_wea_raw + bot_wea_raw + shoe_wea_raw) / 3.0
+        items_count = 3 if bottom else 2
+        wea_total = top_wea_raw + bot_wea_raw + shoe_wea_raw
+        is_inv = top_wea_inv or bot_wea_inv or shoe_wea_inv
+        
+        if outerwear:
+            out_wea_raw, out_wea_inv = get_weather_score(outerwear, weather_data)
+            wea_total += out_wea_raw
+            is_inv = is_inv or out_wea_inv
+            items_count += 1
+            
+        wea_avg = wea_total / items_count
         wea_score = min(25.0, (wea_avg / 100.0) * 25.0)
         
-        if top_wea_inv or bot_wea_inv or shoe_wea_inv:
+        if is_inv:
             wea_score = max(0, wea_score - 10)
             
         if wea_score >= 15:
@@ -135,12 +161,20 @@ def evaluate_outfit(outfit, occasion=None, weather_data=None):
     
     # Combine category and name for a wider keyword search
     top_str = (top.get('category', '') + ' ' + top.get('name', '')).lower()
-    bot_str = (bottom.get('category', '') + ' ' + bottom.get('name', '')).lower()
+    bot_str = (bottom.get('category', '') + ' ' + bottom.get('name', '')).lower() if bottom else ""
     shoe_str = (footwear.get('category', '') + ' ' + footwear.get('name', '')).lower()
+    out_str = (outerwear.get('category', '') + ' ' + outerwear.get('name', '')).lower() if outerwear else ""
     
     # Check styles
     top_is_formal = 'formal' in top_str or 'suit' in top_str or ('shirt' in top_str and 't-shirt' not in top_str)
     top_is_casual = 't-shirt' in top_str or 'sport' in top_str or 'casual' in top_str or 'hood' in top_str or 'jacket' in top_str
+    
+    if out_str:
+        if 'blazer' in out_str or 'suit' in out_str or 'formal' in out_str:
+            top_is_formal = True
+        if 'denim' in out_str or 'sport' in out_str or 'casual' in out_str:
+            top_is_casual = True
+            
     bot_is_formal = 'formal' in bot_str or 'trouser' in bot_str or 'pant' in bot_str
     bot_is_casual = 'jean' in bot_str or 'short' in bot_str or 'sweat' in bot_str or 'cargo' in bot_str
     shoe_is_formal = 'formal' in shoe_str or 'leather' in shoe_str or 'oxford' in shoe_str or 'derby' in shoe_str

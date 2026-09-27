@@ -34,21 +34,26 @@ public class FashionScoreRequest {
         @SerializedName("bottom_id")
         private Integer bottomId;
 
+        @SerializedName("outerwear_id")
+        private Integer outerwearId;
+
         @SerializedName("footwear_id")
         private Integer footwearId;
 
         @SerializedName("accessory_ids")
         private List<Integer> accessoryIds;
 
-        public OutfitIds(Integer topId, Integer bottomId, Integer footwearId, List<Integer> accessoryIds) {
+        public OutfitIds(Integer topId, Integer bottomId, Integer outerwearId, Integer footwearId, List<Integer> accessoryIds) {
             this.topId = topId;
             this.bottomId = bottomId;
+            this.outerwearId = outerwearId;
             this.footwearId = footwearId;
             this.accessoryIds = accessoryIds;
         }
 
         public Integer getTopId() { return topId; }
         public Integer getBottomId() { return bottomId; }
+        public Integer getOuterwearId() { return outerwearId; }
         public Integer getFootwearId() { return footwearId; }
         public List<Integer> getAccessoryIds() { return accessoryIds; }
     }

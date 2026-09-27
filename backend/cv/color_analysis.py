@@ -31,11 +31,12 @@ def detect_dominant_color(image_path):
     # Define criteria, number of clusters(K) and apply kmeans()
     # criteria = (type, max_iter, epsilon)
     criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1.0)
-    K = 1
+    K = 3
     _, labels, centers = cv2.kmeans(pixels, K, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
     
     # Get the dominant color
-    dominant_color = np.uint8(centers)[0]
+    counts = np.bincount(labels.flatten())
+    dominant_color = np.uint8(centers)[np.argmax(counts)]
     
     # Convert to standard color name
     return rgb_to_color_name(dominant_color)
@@ -53,7 +54,7 @@ def rgb_to_color_name(rgb):
     v = v * 100
     
     # Grayscale/Black/White check
-    if v < 20:
+    if v < 25:
         return "Black"
     if v > 80 and s < 15:
         return "White"

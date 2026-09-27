@@ -51,6 +51,18 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
                  .into(holder.ivTop);
         }
         
+        if (outfit.getOuterwear() != null && outfit.getOuterwear().getImagePath() != null) {
+            holder.layoutOuterwear.setVisibility(View.VISIBLE);
+            holder.tvOuterwearName.setText(outfit.getOuterwear().getName());
+            String outPath = outfit.getOuterwear().getImagePath().replace("\\", "/");
+            Glide.with(context)
+                 .load(BASE_IMAGE_URL + outPath)
+                 .centerCrop()
+                 .into(holder.ivOuterwear);
+        } else {
+            holder.layoutOuterwear.setVisibility(View.GONE);
+        }
+        
         if (outfit.getBottom() != null && outfit.getBottom().getImagePath() != null) {
             holder.tvBottomName.setText(outfit.getBottom().getName());
             String bottomPath = outfit.getBottom().getImagePath().replace("\\", "/");
@@ -91,8 +103,9 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
 
     public static class OutfitViewHolder extends RecyclerView.ViewHolder {
         TextView tvScore, tvReason;
-        TextView tvTopName, tvBottomName, tvFootwearName;
-        ImageView ivTop, ivBottom, ivFootwear;
+        TextView tvTopName, tvOuterwearName, tvBottomName, tvFootwearName;
+        ImageView ivTop, ivOuterwear, ivBottom, ivFootwear;
+        View layoutOuterwear;
         android.widget.Button btnRateOutfit;
 
         public OutfitViewHolder(@NonNull View itemView) {
@@ -100,11 +113,14 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
             tvScore = itemView.findViewById(R.id.tvScore);
             tvReason = itemView.findViewById(R.id.tvReason);
             tvTopName = itemView.findViewById(R.id.tvTopName);
+            tvOuterwearName = itemView.findViewById(R.id.tvOuterwearName);
             tvBottomName = itemView.findViewById(R.id.tvBottomName);
             tvFootwearName = itemView.findViewById(R.id.tvFootwearName);
             ivTop = itemView.findViewById(R.id.ivTop);
+            ivOuterwear = itemView.findViewById(R.id.ivOuterwear);
             ivBottom = itemView.findViewById(R.id.ivBottom);
             ivFootwear = itemView.findViewById(R.id.ivFootwear);
+            layoutOuterwear = itemView.findViewById(R.id.layoutOuterwear);
             btnRateOutfit = itemView.findViewById(R.id.btnRateOutfit);
         }
     }

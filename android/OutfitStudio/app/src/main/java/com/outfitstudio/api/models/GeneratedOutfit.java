@@ -10,6 +10,9 @@ public class GeneratedOutfit {
     @SerializedName("top")
     private WardrobeItem top;
 
+    @SerializedName("outerwear")
+    private WardrobeItem outerwear;
+
     @SerializedName("bottom")
     private WardrobeItem bottom;
 
@@ -27,6 +30,7 @@ public class GeneratedOutfit {
 
     public int getId() { return id; }
     public WardrobeItem getTop() { return top; }
+    public WardrobeItem getOuterwear() { return outerwear; }
     public WardrobeItem getBottom() { return bottom; }
     public WardrobeItem getFootwear() { return footwear; }
     public List<WardrobeItem> getAccessories() { return accessories; }
