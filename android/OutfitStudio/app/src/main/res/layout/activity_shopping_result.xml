@@ -18,7 +18,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Analysis Result"
+                android:text="Purchase Utility Analysis"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColor="@color/on_background"
@@ -26,48 +26,202 @@
                 android:padding="16dp"
                 android:fontFamily="serif"/>
                 
-            <!-- Result Summary Card -->
+            <!-- Candidate Item Card -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@drawable/rounded_card_bg"
-                android:layout_margin="16dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="16dp"
                 android:padding="16dp"
                 android:gravity="center">
 
-                <TextView
-                    android:id="@+id/tvCompatibilityScore"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="90%"
-                    android:textSize="48sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/primary" />
-                    
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Compatibility Score"
-                    android:textSize="14sp"
-                    android:textColor="@color/text_hint"
-                    android:layout_marginBottom="16dp"/>
+                <ImageView
+                    android:id="@+id/ivCandidateItem"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:scaleType="centerCrop"
+                    android:layout_marginBottom="8dp"/>
 
                 <TextView
-                    android:id="@+id/tvVerdict"
+                    android:id="@+id/tvCandidateCategory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Must Buy! Matches perfectly with your wardrobe."
+                    android:text="Top"
                     android:textSize="18sp"
-                    android:textColor="@color/on_surface"
                     android:textStyle="bold"
-                    android:textAlignment="center"/>
+                    android:textColor="@color/on_surface" />
+                    
+                <TextView
+                    android:id="@+id/tvCandidateColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="White"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_hint" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Outfit Ideas Using This Item"
+                android:text="WHY THIS ITEM MAY BE USEFUL"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"/>
+                
+            <TextView
+                android:id="@+id/tvWhyUseful"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/on_background"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DDDDDD"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="WARDROBE COMPATIBILITY"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"/>
+                
+            <TextView
+                android:id="@+id/tvCompatibilitySummary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/on_background"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"/>
+                
+            <TextView
+                android:id="@+id/tvCategorySupport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/on_background"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DDDDDD"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="OUTFIT UTILITY"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"/>
+                
+            <TextView
+                android:id="@+id/tvOutfitUtility"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/on_background"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DDDDDD"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="OCCASION USEFULNESS"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"/>
+                
+            <TextView
+                android:id="@+id/tvOccasionUsefulness"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/on_background"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DDDDDD"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:id="@+id/tvWardrobeGapHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="WARDROBE GAP"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:visibility="gone"/>
+                
+            <TextView
+                android:id="@+id/tvWardrobeGap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/on_background"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone"/>
+
+            <View
+                android:id="@+id/vWardrobeGapDivider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DDDDDD"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="EXAMPLE OUTFITS"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/on_background"

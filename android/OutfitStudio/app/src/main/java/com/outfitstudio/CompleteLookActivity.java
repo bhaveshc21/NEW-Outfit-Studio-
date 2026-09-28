@@ -34,7 +34,7 @@ public class CompleteLookActivity extends AppCompatActivity {
     private int lockedItemId;
     private OutfitApiService apiService;
     
-    private static final String BASE_IMAGE_URL = "http://192.168.1.6:5000/";
+    private static final String BASE_IMAGE_URL = "http://10.99.93.254:5000/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -52,13 +52,7 @@ public class ClosetStatisticsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_closet_statistics);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-        toolbar.setNavigationOnClickListener(v -> finish());
+        // Custom header handles layout
 
         progressBar = findViewById(R.id.progressBar);
         tvLoadingText = findViewById(R.id.tvLoadingText);
@@ -211,7 +205,8 @@ public class ClosetStatisticsActivity extends AppCompatActivity {
         // Label
         TextView tvLabel = new TextView(this);
         tvLabel.setText(name + "  (" + count + ")");
-        tvLabel.setTextColor(Color.parseColor("#424242"));
+        tvLabel.setTextColor(Color.parseColor("#3E3C3A")); // on_background
+        tvLabel.setTypeface(null, android.graphics.Typeface.BOLD);
         tvLabel.setTextSize(14f);
         tvLabel.setPadding(0, 16, 0, 4);
 
@@ -220,12 +215,13 @@ public class ClosetStatisticsActivity extends AppCompatActivity {
         barContainer.setOrientation(LinearLayout.HORIZONTAL);
         barContainer.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                40 // Height of bar in px
+                30 // Height of bar in px, thinner
         ));
 
         // The colored bar part (weight = percentage)
         View filledBar = new View(this);
-        filledBar.setBackgroundColor(Color.parseColor("#3f51b5")); // primary color
+        filledBar.setBackgroundResource(R.drawable.bg_button_rounded); // Use rounded background if possible
+        filledBar.setBackgroundTintList(android.content.res.ColorStateList.valueOf(Color.parseColor("#E5C0A4"))); // primary
         LinearLayout.LayoutParams filledParams = new LinearLayout.LayoutParams(
                 0, LinearLayout.LayoutParams.MATCH_PARENT, (float) percentage
         );
@@ -233,10 +229,13 @@ public class ClosetStatisticsActivity extends AppCompatActivity {
 
         // The empty part (weight = 100 - percentage)
         View emptyBar = new View(this);
-        emptyBar.setBackgroundColor(Color.parseColor("#E0E0E0"));
+        emptyBar.setBackgroundResource(R.drawable.bg_button_rounded);
+        emptyBar.setBackgroundTintList(android.content.res.ColorStateList.valueOf(Color.parseColor("#F4EFEA"))); // secondary_variant
         LinearLayout.LayoutParams emptyParams = new LinearLayout.LayoutParams(
                 0, LinearLayout.LayoutParams.MATCH_PARENT, (float) (100.0 - percentage)
         );
+        // Add a tiny margin to the empty bar so it separates from the filled bar
+        emptyParams.setMarginStart(4);
         emptyBar.setLayoutParams(emptyParams);
 
         barContainer.addView(filledBar);

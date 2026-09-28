@@ -22,12 +22,13 @@ def generate_plan(current_user_id):
     data = request.get_json()
     start_date = data.get('start_date')
     location = data.get('location', 'Pune')
+    occasion = data.get('occasion')
     
     if not start_date:
         return jsonify({'success': False, 'message': 'start_date is required.'}), 400
         
     db = get_db()
-    result = planner_service.generate_weekly_plan(db, current_user_id, start_date, location)
+    result = planner_service.generate_weekly_plan(db, current_user_id, start_date, location, occasion)
     db.close()
     
     return jsonify(result)
@@ -57,9 +58,10 @@ def toggle_lock(current_user_id, date):
 def regenerate_day(current_user_id, date):
     data = request.get_json()
     location = data.get('location', 'Pune')
+    occasion = data.get('occasion')
     
     db = get_db()
-    result = planner_service.regenerate_day(db, current_user_id, date, location)
+    result = planner_service.regenerate_day(db, current_user_id, date, location, occasion)
     db.close()
     
     return jsonify(result)

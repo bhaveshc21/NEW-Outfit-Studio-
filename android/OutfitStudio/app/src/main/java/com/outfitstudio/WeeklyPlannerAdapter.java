@@ -22,10 +22,10 @@ public class WeeklyPlannerAdapter extends RecyclerView.Adapter<WeeklyPlannerAdap
     private Context context;
     private List<PlannedDay> days;
     private PlannerActionCallback callback;
-    private static final String BASE_IMAGE_URL = "http://192.168.1.6:5000/";
+    private static final String BASE_IMAGE_URL = "http://10.99.93.254:5000/";
 
     public interface PlannerActionCallback {
-        void onRegenerate(String date, int position);
+        void onRegenerate(String date, String occasion, int position);
         void onToggleLock(String date, boolean currentLockState, int position);
     }
 
@@ -46,7 +46,33 @@ public class WeeklyPlannerAdapter extends RecyclerView.Adapter<WeeklyPlannerAdap
         PlannedDay day = days.get(position);
         
         holder.tvDate.setText(day.getDay() + " " + day.getDate());
-        holder.tvOccasion.setText(day.getOccasion());
+        
+        String[] occasions = {"Casual", "College", "Office", "Interview", "Party", "Wedding", "Travel"};
+        android.widget.ArrayAdapter<String> occAdapter = new android.widget.ArrayAdapter<>(context, android.R.layout.simple_spinner_item, occasions);
+        occAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        holder.spinnerOccasion.setAdapter(occAdapter);
+        
+        // Find position of current occasion
+        int occPos = 0;
+        for (int i = 0; i < occasions.length; i++) {
+            if (occasions[i].equalsIgnoreCase(day.getOccasion())) {
+                occPos = i;
+                break;
+            }
+        }
+        holder.spinnerOccasion.setSelection(occPos, false); // false to avoid triggering listener immediately
+        
+        holder.spinnerOccasion.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(android.widget.AdapterView<?> parent, View view, int pos, long id) {
+                String newOccasion = occasions[pos];
+                if (!newOccasion.equalsIgnoreCase(day.getOccasion()) && callback != null) {
+                    callback.onRegenerate(day.getDate(), newOccasion, position);
+                }
+            }
+            @Override
+            public void onNothingSelected(android.widget.AdapterView<?> parent) {}
+        });
         
         if (day.getWeather() != null) {
             holder.tvWeatherTemp.setText(day.getWeather().getTemperature() + "°C");
@@ -83,7 +109,8 @@ public class WeeklyPlannerAdapter extends RecyclerView.Adapter<WeeklyPlannerAdap
         }
         
         holder.btnRegenerate.setOnClickListener(v -> {
-            if (callback != null) callback.onRegenerate(day.getDate(), position);
+            String selectedOccasion = holder.spinnerOccasion.getSelectedItem().toString();
+            if (callback != null) callback.onRegenerate(day.getDate(), selectedOccasion, position);
         });
         
         holder.btnLock.setOnClickListener(v -> {
@@ -122,7 +149,8 @@ public class WeeklyPlannerAdapter extends RecyclerView.Adapter<WeeklyPlannerAdap
     }
 
     public static class PlannerViewHolder extends RecyclerView.ViewHolder {
-        TextView tvDate, tvOccasion, tvWeatherTemp, tvWeatherCond, tvEmptyState, tvScore;
+        TextView tvDate, tvWeatherTemp, tvWeatherCond, tvEmptyState, tvScore;
+        android.widget.Spinner spinnerOccasion;
         LinearLayout llOutfitContainer;
         ImageView ivTop, ivBottom, ivOuterwear, ivFootwear;
         Button btnRegenerate, btnLock, btnWhy;
@@ -130,7 +158,7 @@ public class WeeklyPlannerAdapter extends RecyclerView.Adapter<WeeklyPlannerAdap
         public PlannerViewHolder(View itemView) {
             super(itemView);
             tvDate = itemView.findViewById(R.id.tvDate);
-            tvOccasion = itemView.findViewById(R.id.tvOccasion);
+            spinnerOccasion = itemView.findViewById(R.id.spinnerOccasion);
             tvWeatherTemp = itemView.findViewById(R.id.tvWeatherTemp);
             tvWeatherCond = itemView.findViewById(R.id.tvWeatherCond);
             tvEmptyState = itemView.findViewById(R.id.tvEmptyState);

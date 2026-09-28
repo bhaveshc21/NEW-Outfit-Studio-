@@ -17,7 +17,7 @@ def get_occasion_score(item, occasion):
         return 50, False  # Neutral score if no occasion provided
         
     occasion = occasion.lower()
-    cat = item.get('category', '').lower()
+    cat = (item.get('category', '') + ' ' + item.get('subCategory', '') + ' ' + item.get('name', '')).lower()
     
     score = 50
     is_invalid = False
@@ -81,7 +81,7 @@ def get_missing_occasion_categories(wardrobe_items, occasion):
         return []
         
     occasion = occasion.lower()
-    categories = [item.get('category', '').lower() for item in wardrobe_items]
+    categories = [(item.get('category', '') + ' ' + item.get('subCategory', '') + ' ' + item.get('name', '')).lower() for item in wardrobe_items]
     
     missing = []
     
