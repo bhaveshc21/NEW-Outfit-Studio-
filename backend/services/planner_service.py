@@ -39,7 +39,7 @@ class PlannerService:
             
         return "Casual", "default"
 
-    def generate_weekly_plan(self, db_conn, user_id, start_date_str, location):
+    def generate_weekly_plan(self, db_conn, user_id, start_date_str, location, requested_occasion=None):
         try:
             start_date = datetime.strptime(start_date_str, "%Y-%m-%d").date()
             dates = [start_date + timedelta(days=i) for i in range(7)]
@@ -78,7 +78,11 @@ class PlannerService:
             
             for d in dates:
                 d_str = d.strftime('%Y-%m-%d')
-                occasion, occasion_source = self.resolve_occasion(cursor, user_id, d)
+                if requested_occasion:
+                    occasion = requested_occasion
+                    occasion_source = "user_input"
+                else:
+                    occasion, occasion_source = self.resolve_occasion(cursor, user_id, d)
                 
                 weather = weekly_weather.get(d_str) if weekly_weather else None
                 if not weather:
@@ -194,7 +198,7 @@ class PlannerService:
             traceback.print_exc()
             return {"success": False, "message": str(e)}
 
-    def regenerate_day(self, db_conn, user_id, date_str, location):
+    def regenerate_day(self, db_conn, user_id, date_str, location, requested_occasion=None):
         # Regenerates a single day's outfit
         try:
             d = datetime.strptime(date_str, "%Y-%m-%d").date()
@@ -209,7 +213,11 @@ class PlannerService:
             weekly_weather = self.weather_service.get_weekly_weather(location)
             weather = weekly_weather.get(date_str) if weekly_weather else {"temperature": 25, "condition": "Clear", "location": location}
             
-            occasion, occasion_source = self.resolve_occasion(cursor, user_id, d)
+            if requested_occasion:
+                occasion = requested_occasion
+                occasion_source = "user_input"
+            else:
+                occasion, occasion_source = self.resolve_occasion(cursor, user_id, d)
             
             # Fetch used items this week (excluding the current day if unlocked)
             # Find the week start (Monday)

@@ -9,6 +9,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.google.gson.JsonObject;
 import com.outfitstudio.api.ApiClient;
@@ -45,11 +47,12 @@ public class WeeklyPlannerActivity extends AppCompatActivity implements WeeklyPl
 
         ivBack = findViewById(R.id.ivBack);
         tvWeekRange = findViewById(R.id.tvWeekRange);
+        // Removed global occasion spinner
         progressBar = findViewById(R.id.progressBar);
         rvPlanner = findViewById(R.id.rvPlanner);
-
+        
         rvPlanner.setLayoutManager(new LinearLayoutManager(this));
-
+        
         ivBack.setOnClickListener(v -> finish());
 
         apiService = ApiClient.getClient(this).create(PlannerApiService.class);
@@ -100,10 +103,11 @@ public class WeeklyPlannerActivity extends AppCompatActivity implements WeeklyPl
     }
 
     @Override
-    public void onRegenerate(String date, int position) {
+    public void onRegenerate(String date, String occasion, int position) {
         progressBar.setVisibility(View.VISIBLE);
         JsonObject body = new JsonObject();
         body.addProperty("location", "Pune");
+        body.addProperty("occasion", occasion);
         
         apiService.regenerateDay(date, body).enqueue(new Callback<PlannedDayResponse>() {
             @Override

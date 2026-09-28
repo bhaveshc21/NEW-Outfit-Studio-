@@ -60,25 +60,29 @@ def evaluate_outfit(outfit, occasion=None, weather_data=None):
     # 2. Occasion Suitability (0-25)
     if occasion:
         top_occ_raw, top_occ_inv = get_occasion_score(top, occasion)
-        bot_occ_raw, bot_occ_inv = get_occasion_score(bottom, occasion) if bottom else (50, False)
         shoe_occ_raw, shoe_occ_inv = get_occasion_score(footwear, occasion)
         
-        items_count = 3 if bottom else 2
-        occ_total = top_occ_raw + bot_occ_raw + shoe_occ_raw
-        is_inv = top_occ_inv or bot_occ_inv or shoe_occ_inv
+        if bottom:
+            bot_occ_raw, bot_occ_inv = get_occasion_score(bottom, occasion)
+            occ_total = top_occ_raw + bot_occ_raw + shoe_occ_raw
+            is_occ_inv = top_occ_inv or bot_occ_inv or shoe_occ_inv
+            items_count = 3
+        else:
+            occ_total = top_occ_raw + shoe_occ_raw
+            is_occ_inv = top_occ_inv or shoe_occ_inv
+            items_count = 2
         
         if outerwear:
             out_occ_raw, out_occ_inv = get_occasion_score(outerwear, occasion)
             occ_total += out_occ_raw
-            is_inv = is_inv or out_occ_inv
+            is_occ_inv = is_occ_inv or out_occ_inv
             items_count += 1
             
         occ_avg = occ_total / items_count
-        # get_occasion_score is 0-100. Scale to 25.
         occ_score = min(25.0, (occ_avg / 100.0) * 25.0)
         
-        if is_inv:
-            occ_score = max(0, occ_score - 10) # Heavy penalty
+        if is_occ_inv:
+            occ_score = 0 # Drop occasion score to 0 for invalid choices
             
         if occ_score >= 15:
             occ_status = "PASS"
@@ -94,6 +98,7 @@ def evaluate_outfit(outfit, occasion=None, weather_data=None):
             occ_reason = f"This outfit is not well-suited for {occasion}."
             suggestions.append(f"Choose more appropriate clothing for {occasion}.")
     else:
+        is_occ_inv = False
         occ_score = 25.0 # Neutral
         occ_status = "PASS"
         occ_label = "N/A"
@@ -110,24 +115,29 @@ def evaluate_outfit(outfit, occasion=None, weather_data=None):
     # 3. Weather Suitability (0-25)
     if weather_data:
         top_wea_raw, top_wea_inv = get_weather_score(top, weather_data)
-        bot_wea_raw, bot_wea_inv = get_weather_score(bottom, weather_data) if bottom else (50, False)
         shoe_wea_raw, shoe_wea_inv = get_weather_score(footwear, weather_data)
         
-        items_count = 3 if bottom else 2
-        wea_total = top_wea_raw + bot_wea_raw + shoe_wea_raw
-        is_inv = top_wea_inv or bot_wea_inv or shoe_wea_inv
+        if bottom:
+            bot_wea_raw, bot_wea_inv = get_weather_score(bottom, weather_data)
+            wea_total = top_wea_raw + bot_wea_raw + shoe_wea_raw
+            is_wea_inv = top_wea_inv or bot_wea_inv or shoe_wea_inv
+            items_count = 3
+        else:
+            wea_total = top_wea_raw + shoe_wea_raw
+            is_wea_inv = top_wea_inv or shoe_wea_inv
+            items_count = 2
         
         if outerwear:
             out_wea_raw, out_wea_inv = get_weather_score(outerwear, weather_data)
             wea_total += out_wea_raw
-            is_inv = is_inv or out_wea_inv
+            is_wea_inv = is_wea_inv or out_wea_inv
             items_count += 1
             
         wea_avg = wea_total / items_count
         wea_score = min(25.0, (wea_avg / 100.0) * 25.0)
         
-        if is_inv:
-            wea_score = max(0, wea_score - 10)
+        if is_wea_inv:
+            wea_score = 0
             
         if wea_score >= 15:
             wea_status = "PASS"
@@ -143,6 +153,7 @@ def evaluate_outfit(outfit, occasion=None, weather_data=None):
             wea_reason = "The outfit is not ideal for the current weather."
             suggestions.append("Replace items with more weather-appropriate clothing.")
     else:
+        is_wea_inv = False
         wea_score = 25.0 # Neutral
         wea_status = "PASS"
         wea_label = "N/A"
@@ -227,6 +238,19 @@ def evaluate_outfit(outfit, occasion=None, weather_data=None):
 
     # Final Score Calculation
     total_score = color_score + occ_score + wea_score + comb_score
+    
+    if is_occ_inv:
+        return {
+            "success": False,
+            "message": f"Outfit contains items completely inappropriate for {occasion}."
+        }
+        
+    if is_wea_inv:
+        return {
+            "success": False,
+            "message": "Outfit is completely unsuitable for current weather."
+        }
+        
     total_score = round(max(0.0, min(100.0, total_score)), 2)
     
     # Rating Label

@@ -135,7 +135,7 @@ public class EditClothingActivity extends AppCompatActivity {
             }
         }
 
-        String imageUrl = "http://192.168.1.12:5000/" + currentItem.getImagePath().replace("\\", "/");
+        String imageUrl = "http://10.99.93.254:5000/" + currentItem.getImagePath().replace("\\", "/");
         Glide.with(this).load(imageUrl).centerCrop().into(ivClothingPreview);
     }
 
