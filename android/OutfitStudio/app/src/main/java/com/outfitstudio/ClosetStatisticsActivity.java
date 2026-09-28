@@ -79,6 +79,11 @@ public class ClosetStatisticsActivity extends AppCompatActivity {
             finish();
         });
 
+        LinearLayout llUsageInsights = findViewById(R.id.llUsageInsights);
+        llUsageInsights.setOnClickListener(v -> {
+            startActivity(new Intent(ClosetStatisticsActivity.this, UsageInsightsActivity.class));
+        });
+
         tokenManager = TokenManager.getInstance(this);
 
         fetchStatistics();

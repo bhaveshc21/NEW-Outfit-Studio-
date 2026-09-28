@@ -23,7 +23,7 @@ def get_closet_statistics(user_id):
             return {"success": False, "message": "User not found"}
             
         # Get wardrobe items
-        cursor.execute("SELECT id, name, category, color FROM wardrobe_items WHERE user_id = %s", (user_id,))
+        cursor.execute("SELECT id, name, category, color, usage_count, last_worn_at FROM wardrobe_items WHERE user_id = %s", (user_id,))
         items = cursor.fetchall()
         
         total_items = len(items)
@@ -37,8 +37,11 @@ def get_closet_statistics(user_id):
                     "category_distribution": [],
                     "color_distribution": [],
                     "usage": {
-                        "available": False,
-                        "message": "Usage tracking is not available yet."
+                        "available": True,
+                        "message": "Usage tracking is active, but you have no items.",
+                        "never_worn_count": 0,
+                        "rarely_used_count": 0,
+                        "most_worn_item": None
                     },
                     "saved_outfits": {
                         "available": False,
@@ -134,9 +137,44 @@ def get_closet_statistics(user_id):
             "underrepresented": underrepresented
         }
         
+        # Calculate Usage Stats
+        from datetime import datetime
+        never_worn_count = 0
+        rarely_used_count = 0
+        most_worn_item = None
+        max_usage = -1
+        
+        for item in items:
+            usage = item.get('usage_count', 0)
+            last_worn = item.get('last_worn_at')
+            
+            if usage == 0 and last_worn is None:
+                never_worn_count += 1
+            elif last_worn:
+                days = (datetime.now() - last_worn).days
+                if days >= 60:
+                    rarely_used_count += 1
+                    
+            if usage > max_usage and usage > 0:
+                max_usage = usage
+                most_worn_item = item.get('name')
+
+        usage_msg_parts = []
+        if most_worn_item:
+            usage_msg_parts.append(f"Most worn: {most_worn_item} ({max_usage} times).")
+        if never_worn_count > 0:
+            usage_msg_parts.append(f"{never_worn_count} items never worn.")
+        if rarely_used_count > 0:
+            usage_msg_parts.append(f"{rarely_used_count} items rarely used.")
+            
+        usage_msg = " ".join(usage_msg_parts) if usage_msg_parts else "All items are worn regularly."
+
         # Generate Insights
         insights = []
         insights.append(f"Your wardrobe contains {total_items} items.")
+        
+        if rarely_used_count > 0:
+            insights.append(f"You have {rarely_used_count} rarely used items. Consider donating them.")
         
         if category_distribution:
             top_cat = category_distribution[0]['name']
@@ -162,8 +200,11 @@ def get_closet_statistics(user_id):
                 "category_distribution": category_distribution,
                 "color_distribution": color_distribution,
                 "usage": {
-                    "available": False,
-                    "message": "Usage tracking is not available yet."
+                    "available": True,
+                    "message": usage_msg,
+                    "never_worn_count": never_worn_count,
+                    "rarely_used_count": rarely_used_count,
+                    "most_worn_item": most_worn_item
                 },
                 "saved_outfits": {
                     "available": False,

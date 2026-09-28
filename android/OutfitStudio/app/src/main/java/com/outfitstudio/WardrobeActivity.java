@@ -92,6 +92,12 @@ public class WardrobeActivity extends AppCompatActivity {
             chip.setCheckable(true);
             cgCategories.addView(chip);
         }
+        
+        // Add Rarely Used chip
+        Chip chipRarelyUsed = new Chip(this);
+        chipRarelyUsed.setText("Rarely Used");
+        chipRarelyUsed.setCheckable(true);
+        cgCategories.addView(chipRarelyUsed);
     }
 
     @Override
@@ -148,6 +154,14 @@ public class WardrobeActivity extends AppCompatActivity {
     private void filterItems(String category) {
         if (category.equals("All")) {
             updateUI(allItems);
+        } else if (category.equals("Rarely Used")) {
+            List<WardrobeItem> filtered = new ArrayList<>();
+            for (WardrobeItem item : allItems) {
+                if (item.isRarelyUsed()) {
+                    filtered.add(item);
+                }
+            }
+            updateUI(filtered);
         } else {
             List<WardrobeItem> filtered = new ArrayList<>();
             for (WardrobeItem item : allItems) {

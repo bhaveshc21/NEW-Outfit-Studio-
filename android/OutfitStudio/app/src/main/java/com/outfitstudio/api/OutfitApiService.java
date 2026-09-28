@@ -16,14 +16,15 @@ public interface OutfitApiService {
     @POST("outfits/score")
     Call<FashionScoreResponse> scoreOutfit(@Body FashionScoreRequest request);
 
-<<<<<<< HEAD
     @POST("outfits/complete-look")
     Call<com.outfitstudio.api.models.CompleteLookResponse> completeLook(@Body com.outfitstudio.api.models.CompleteLookRequest request);
-=======
+
     @POST("outfits/compare")
     Call<com.outfitstudio.api.models.ComparisonResponse> compareOutfits(@Body com.outfitstudio.api.models.ComparisonRequest request);
 
     @POST("outfits/explain")
     Call<com.outfitstudio.api.models.ExplanationResponse> explainOutfit(@Body com.outfitstudio.api.models.ExplanationRequest request);
->>>>>>> 3f8dbc9c79e08c41ea827a5cc98239423fbbd7b9
+    
+    @POST("outfits/worn")
+    Call<com.outfitstudio.api.models.WardrobeResponse.EmptyResponse> markOutfitWorn(@Body java.util.Map<String, java.util.List<Integer>> body);
 }

@@ -54,6 +54,36 @@
                 android:textSize="16sp"
                 android:layout_marginBottom="32dp"/>
 
+            <TextView
+                android:id="@+id/tvUsageInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="USAGE\nWorn 0 times\nNo usage history"
+                android:textColor="@color/on_background"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp"
+                android:visibility="visible"/>
+                
+            <Button
+                android:id="@+id/btnMarkWorn"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Mark as Worn"
+                android:layout_marginBottom="16dp"
+                app:cornerRadius="12dp"
+                style="@style/Widget.MaterialComponents.Button"/>
+                
+            <Button
+                android:id="@+id/btnDonate"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Donate This Item"
+                android:layout_marginBottom="16dp"
+                app:cornerRadius="12dp"
+                android:backgroundTint="@color/error"
+                android:visibility="gone"
+                style="@style/Widget.MaterialComponents.Button"/>
+
             <Button
                 android:id="@+id/btnCompleteLook"
                 android:layout_width="match_parent"

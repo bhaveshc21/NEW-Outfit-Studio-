@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify, current_app
 import mysql.connector
 from services.wardrobe_service import WardrobeService
+from utils.auth_middleware import token_required
 
 wardrobe_bp = Blueprint('wardrobe', __name__)
 
@@ -186,6 +187,47 @@ def delete_wardrobe_item(item_id):
         }), 200
     except Exception as e:
         print(f"Wardrobe DELETE error: {e}")
+        return jsonify({"success": False, "message": "Internal server error"}), 500
+    finally:
+        if db.is_connected():
+            db.close()
+
+@wardrobe_bp.route('/rarely-used', methods=['GET'])
+@token_required
+def get_rarely_used(current_user_id):
+    db = get_db()
+    try:
+        service = WardrobeService(db)
+        items = service.get_rarely_used_items(current_user_id)
+        return jsonify({
+            "success": True,
+            "message": "Rarely used items retrieved",
+            "data": items
+        }), 200
+    except Exception as e:
+        print(f"Wardrobe GET rarely used error: {e}")
+        return jsonify({"success": False, "message": "Internal server error"}), 500
+    finally:
+        if db.is_connected():
+            db.close()
+
+@wardrobe_bp.route('/item/<int:item_id>/worn', methods=['POST'])
+@token_required
+def mark_item_worn(current_user_id, item_id):
+    db = get_db()
+    try:
+        service = WardrobeService(db)
+        item, error = service.mark_item_as_worn(item_id, current_user_id)
+        if error:
+            return jsonify({"success": False, "message": error}), 400
+            
+        return jsonify({
+            "success": True,
+            "message": "Item marked as worn successfully",
+            "data": item
+        }), 200
+    except Exception as e:
+        print(f"Wardrobe POST worn error: {e}")
         return jsonify({"success": False, "message": "Internal server error"}), 500
     finally:
         if db.is_connected():

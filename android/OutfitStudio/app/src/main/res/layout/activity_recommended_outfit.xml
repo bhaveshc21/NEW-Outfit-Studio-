@@ -126,5 +126,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:cornerRadius="24dp"
         android:backgroundTint="@color/primary" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnWearAsWorn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Wear as Worn"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:cornerRadius="24dp"
+        android:backgroundTint="@color/secondary"
+        android:textColor="@color/on_secondary"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -85,6 +85,8 @@ def init_db():
                 color VARCHAR(50),
                 image_path VARCHAR(255),
                 model_3d_url VARCHAR(500),
+                usage_count INT NOT NULL DEFAULT 0,
+                last_worn_at DATETIME NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
             )

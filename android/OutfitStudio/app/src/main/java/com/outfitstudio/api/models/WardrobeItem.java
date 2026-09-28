@@ -24,6 +24,21 @@ public class WardrobeItem {
     @SerializedName("model_3d_url")
     private String model3dUrl;
     
+    @SerializedName("usage_count")
+    private int usageCount;
+    
+    @SerializedName("last_worn_at")
+    private String lastWornAt;
+    
+    @SerializedName("days_since_last_worn")
+    private Integer daysSinceLastWorn;
+    
+    @SerializedName("usage_status")
+    private String usageStatus;
+    
+    @SerializedName("is_rarely_used")
+    private boolean rarelyUsed;
+    
     public WardrobeItem(int id, int userId, String name, String category, String color, String imagePath, String model3dUrl) {
         this.id = id;
         this.userId = userId;
@@ -41,4 +56,9 @@ public class WardrobeItem {
     public String getColor() { return color; }
     public String getImagePath() { return imagePath; }
     public String getModel3dUrl() { return model3dUrl; }
+    public int getUsageCount() { return usageCount; }
+    public String getLastWornAt() { return lastWornAt; }
+    public Integer getDaysSinceLastWorn() { return daysSinceLastWorn; }
+    public String getUsageStatus() { return usageStatus; }
+    public boolean isRarelyUsed() { return rarelyUsed; }
 }

@@ -61,4 +61,10 @@ public interface WardrobeApiService {
             @Path("itemId") int itemId,
             @Query("user_id") int userId
     );
+    
+    @GET("wardrobe/rarely-used")
+    Call<WardrobeResponse.ListResponse> getRarelyUsedItems();
+
+    @POST("wardrobe/item/{itemId}/worn")
+    Call<WardrobeResponse.SingleResponse> markItemAsWorn(@Path("itemId") int itemId);
 }

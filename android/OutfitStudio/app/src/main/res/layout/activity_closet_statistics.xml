@@ -149,22 +149,49 @@
                 android:layout_marginBottom="24dp"/>
 
             <!-- Usage Insights -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Usage Insights"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:textColor="@color/on_background"
-                android:layout_marginBottom="8dp"/>
-                
-            <TextView
-                android:id="@+id/tvUsage"
+            <LinearLayout
+                android:id="@+id/llUsageInsights"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/primary_variant"
-                tools:text="Usage tracking is not available yet."
-                android:layout_marginBottom="24dp"/>
+                android:orientation="horizontal"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="8dp"
+                android:layout_marginBottom="24dp">
+                
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Usage Insights"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@color/on_background"
+                        android:layout_marginBottom="4dp"/>
+                        
+                    <TextView
+                        android:id="@+id/tvUsage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/on_background"
+                        tools:text="Track how often you wear your clothes"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=">"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
 
             <!-- Saved Outfits -->
             <TextView
@@ -180,7 +207,7 @@
                 android:id="@+id/tvSavedOutfits"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/primary_variant"
+                android:textColor="@color/on_background"
                 tools:text="Saved outfit tracking is not available yet."
                 android:layout_marginBottom="24dp"/>
 

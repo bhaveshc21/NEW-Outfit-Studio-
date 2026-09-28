@@ -143,5 +143,49 @@ public class RecommendedOutfitActivity extends AppCompatActivity {
                 startActivity(compareIntent);
             }
         });
+        
+        Button btnWearAsWorn = findViewById(R.id.btnWearAsWorn);
+        btnWearAsWorn.setVisibility(View.VISIBLE); // Always visible but acts conditionally
+        btnWearAsWorn.setOnClickListener(v -> {
+            List<GeneratedOutfit> selected = adapter.getSelectedOutfits();
+            if (selected.size() != 1) {
+                Toast.makeText(RecommendedOutfitActivity.this, "Please select exactly ONE outfit to wear.", Toast.LENGTH_SHORT).show();
+            } else {
+                GeneratedOutfit outfit = selected.get(0);
+                btnWearAsWorn.setEnabled(false);
+                btnWearAsWorn.setText("Marking...");
+                
+                java.util.List<Integer> itemIds = new java.util.ArrayList<>();
+                if (outfit.getTop() != null) itemIds.add(outfit.getTop().getId());
+                if (outfit.getBottom() != null) itemIds.add(outfit.getBottom().getId());
+                if (outfit.getOuterwear() != null) itemIds.add(outfit.getOuterwear().getId());
+                if (outfit.getFootwear() != null) itemIds.add(outfit.getFootwear().getId());
+                
+                java.util.Map<String, java.util.List<Integer>> body = new java.util.HashMap<>();
+                body.put("item_ids", itemIds);
+                
+                com.outfitstudio.api.OutfitApiService apiService = com.outfitstudio.api.ApiClient.getClient(RecommendedOutfitActivity.this).create(com.outfitstudio.api.OutfitApiService.class);
+                apiService.markOutfitWorn(body).enqueue(new retrofit2.Callback<com.outfitstudio.api.models.WardrobeResponse.EmptyResponse>() {
+                    @Override
+                    public void onResponse(retrofit2.Call<com.outfitstudio.api.models.WardrobeResponse.EmptyResponse> call, retrofit2.Response<com.outfitstudio.api.models.WardrobeResponse.EmptyResponse> response) {
+                        btnWearAsWorn.setEnabled(true);
+                        if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                            btnWearAsWorn.setText("WORN!");
+                            Toast.makeText(RecommendedOutfitActivity.this, "Outfit marked as worn.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            btnWearAsWorn.setText("Wear as Worn");
+                            Toast.makeText(RecommendedOutfitActivity.this, "Failed to mark as worn", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(retrofit2.Call<com.outfitstudio.api.models.WardrobeResponse.EmptyResponse> call, Throwable t) {
+                        btnWearAsWorn.setEnabled(true);
+                        btnWearAsWorn.setText("Wear as Worn");
+                        Toast.makeText(RecommendedOutfitActivity.this, "Network error", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
     }
 }

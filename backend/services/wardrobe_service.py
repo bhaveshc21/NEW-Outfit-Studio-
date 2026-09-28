@@ -1,6 +1,7 @@
 import os
 import werkzeug
 import time
+from datetime import datetime
 
 class WardrobeService:
     def __init__(self, db_connection):
@@ -45,19 +46,61 @@ class WardrobeService:
             print(f"Wardrobe DB Error: {e}")
             return None, "Database error occurred while saving the wardrobe item."
 
+    def _process_item_usage(self, item):
+        if not item: return item
+        if 'usage_count' not in item:
+            item['usage_count'] = 0
+        if 'last_worn_at' not in item:
+            item['last_worn_at'] = None
+            
+        last_worn = item.get('last_worn_at')
+        
+        if item.get('usage_count', 0) == 0 and last_worn is None:
+            item['days_since_last_worn'] = None
+            item['usage_status'] = "Never Worn"
+            item['is_rarely_used'] = False
+        else:
+            if last_worn:
+                delta = datetime.now() - last_worn
+                days = delta.days
+                item['days_since_last_worn'] = days
+                
+                now = datetime.now()
+                months_diff = (now.year - last_worn.year) * 12 + now.month - last_worn.month
+                if now.day < last_worn.day:
+                    months_diff -= 1
+                    
+                if months_diff >= 4:
+                    item['usage_status'] = "Rarely Used"
+                    item['is_rarely_used'] = True
+                else:
+                    item['usage_status'] = "Recently Used"
+                    item['is_rarely_used'] = False
+            else:
+                item['days_since_last_worn'] = None
+                item['usage_status'] = "Recently Used"
+                item['is_rarely_used'] = False
+                
+        if isinstance(item.get('created_at'), datetime):
+            item['created_at'] = item['created_at'].isoformat()
+        if isinstance(item.get('last_worn_at'), datetime):
+            item['last_worn_at'] = item['last_worn_at'].isoformat()
+            
+        return item
+
     def get_wardrobe(self, user_id):
         cursor = self.db.cursor(dictionary=True)
         cursor.execute("SELECT * FROM wardrobe_items WHERE user_id = %s ORDER BY created_at DESC", (user_id,))
         items = cursor.fetchall()
         cursor.close()
-        return items
+        return [self._process_item_usage(item) for item in items]
 
     def get_wardrobe_item(self, item_id, user_id):
         cursor = self.db.cursor(dictionary=True)
         cursor.execute("SELECT * FROM wardrobe_items WHERE id = %s AND user_id = %s", (item_id, user_id))
         item = cursor.fetchone()
         cursor.close()
-        return item
+        return self._process_item_usage(item)
         
     def update_wardrobe_item(self, item_id, user_id, name, category, color, image_file=None):
         try:
@@ -134,3 +177,43 @@ class WardrobeService:
         except Exception as e:
             print(f"Wardrobe DB Error: {e}")
             return False, "Database error occurred while deleting the wardrobe item."
+
+    def mark_item_as_worn(self, item_id, user_id):
+        try:
+            cursor = self.db.cursor(dictionary=True)
+            cursor.execute("SELECT id FROM wardrobe_items WHERE id = %s AND user_id = %s", (item_id, user_id))
+            if not cursor.fetchone():
+                return None, "Item not found or does not belong to user."
+                
+            cursor.execute("""
+            UPDATE wardrobe_items 
+            SET usage_count = usage_count + 1, last_worn_at = NOW()
+            WHERE id = %s AND user_id = %s
+            """, (item_id, user_id))
+            self.db.commit()
+            
+            cursor.execute("SELECT * FROM wardrobe_items WHERE id = %s AND user_id = %s", (item_id, user_id))
+            updated_item = cursor.fetchone()
+            cursor.close()
+            
+            return self._process_item_usage(updated_item), None
+        except Exception as e:
+            print(f"Wardrobe DB Error in mark_as_worn: {e}")
+            return None, "Database error occurred while marking item as worn."
+
+    def get_rarely_used_items(self, user_id):
+        try:
+            cursor = self.db.cursor(dictionary=True)
+            cursor.execute("""
+                SELECT * FROM wardrobe_items 
+                WHERE user_id = %s 
+                AND last_worn_at IS NOT NULL 
+                AND last_worn_at <= DATE_SUB(NOW(), INTERVAL 4 MONTH)
+                ORDER BY last_worn_at ASC
+            """, (user_id,))
+            items = cursor.fetchall()
+            cursor.close()
+            return [self._process_item_usage(item) for item in items]
+        except Exception as e:
+            print(f"Wardrobe DB Error in get_rarely_used_items: {e}")
+            return []

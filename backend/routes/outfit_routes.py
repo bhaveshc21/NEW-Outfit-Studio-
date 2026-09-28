@@ -170,3 +170,39 @@ def explain_outfit(current_user_id):
     finally:
         if db.is_connected():
             db.close()
+
+@outfit_bp.route('/worn', methods=['POST'])
+@token_required
+def mark_outfit_worn(current_user_id):
+    db = get_db()
+    try:
+        data = request.get_json(silent=True)
+        if not data or 'item_ids' not in data:
+            return jsonify({"success": False, "message": "item_ids array is required"}), 400
+            
+        item_ids = data['item_ids']
+        if not isinstance(item_ids, list):
+            return jsonify({"success": False, "message": "item_ids must be a list"}), 400
+            
+        from services.wardrobe_service import WardrobeService
+        wardrobe_service = WardrobeService(db)
+        
+        success_count = 0
+        for item_id in item_ids:
+            if item_id:
+                item, error = wardrobe_service.mark_item_as_worn(item_id, current_user_id)
+                if item is not None:
+                    success_count += 1
+                    
+        return jsonify({
+            "success": True, 
+            "message": f"Successfully marked {success_count} items as worn",
+            "marked_count": success_count
+        }), 200
+        
+    except Exception as e:
+        print(f"Mark Outfit Worn error: {e}")
+        return jsonify({"success": False, "message": "Internal server error"}), 500
+    finally:
+        if db.is_connected():
+            db.close()
