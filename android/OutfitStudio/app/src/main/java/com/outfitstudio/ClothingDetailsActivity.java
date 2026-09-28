@@ -78,11 +78,9 @@ public class ClothingDetailsActivity extends AppCompatActivity {
         btnDonate.setOnClickListener(v -> {
             new AlertDialog.Builder(this)
                 .setTitle("Donate Item")
-                .setMessage("This item has not been used for 4 months. Would you like to donate it?")
-                .setPositiveButton("YES", (dialog, which) -> {
-                    android.widget.Toast.makeText(ClothingDetailsActivity.this, "Thank you for choosing to donate!", android.widget.Toast.LENGTH_SHORT).show();
-                })
-                .setNegativeButton("NO", null)
+                .setMessage("This item has not been worn for 4 months or more. Would you like to donate it?")
+                .setPositiveButton("YES, DONATE", (dialog, which) -> donateItem())
+                .setNegativeButton("NOT NOW", null)
                 .show();
         });
     }
@@ -154,7 +152,7 @@ public class ClothingDetailsActivity extends AppCompatActivity {
         
         tvUsageInfo.setText(usageText.toString());
 
-        String imageUrl = "http://192.168.1.6:5000/" + item.getImagePath().replace("\\", "/");
+        String imageUrl = "http://192.168.1.12:5000/" + item.getImagePath().replace("\\", "/");
         Glide.with(this)
                 .load(imageUrl)
                 .centerCrop()
@@ -181,6 +179,36 @@ public class ClothingDetailsActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     if (response.body().isSuccess()) {
                         Toast.makeText(ClothingDetailsActivity.this, "Deleted successfully", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toast.makeText(ClothingDetailsActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(ClothingDetailsActivity.this, "Failed to delete item", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WardrobeResponse.EmptyResponse> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(ClothingDetailsActivity.this, "Network error", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void donateItem() {
+        int userId = TokenManager.getInstance(this).getUserId();
+        progressBar.setVisibility(View.VISIBLE);
+
+        apiService.deleteWardrobeItem(itemId, userId).enqueue(new Callback<WardrobeResponse.EmptyResponse>() {
+            @Override
+            public void onResponse(Call<WardrobeResponse.EmptyResponse> call, Response<WardrobeResponse.EmptyResponse> response) {
+                progressBar.setVisibility(View.GONE);
+                if (response.isSuccessful() && response.body() != null) {
+                    if (response.body().isSuccess()) {
+                        Toast.makeText(ClothingDetailsActivity.this, "Item removed from your wardrobe.", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(ClothingDetailsActivity.this, DonationActivity.class);
+                        startActivity(intent);
                         finish();
                     } else {
                         Toast.makeText(ClothingDetailsActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();

@@ -265,6 +265,18 @@
                         app:strokeWidth="1dp"
                         app:cornerRadius="16dp"
                         android:layout_marginBottom="12dp"/>
+                        
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnDonateClothing"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:text="Donate Clothing"
+                        android:textColor="@color/primary"
+                        app:backgroundTint="@color/secondary"
+                        app:strokeColor="@color/primary"
+                        app:strokeWidth="1dp"
+                        app:cornerRadius="16dp"
+                        android:layout_marginBottom="12dp"/>
                 </LinearLayout>
                 
                 <!-- Recent Outfits Empty State -->

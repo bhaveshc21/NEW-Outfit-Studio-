@@ -43,6 +43,8 @@
         <activity android:name=".CompareOutfitsActivity" />
         <activity android:name=".OutfitExplanationActivity" />
         <activity android:name=".UsageInsightsActivity" />
+        <activity android:name=".DonationActivity" />
+        <activity android:name=".DonateClothingActivity" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

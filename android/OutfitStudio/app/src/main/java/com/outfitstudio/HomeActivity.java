@@ -124,6 +124,7 @@ public class HomeActivity extends AppCompatActivity {
 
         findViewById(R.id.btnFashionScore).setOnClickListener(v -> startActivity(new Intent(HomeActivity.this, FashionScoreActivity.class)));
         findViewById(R.id.btnWeeklyPlanner).setOnClickListener(v -> startActivity(new Intent(HomeActivity.this, WeeklyPlannerActivity.class)));
+        findViewById(R.id.btnDonateClothing).setOnClickListener(v -> startActivity(new Intent(HomeActivity.this, DonateClothingActivity.class)));
 
         findViewById(R.id.btnLogout).setOnClickListener(v -> handleLogout());
 
