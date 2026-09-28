@@ -15,6 +15,7 @@ def get_closet_statistics(user_id):
             return {"success": False, "message": "Database connection failed"}
             
         cursor = connection.cursor(dictionary=True)
+            
         
         # Verify user exists
         cursor.execute("SELECT id FROM users WHERE id = %s", (user_id,))
@@ -220,3 +221,8 @@ def get_closet_statistics(user_id):
         return {"success": False, "message": f"Database error: {str(e)}"}
     except Exception as e:
         return {"success": False, "message": f"An error occurred: {str(e)}"}
+    finally:
+        if 'cursor' in locals() and cursor:
+            cursor.close()
+        if 'connection' in locals() and connection.is_connected():
+            connection.close()

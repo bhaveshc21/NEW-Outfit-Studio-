@@ -173,7 +173,7 @@ public class RecommendedOutfitActivity extends AppCompatActivity {
                             btnWearAsWorn.setText("WORN!");
                             Toast.makeText(RecommendedOutfitActivity.this, "Outfit marked as worn.", Toast.LENGTH_SHORT).show();
                         } else {
-                            btnWearAsWorn.setText("Wear as Worn");
+                            btnWearAsWorn.setText("Mark as Worn");
                             Toast.makeText(RecommendedOutfitActivity.this, "Failed to mark as worn", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -181,7 +181,7 @@ public class RecommendedOutfitActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(retrofit2.Call<com.outfitstudio.api.models.WardrobeResponse.EmptyResponse> call, Throwable t) {
                         btnWearAsWorn.setEnabled(true);
-                        btnWearAsWorn.setText("Wear as Worn");
+                        btnWearAsWorn.setText("Mark as Worn");
                         Toast.makeText(RecommendedOutfitActivity.this, "Network error", Toast.LENGTH_SHORT).show();
                     }
                 });

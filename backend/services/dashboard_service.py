@@ -28,8 +28,6 @@ class DashboardService:
                 cursor.execute("SELECT COUNT(*) as count FROM appearance_analysis WHERE user_id = %s", (user_id,))
                 appearance_count = cursor.fetchone()['count']
                 
-                cursor.close()
-                connection.close()
                 
                 name = user['name'] if user else "User"
                 
@@ -60,6 +58,13 @@ class DashboardService:
                 
         except Exception as e:
             print(f"Error fetching dashboard data: {e}")
+        finally:
+            if 'cursor' in locals() and cursor:
+                try: cursor.close()
+                except: pass
+            if 'connection' in locals() and connection.is_connected():
+                try: connection.close()
+                except: pass
             
         # Fallback if DB fails
         return {
