@@ -1,6 +1,7 @@
 package com.outfitstudio.api.models;
 
 import com.google.gson.annotations.SerializedName;
+import java.util.List;
 
 public class DashboardResponse {
     @SerializedName("success")
@@ -29,10 +30,14 @@ public class DashboardResponse {
         @SerializedName("feature_status")
         private FeatureStatus featureStatus;
 
+        @SerializedName("recent_outfits")
+        private List<GeneratedOutfit> recentOutfits;
+
         public User getUser() { return user; }
         public Wardrobe getWardrobe() { return wardrobe; }
         public Statistics getStatistics() { return statistics; }
         public FeatureStatus getFeatureStatus() { return featureStatus; }
+        public List<GeneratedOutfit> getRecentOutfits() { return recentOutfits; }
     }
 
     public static class User {

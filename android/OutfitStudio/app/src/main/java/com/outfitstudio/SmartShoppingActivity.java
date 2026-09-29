@@ -216,4 +216,10 @@ public class SmartShoppingActivity extends AppCompatActivity {
         btnAnalyze.setEnabled(!isLoading);
         progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        NavigationHelper.setupBottomNavigation(this, R.id.nav_shop);
+    }
 }

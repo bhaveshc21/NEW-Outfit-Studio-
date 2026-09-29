@@ -129,7 +129,7 @@ public class CompareOutfitsActivity extends AppCompatActivity {
             if (outfit.getTop() != null && outfit.getTop().getImagePath() != null) {
                 String path = outfit.getTop().getImagePath().replace("\\", "/");
                 com.bumptech.glide.Glide.with(this)
-                        .load("http://10.99.93.254:5000/" + path)
+                        .load("http://192.168.1.10:5000/" + path)
                         .centerCrop()
                         .into((android.widget.ImageView) card.findViewById(R.id.ivTop));
                 ((TextView) card.findViewById(R.id.tvTopName)).setText(outfit.getTop().getName());
@@ -140,7 +140,7 @@ public class CompareOutfitsActivity extends AppCompatActivity {
                 card.findViewById(R.id.layoutOuterwear).setVisibility(View.VISIBLE);
                 String path = outfit.getOuterwear().getImagePath().replace("\\", "/");
                 com.bumptech.glide.Glide.with(this)
-                        .load("http://10.99.93.254:5000/" + path)
+                        .load("http://192.168.1.10:5000/" + path)
                         .centerCrop()
                         .into((android.widget.ImageView) card.findViewById(R.id.ivOuterwear));
                 ((TextView) card.findViewById(R.id.tvOuterwearName)).setText(outfit.getOuterwear().getName());
@@ -152,7 +152,7 @@ public class CompareOutfitsActivity extends AppCompatActivity {
             if (outfit.getBottom() != null && outfit.getBottom().getImagePath() != null) {
                 String path = outfit.getBottom().getImagePath().replace("\\", "/");
                 com.bumptech.glide.Glide.with(this)
-                        .load("http://10.99.93.254:5000/" + path)
+                        .load("http://192.168.1.10:5000/" + path)
                         .centerCrop()
                         .into((android.widget.ImageView) card.findViewById(R.id.ivBottom));
                 ((TextView) card.findViewById(R.id.tvBottomName)).setText(outfit.getBottom().getName());
@@ -162,7 +162,7 @@ public class CompareOutfitsActivity extends AppCompatActivity {
             if (outfit.getFootwear() != null && outfit.getFootwear().getImagePath() != null) {
                 String path = outfit.getFootwear().getImagePath().replace("\\", "/");
                 com.bumptech.glide.Glide.with(this)
-                        .load("http://10.99.93.254:5000/" + path)
+                        .load("http://192.168.1.10:5000/" + path)
                         .centerCrop()
                         .into((android.widget.ImageView) card.findViewById(R.id.ivFootwear));
                 ((TextView) card.findViewById(R.id.tvFootwearName)).setText(outfit.getFootwear().getName());

@@ -34,6 +34,9 @@ public class AppearanceResponse {
         @SerializedName("body_type")
         private String bodyType;
 
+        @SerializedName("image_url")
+        private String imageUrl;
+
         public String getFaceShape() {
             return faceShape;
         }
@@ -44,6 +47,10 @@ public class AppearanceResponse {
 
         public String getBodyType() {
             return bodyType;
+        }
+
+        public String getImageUrl() {
+            return imageUrl;
         }
     }
 }

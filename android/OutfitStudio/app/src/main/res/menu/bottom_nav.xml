@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_home"
-        android:icon="@android:drawable/ic_menu_myplaces"
+        android:icon="@drawable/ic_home"
         android:title="Home" />
     <item
         android:id="@+id/nav_wardrobe"
-        android:icon="@android:drawable/ic_menu_gallery"
+        android:icon="@drawable/ic_wardrobe"
         android:title="Wardrobe" />
     <item
         android:id="@+id/nav_generate"
@@ -14,10 +14,10 @@
         android:title="Generate" />
     <item
         android:id="@+id/nav_stats"
-        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:icon="@drawable/ic_stats"
         android:title="Stats" />
     <item
         android:id="@+id/nav_shop"
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@drawable/ic_shop"
         android:title="Shop" />
 </menu>

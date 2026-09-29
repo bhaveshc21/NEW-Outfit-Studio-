@@ -89,7 +89,13 @@ class AppearanceService:
             
     def get_appearance(self, user_id):
         cursor = self.db.cursor(dictionary=True)
-        cursor.execute("SELECT face_shape, skin_tone, body_type FROM appearance_analysis WHERE user_id = %s", (user_id,))
+        cursor.execute("SELECT face_shape, skin_tone, body_type, image_path FROM appearance_analysis WHERE user_id = %s", (user_id,))
         result = cursor.fetchone()
         cursor.close()
+        if result and result.get('image_path'):
+            path = result['image_path']
+            path = path.replace('\\', '/')
+            if not path.startswith('/'):
+                path = '/' + path
+            result['image_url'] = path
         return result

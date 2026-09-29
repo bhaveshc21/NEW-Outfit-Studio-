@@ -29,6 +29,8 @@ class DashboardService:
                 appearance_count = cursor.fetchone()['count']
                 
                 
+                recent_outfits = []
+
                 name = user['name'] if user else "User"
                 
                 return {
@@ -42,7 +44,7 @@ class DashboardService:
                     "statistics": {
                         "available": wardrobe_count > 0
                     },
-                    "recent_outfits": [],
+                    "recent_outfits": recent_outfits,
                     "saved_outfits": [],
                     "feature_status": {
                         "appearance": appearance_count > 0,

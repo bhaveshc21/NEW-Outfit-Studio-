@@ -10,6 +10,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.outfitstudio.api.models.GeneratedOutfit;
+import java.util.List;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.outfitstudio.api.ApiClient;
@@ -25,6 +30,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
     private LinearLayout contentLayout;
+    private RecyclerView rvRecentOutfits;
+    private TextView tvEmptyRecent;
     private TextView tvWelcome, tvWardrobeCount, tvAppearanceStatus;
     private DashboardApiService apiService;
 
@@ -45,6 +52,9 @@ public class HomeActivity extends AppCompatActivity {
         tvWelcome = findViewById(R.id.tvWelcome);
         tvWardrobeCount = findViewById(R.id.tvWardrobeCount);
         tvAppearanceStatus = findViewById(R.id.tvAppearanceStatus);
+        rvRecentOutfits = findViewById(R.id.rvRecentOutfits);
+        tvEmptyRecent = findViewById(R.id.tvEmptyRecent);
+        rvRecentOutfits.setLayoutManager(new LinearLayoutManager(this));
 
         apiService = ApiClient.getClient(this).create(DashboardApiService.class);
 
@@ -55,6 +65,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        NavigationHelper.setupBottomNavigation(this, R.id.nav_home);
         if (contentLayout.getVisibility() == View.VISIBLE) {
             // Only fetch again if it's already loaded once (to avoid double loading on create)
             fetchDashboardData();
@@ -102,6 +113,16 @@ public class HomeActivity extends AppCompatActivity {
             tvWardrobeCount.setText(count + (count == 1 ? " item" : " items"));
         }
 
+        if (data.getRecentOutfits() != null && !data.getRecentOutfits().isEmpty()) {
+            rvRecentOutfits.setVisibility(View.VISIBLE);
+            tvEmptyRecent.setVisibility(View.GONE);
+            OutfitAdapter adapter = new OutfitAdapter(this, data.getRecentOutfits());
+            rvRecentOutfits.setAdapter(adapter);
+        } else {
+            rvRecentOutfits.setVisibility(View.GONE);
+            tvEmptyRecent.setVisibility(View.VISIBLE);
+        }
+
         if (data.getFeatureStatus() != null) {
             if (data.getFeatureStatus().hasAppearance()) {
                 tvAppearanceStatus.setText("Analyzed");
@@ -122,32 +143,29 @@ public class HomeActivity extends AppCompatActivity {
         findViewById(R.id.cardWardrobe).setOnClickListener(v -> startActivity(new Intent(HomeActivity.this, WardrobeActivity.class)));
         findViewById(R.id.cardAppearance).setOnClickListener(v -> startActivity(new Intent(HomeActivity.this, AppearanceAnalysisActivity.class)));
 
-        findViewById(R.id.btnFashionScore).setOnClickListener(v -> startActivity(new Intent(HomeActivity.this, FashionScoreActivity.class)));
-        findViewById(R.id.btnWeeklyPlanner).setOnClickListener(v -> startActivity(new Intent(HomeActivity.this, WeeklyPlannerActivity.class)));
-        findViewById(R.id.btnDonateClothing).setOnClickListener(v -> startActivity(new Intent(HomeActivity.this, DonateClothingActivity.class)));
-
-        findViewById(R.id.btnLogout).setOnClickListener(v -> handleLogout());
-
-        com.google.android.material.bottomnavigation.BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
-        bottomNav.setOnItemSelectedListener(item -> {
-            int itemId = item.getItemId();
-            if (itemId == R.id.nav_home) {
-                return true;
-            } else if (itemId == R.id.nav_wardrobe) {
-                startActivity(new Intent(HomeActivity.this, WardrobeActivity.class));
+        ImageView btnDashboard = findViewById(R.id.btnDashboard);
+        btnDashboard.setOnClickListener(v -> {
+            android.widget.PopupMenu popup = new android.widget.PopupMenu(HomeActivity.this, v);
+            popup.getMenu().add(0, 1, 0, "Fashion Score");
+            popup.getMenu().add(0, 2, 1, "Weekly Planner");
+            popup.getMenu().add(0, 3, 2, "Donate Clothing");
+            popup.setOnMenuItemClickListener(item -> {
+                switch (item.getItemId()) {
+                    case 1:
+                        startActivity(new Intent(HomeActivity.this, FashionScoreActivity.class));
+                        return true;
+                    case 2:
+                        startActivity(new Intent(HomeActivity.this, WeeklyPlannerActivity.class));
+                        return true;
+                    case 3:
+                        startActivity(new Intent(HomeActivity.this, DonateClothingActivity.class));
+                        return true;
+                }
                 return false;
-            } else if (itemId == R.id.nav_generate) {
-                startActivity(new Intent(HomeActivity.this, OccasionSelectionActivity.class));
-                return false;
-            } else if (itemId == R.id.nav_stats) {
-                startActivity(new Intent(HomeActivity.this, ClosetStatisticsActivity.class));
-                return false;
-            } else if (itemId == R.id.nav_shop) {
-                startActivity(new Intent(HomeActivity.this, SmartShoppingActivity.class));
-                return false;
-            }
-            return false;
+            });
+            popup.show();
         });
+
     }
 
     private void handleLogout() {

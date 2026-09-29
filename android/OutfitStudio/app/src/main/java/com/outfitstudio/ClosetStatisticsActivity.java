@@ -221,7 +221,7 @@ public class ClosetStatisticsActivity extends AppCompatActivity {
         // The colored bar part (weight = percentage)
         View filledBar = new View(this);
         filledBar.setBackgroundResource(R.drawable.bg_button_rounded); // Use rounded background if possible
-        filledBar.setBackgroundTintList(android.content.res.ColorStateList.valueOf(Color.parseColor("#E5C0A4"))); // primary
+        filledBar.setBackgroundTintList(android.content.res.ColorStateList.valueOf(Color.parseColor("#BB8588"))); // primary
         LinearLayout.LayoutParams filledParams = new LinearLayout.LayoutParams(
                 0, LinearLayout.LayoutParams.MATCH_PARENT, (float) percentage
         );
@@ -243,5 +243,11 @@ public class ClosetStatisticsActivity extends AppCompatActivity {
 
         parent.addView(tvLabel);
         parent.addView(barContainer);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        NavigationHelper.setupBottomNavigation(this, R.id.nav_stats);
     }
 }

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Measurements &amp; Body Doubling"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/on_background"
+            android:layout_marginBottom="24dp"/>
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:layout_marginBottom="24dp">
+
+            <EditText
+                android:id="@+id/etHeight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:hint="Height (cm)"
+                android:inputType="numberDecimal"
+                android:background="@drawable/bg_edit_text"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="16dp"
+                android:enabled="false"/>
+
+            <EditText
+                android:id="@+id/etChest"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:hint="Chest (cm)"
+                android:inputType="numberDecimal"
+                android:background="@drawable/bg_edit_text"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="16dp"
+                android:enabled="false"/>
+
+            <EditText
+                android:id="@+id/etWaist"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:hint="Waist (cm)"
+                android:inputType="numberDecimal"
+                android:background="@drawable/bg_edit_text"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="16dp"
+                android:enabled="false"/>
+
+            <EditText
+                android:id="@+id/etHip"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:hint="Hip (cm)"
+                android:inputType="numberDecimal"
+                android:background="@drawable/bg_edit_text"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="16dp"
+                android:enabled="false"/>
+
+            <EditText
+                android:id="@+id/etShoulder"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:hint="Shoulder (cm)"
+                android:inputType="numberDecimal"
+                android:background="@drawable/bg_edit_text"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="16dp"
+                android:enabled="false"/>
+
+            <EditText
+                android:id="@+id/etInseam"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:hint="Inseam (cm)"
+                android:inputType="numberDecimal"
+                android:background="@drawable/bg_edit_text"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="16dp"
+                android:enabled="false"/>
+        </GridLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Style Preferences"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary_variant"
+            android:layout_marginBottom="16dp"/>
+
+        <EditText
+            android:id="@+id/etStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Preferred Style"
+            android:background="@drawable/bg_edit_text"
+            android:layout_marginBottom="16dp"
+            android:enabled="false"/>
+
+        <EditText
+            android:id="@+id/etColors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Preferred Colors"
+            android:background="@drawable/bg_edit_text"
+            android:layout_marginBottom="16dp"
+            android:enabled="false"/>
+
+        <EditText
+            android:id="@+id/etOccasions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Preferred Occasions"
+            android:background="@drawable/bg_edit_text"
+            android:layout_marginBottom="32dp"
+            android:enabled="false"/>
+
+        <Button
+            android:id="@+id/btnEditSave"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Edit"
+            android:backgroundTint="@color/primary_variant"
+            app:cornerRadius="12dp"/>
+            
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_marginTop="16dp"/>
+
+    </LinearLayout>
+</ScrollView>

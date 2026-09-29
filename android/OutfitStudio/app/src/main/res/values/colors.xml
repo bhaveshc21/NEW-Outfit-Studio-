@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#E5C0A4</color> <!-- Dusty Rose/Soft Pink Accent -->
-    <color name="primary_variant">#D8A58B</color>
+    <color name="primary">#BB8588</color> <!-- Dusty Rose/Soft Pink Accent -->
+    <color name="primary_variant">#BB8588</color>
     <color name="secondary">#FDFBF9</color> <!-- Warm Ivory Background -->
     <color name="secondary_variant">#F4EFEA</color>
     <color name="background">#FDFBF9</color>

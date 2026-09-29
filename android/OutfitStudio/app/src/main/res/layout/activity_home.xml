@@ -18,7 +18,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="24dp">
+            android:padding="16dp">
 
             <!-- Loading State -->
             <ProgressBar
@@ -39,39 +39,51 @@
                 android:visibility="gone"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <!-- Header using LinearLayout to prevent overlap -->
-                <LinearLayout
+                <!-- Header using ConstraintLayout -->
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
                     android:layout_marginBottom="32dp">
-                    
-                    <LinearLayout
+
+                    <ImageView
+                        android:id="@+id/btnDashboard"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:padding="4dp"
+                        android:src="@drawable/ic_menu"
+                        app:tint="@color/on_background"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        app:layout_constraintTop_toTopOf="@id/tvWelcome"
+                        app:layout_constraintBottom_toBottomOf="@id/tvWelcome"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/tvWelcome"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:layout_marginEnd="16dp">
-                        
-                        <TextView
-                            android:id="@+id/tvWelcome"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Hello, User \uD83D\uDC4B"
-                            android:textSize="26sp"
-                            android:fontFamily="serif"
-                            android:textStyle="bold"
-                            android:textColor="@color/on_background"/>
-                        
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Let's find your perfect look today"
-                            android:textSize="15sp"
-                            android:textColor="@color/primary_variant"
-                            android:layout_marginTop="4dp"/>
-                    </LinearLayout>
+                        android:text="Hello, User 👋"
+                        android:textSize="22sp"
+                        android:fontFamily="serif"
+                        android:textStyle="bold"
+                        android:textColor="@color/on_background"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/btnDashboard"
+                        app:layout_constraintEnd_toStartOf="@id/btnProfile"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"/>
+
+                    <TextView
+                        android:id="@+id/tvSubtitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Let's find your perfect look today"
+                        android:textSize="15sp"
+                        android:textColor="@color/primary_variant"
+                        app:layout_constraintTop_toBottomOf="@id/tvWelcome"
+                        app:layout_constraintStart_toStartOf="@id/tvWelcome"
+                        app:layout_constraintEnd_toStartOf="@+id/btnProfile"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="8dp"/>
 
                     <ImageView
                         android:id="@+id/btnProfile"
@@ -80,10 +92,14 @@
                         android:background="@drawable/bg_button_rounded"
                         android:backgroundTint="@color/primary_variant"
                         android:padding="14dp"
-                        android:src="@android:drawable/ic_menu_myplaces"
+                        android:src="@drawable/ic_profile"
                         app:tint="@color/on_primary" 
-                        android:elevation="4dp"/>
-                </LinearLayout>
+                        android:elevation="4dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <!-- Big Featured Card for Generation -->
                 <com.google.android.material.card.MaterialCardView
@@ -225,59 +241,7 @@
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="My Features"
-                    android:textSize="20sp"
-                    android:fontFamily="serif"
-                    android:textStyle="bold"
-                    android:textColor="@color/on_background"
-                    android:layout_marginBottom="16dp"/>
 
-                <!-- Extra Features Grid -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="32dp">
-                    
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnFashionScore"
-                        android:layout_width="match_parent"
-                        android:layout_height="64dp"
-                        android:text="Fashion Score"
-                        android:textColor="@color/primary"
-                        app:backgroundTint="@color/secondary"
-                        app:strokeColor="@color/primary"
-                        app:strokeWidth="1dp"
-                        app:cornerRadius="16dp"
-                        android:layout_marginBottom="12dp"/>
-                        
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnWeeklyPlanner"
-                        android:layout_width="match_parent"
-                        android:layout_height="64dp"
-                        android:text="Weekly Planner"
-                        android:textColor="@color/primary"
-                        app:backgroundTint="@color/secondary"
-                        app:strokeColor="@color/primary"
-                        app:strokeWidth="1dp"
-                        app:cornerRadius="16dp"
-                        android:layout_marginBottom="12dp"/>
-                        
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnDonateClothing"
-                        android:layout_width="match_parent"
-                        android:layout_height="64dp"
-                        android:text="Donate Clothing"
-                        android:textColor="@color/primary"
-                        app:backgroundTint="@color/secondary"
-                        app:strokeColor="@color/primary"
-                        app:strokeWidth="1dp"
-                        app:cornerRadius="16dp"
-                        android:layout_marginBottom="12dp"/>
-                </LinearLayout>
                 
                 <!-- Recent Outfits Empty State -->
                 <TextView
@@ -290,7 +254,15 @@
                     android:textColor="@color/on_background"
                     android:layout_marginBottom="16dp"/>
                     
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvRecentOutfits"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="32dp"
+                    android:nestedScrollingEnabled="false"/>
+
                 <TextView
+                    android:id="@+id/tvEmptyRecent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="No recent outfits yet."
@@ -300,17 +272,8 @@
                     android:padding="32dp"
                     android:background="@drawable/bg_button_rounded"
                     android:backgroundTint="@color/secondary_variant"
-                    android:layout_marginBottom="32dp"/>
-
-                <!-- Logout moved to Profile but keeping a small button for accessibility -->
-                <Button
-                    android:id="@+id/btnLogout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Logout"
-                    android:textColor="@color/error"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_marginBottom="16dp"/>
+                    android:layout_marginBottom="32dp"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 
@@ -319,6 +282,7 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
+        app:itemIconSize="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

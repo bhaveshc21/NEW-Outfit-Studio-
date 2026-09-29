@@ -103,6 +103,7 @@ public class WardrobeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        NavigationHelper.setupBottomNavigation(this, R.id.nav_wardrobe);
         loadWardrobe();
     }
 
