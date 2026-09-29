@@ -54,7 +54,7 @@ public class FashionScoreActivity extends AppCompatActivity {
     private TextView tvImpScore, tvImpReason;
     private TextView tvNoImprovedOutfit;
 
-    private static final String BASE_IMAGE_URL = "http://192.168.1.10:5000/";
+    private static final String BASE_IMAGE_URL = "http://192.168.1.101:5000/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
