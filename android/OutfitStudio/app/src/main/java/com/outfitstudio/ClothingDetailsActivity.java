@@ -152,7 +152,7 @@ public class ClothingDetailsActivity extends AppCompatActivity {
         
         tvUsageInfo.setText(usageText.toString());
 
-        String imageUrl = "http://172.19.182.239:5000/" + item.getImagePath().replace("\\", "/");
+        String imageUrl = "http://192.168.1.101:5000/" + item.getImagePath().replace("\\", "/");
         Glide.with(this)
                 .load(imageUrl)
                 .centerCrop()
