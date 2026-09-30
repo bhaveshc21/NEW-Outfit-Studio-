@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class ApiClient {
     // 10.0.2.2 is the special alias for localhost on the Android Emulator
-    public static final String BASE_URL = "http://192.168.1.10:5000/api/";
+    public static final String BASE_URL = "http://172.19.182.239:5000/api/";
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient(Context context) {

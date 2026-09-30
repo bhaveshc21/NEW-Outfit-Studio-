@@ -24,6 +24,7 @@ public class UsageInsightsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_usage_insights);
 
         Toolbar toolbar = findViewById(R.id.toolbar);

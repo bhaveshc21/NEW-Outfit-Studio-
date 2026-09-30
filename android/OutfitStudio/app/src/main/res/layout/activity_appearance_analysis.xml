@@ -35,7 +35,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Discover your estimated face shape, skin tone and body type."
+            android:text="Discover your estimated skin tone and body type."
             android:textAlignment="center"
             android:textColor="#666666"
             android:textSize="14sp"
@@ -159,38 +159,7 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="16dp"/>
 
-            <!-- Face Shape Card -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="1dp"
-                app:cardBackgroundColor="#FFFFFF"
-                android:layout_marginBottom="12dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-                    android:gravity="center_vertical">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Face Shape"
-                        android:textColor="#333333"
-                        android:textSize="16sp"
-                        android:fontFamily="serif"/>
-                    <TextView
-                        android:id="@+id/tvFaceShape"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Estimated: Oval"
-                        android:textColor="#C08081"
-                        android:textSize="16sp"
-                        android:textStyle="bold"/>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            <!-- Face Shape Card Removed -->
 
             <!-- Skin Tone Card -->
             <androidx.cardview.widget.CardView

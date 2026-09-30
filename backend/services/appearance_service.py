@@ -23,9 +23,8 @@ class AppearanceService:
             return None, "Failed to process the uploaded image. Please ensure it's a valid image file."
             
         # 2. Face shape estimation
-        face_shape, face_err = estimate_face_shape(cv_image)
-        if face_err:
-            return None, face_err
+        # Removed per user request
+        face_shape = "Not Analyzed"
             
         # 3. Skin tone estimation
         skin_tone, skin_err = estimate_skin_tone(cv_image)

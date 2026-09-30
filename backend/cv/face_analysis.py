@@ -39,27 +39,43 @@ def estimate_face_shape(cv_image):
         right_cheek = face_landmarks[454]
         left_jaw = face_landmarks[132]
         right_jaw = face_landmarks[361]
+        left_forehead = face_landmarks[103]
+        right_forehead = face_landmarks[332]
         
+        # Calculate Euclidean distances
         face_length = np.sqrt((top_of_head.x - bottom_of_chin.x)**2 + (top_of_head.y - bottom_of_chin.y)**2)
         face_width = np.sqrt((left_cheek.x - right_cheek.x)**2 + (left_cheek.y - right_cheek.y)**2)
         jaw_width = np.sqrt((left_jaw.x - right_jaw.x)**2 + (left_jaw.y - right_jaw.y)**2)
+        forehead_width = np.sqrt((left_forehead.x - right_forehead.x)**2 + (left_forehead.y - right_forehead.y)**2)
         
-        length_to_width_ratio = face_length / face_width if face_width > 0 else 0
+        # Calculate ratios
+        length_to_width = face_length / face_width if face_width > 0 else 0
+        jaw_to_width = jaw_width / face_width if face_width > 0 else 0
+        forehead_to_width = forehead_width / face_width if face_width > 0 else 0
         
-        if length_to_width_ratio > 1.5:
-            return "Oblong", None
-        elif length_to_width_ratio < 1.2:
-            if jaw_width / face_width > 0.8:
+        # Improved Heuristic Classification
+        if length_to_width > 1.35:
+            # Face is visibly longer than it is wide
+            if jaw_to_width > 0.85 and forehead_to_width > 0.85:
+                return "Rectangle", None
+            elif forehead_to_width > jaw_to_width + 0.1:
+                return "Heart", None
+            else:
+                return "Oblong", None
+        elif length_to_width > 1.15:
+            # Face is slightly longer than wide (Typical for Oval, Diamond)
+            if jaw_to_width < 0.75 and forehead_to_width < 0.8:
+                return "Diamond", None
+            elif jaw_to_width > 0.85:
+                return "Square", None
+            else:
+                return "Oval", None
+        else:
+            # Face is almost as wide as it is long
+            if jaw_to_width > 0.85:
                 return "Square", None
             else:
                 return "Round", None
-        else:
-            if jaw_width / face_width > 0.8:
-                return "Square", None
-            elif jaw_width / face_width < 0.65:
-                return "Heart", None
-            else:
-                return "Oval", None
     except Exception as e:
         print(f"MediaPipe Face Error: {e}")
         return None, "Error processing face shape using MediaPipe."

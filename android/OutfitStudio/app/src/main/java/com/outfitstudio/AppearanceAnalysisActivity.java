@@ -49,7 +49,7 @@ public class AppearanceAnalysisActivity extends AppCompatActivity {
     private Button btnCamera, btnGallery, btnAnalyze;
     private ProgressBar progressBar;
     private LinearLayout llResults;
-    private TextView tvFaceShape, tvSkinTone, tvBodyType;
+    private TextView tvSkinTone, tvBodyType;
 
     private Bitmap selectedBitmap = null;
     private AppearanceApiService apiService;
@@ -66,7 +66,7 @@ public class AppearanceAnalysisActivity extends AppCompatActivity {
         btnAnalyze = findViewById(R.id.btnAnalyze);
         progressBar = findViewById(R.id.progressBar);
         llResults = findViewById(R.id.llResults);
-        tvFaceShape = findViewById(R.id.tvFaceShape);
+        // tvFaceShape removed
         tvSkinTone = findViewById(R.id.tvSkinTone);
         tvBodyType = findViewById(R.id.tvBodyType);
 
@@ -225,7 +225,7 @@ public class AppearanceAnalysisActivity extends AppCompatActivity {
 
     private void displayResults(AppearanceResponse.AppearanceData data) {
         llResults.setVisibility(View.VISIBLE);
-        tvFaceShape.setText("Estimated: " + (data.getFaceShape() != null ? data.getFaceShape() : "Unknown"));
+        // tvFaceShape logic removed
         tvSkinTone.setText("Estimated: " + (data.getSkinTone() != null ? data.getSkinTone() : "Unknown"));
         tvBodyType.setText("Estimated: " + (data.getBodyType() != null ? data.getBodyType() : "Unknown"));
     }
