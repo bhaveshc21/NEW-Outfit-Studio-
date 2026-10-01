@@ -17,8 +17,6 @@ public class ClosetStatisticsData {
     @SerializedName("usage")
     private UsageStatistics usage;
 
-    @SerializedName("saved_outfits")
-    private SavedOutfitStatistics savedOutfits;
 
     @SerializedName("wardrobe_gaps")
     private WardrobeGapStatistics wardrobeGaps;
@@ -42,9 +40,6 @@ public class ClosetStatisticsData {
         return usage;
     }
 
-    public SavedOutfitStatistics getSavedOutfits() {
-        return savedOutfits;
-    }
 
     public WardrobeGapStatistics getWardrobeGaps() {
         return wardrobeGaps;

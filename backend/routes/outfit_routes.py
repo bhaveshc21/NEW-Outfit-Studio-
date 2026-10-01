@@ -188,11 +188,39 @@ def mark_outfit_worn(current_user_id):
         wardrobe_service = WardrobeService(db)
         
         success_count = 0
+        
+        top_id = None
+        outerwear_id = None
+        bottom_id = None
+        footwear_id = None
+        
+        cursor = db.cursor(dictionary=True)
+        
         for item_id in item_ids:
             if item_id:
+                # Update item worn timestamp and usage count
                 item, error = wardrobe_service.mark_item_as_worn(item_id, current_user_id)
                 if item is not None:
                     success_count += 1
+                
+                # Identify category to build outfit record
+                cursor.execute("SELECT category FROM wardrobe_items WHERE id = %s AND user_id = %s", (item_id, current_user_id))
+                row = cursor.fetchone()
+                if row:
+                    cat = row['category']
+                    if cat == 'Top': top_id = item_id
+                    elif cat == 'Outerwear': outerwear_id = item_id
+                    elif cat == 'Bottom': bottom_id = item_id
+                    elif cat == 'Footwear': footwear_id = item_id
+
+        if top_id or bottom_id or outerwear_id or footwear_id:
+            cursor.execute("""
+                INSERT INTO saved_outfits (user_id, top_id, outerwear_id, bottom_id, footwear_id, fashion_score, reason)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
+            """, (current_user_id, top_id, outerwear_id, bottom_id, footwear_id, 0.0, 'Worn by user'))
+            db.commit()
+            
+        cursor.close()
                     
         return jsonify({
             "success": True, 

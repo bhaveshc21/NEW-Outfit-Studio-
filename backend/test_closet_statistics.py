@@ -98,9 +98,9 @@ class ClosetStatisticsTestCase(unittest.TestCase):
         self.assertEqual(colors.get('Blue'), 1)
         self.assertEqual(colors.get('Black'), 1)
         
-        # Check usage / saved logic (must be false)
-        self.assertFalse(stats['usage']['available'])
-        self.assertFalse(stats['saved_outfits']['available'])
+        # Check usage logic (it is now True since we always calculate usage)
+        self.assertTrue(stats['usage']['available'])
+        # (saved_outfits has been removed)
         
         # Check gaps
         # With T-Shirt (Top), Jeans (Bottom), Shoe (Footwear), Shirt (Top)

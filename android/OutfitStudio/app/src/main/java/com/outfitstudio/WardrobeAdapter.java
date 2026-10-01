@@ -51,12 +51,16 @@ public class WardrobeAdapter extends RecyclerView.Adapter<WardrobeAdapter.Wardro
         holder.tvCategory.setText(item.getCategory());
         holder.tvColor.setText(item.getColor());
 
-        String imageUrl = "http://192.168.1.12:5000/" + item.getImagePath().replace("\\", "/");
-        
-        Glide.with(context)
-                .load(imageUrl)
-                .centerCrop()
-                .into(holder.ivImage);
+        if (item.getImagePath() != null) {
+            String imageUrl = "http://192.168.1.103:5000/" + item.getImagePath().replace("\\", "/");
+            Glide.with(context)
+                    .load(imageUrl)
+                    .centerCrop()
+                    .into(holder.ivImage);
+        } else {
+            // Load a placeholder or just leave empty
+            holder.ivImage.setImageResource(android.R.color.transparent);
+        }
 
         if (showUsageStatus) {
             holder.tvUsageStatus.setVisibility(View.VISIBLE);

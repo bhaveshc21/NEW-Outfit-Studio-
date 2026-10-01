@@ -43,8 +43,16 @@ public class DonationCenterAdapter extends RecyclerView.Adapter<DonationCenterAd
         if (center.getPhone() != null && !center.getPhone().isEmpty()) {
             holder.tvPhone.setText(center.getPhone());
             holder.tvPhone.setVisibility(View.VISIBLE);
+            holder.tvPhone.setOnClickListener(v -> {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                // Extract only numbers and '+' from phone string
+                String rawPhone = center.getPhone().replaceAll("[^0-9+]", "");
+                intent.setData(Uri.parse("tel:" + rawPhone));
+                context.startActivity(intent);
+            });
         } else {
             holder.tvPhone.setVisibility(View.GONE);
+            holder.tvPhone.setOnClickListener(null);
         }
 
         if (center.getHours() != null && !center.getHours().isEmpty()) {

@@ -50,7 +50,7 @@ public class DonationActivity extends AppCompatActivity {
             "share_with_india",
             "3. Share With India",
             "Swargate, Pune, Maharashtra",
-            null,
+            "📞 +91 70202 16826",
             null,
             "Share With India, Swargate, Pune"
         ));
@@ -59,7 +59,7 @@ public class DonationActivity extends AppCompatActivity {
             "savali",
             "4. SAVALI",
             "Plot No. 13, S. No. 78, Left Bhusari Colony, Paud Road, Kothrud, Pune - 41103",
-            null,
+            "📞 020-25282379",
             null,
             "Plot No. 13, S. No. 78, Left Bhusari Colony, Paud Road, Kothrud, Pune - 41103"
         ));
@@ -68,7 +68,7 @@ public class DonationActivity extends AppCompatActivity {
             "poornam_ecovision",
             "5. Poornam Ecovision Foundation",
             "S. No. 41/B/1, Kaushalya Nivas, Charvad Path, Jadhav Nagar, Vadgaon Budruk, Sinhagad Road, Pune 411041",
-            null,
+            "📞 +91 9405391980",
             null,
             "Poornam Ecovision Foundation, Sinhagad Road, Pune"
         ));

@@ -28,8 +28,37 @@ class DashboardService:
                 cursor.execute("SELECT COUNT(*) as count FROM appearance_analysis WHERE user_id = %s", (user_id,))
                 appearance_count = cursor.fetchone()['count']
                 
+                # Fetch recent worn outfits (repurposing saved_outfits)
+                cursor.execute("""
+                    SELECT so.id as worn_outfit_id, so.created_at as worn_at, so.fashion_score as recommendation_score, so.reason,
+                           t.id as top_id, t.name as top_name, t.category as top_category, t.color as top_color, t.image_path as top_image_path,
+                           o.id as out_id, o.name as out_name, o.category as out_category, o.color as out_color, o.image_path as out_image_path,
+                           b.id as bot_id, b.name as bot_name, b.category as bot_category, b.color as bot_color, b.image_path as bot_image_path,
+                           f.id as foot_id, f.name as foot_name, f.category as foot_category, f.color as foot_color, f.image_path as foot_image_path
+                    FROM saved_outfits so
+                    LEFT JOIN wardrobe_items t ON so.top_id = t.id
+                    LEFT JOIN wardrobe_items o ON so.outerwear_id = o.id
+                    LEFT JOIN wardrobe_items b ON so.bottom_id = b.id
+                    LEFT JOIN wardrobe_items f ON so.footwear_id = f.id
+                    WHERE so.user_id = %s
+                    ORDER BY so.created_at DESC
+                    LIMIT 5
+                """, (user_id,))
                 
+                recent_results = cursor.fetchall()
                 recent_outfits = []
+                for row in recent_results:
+                    outfit = {
+                        "id": row['worn_outfit_id'],
+                        "worn_at": row['worn_at'].isoformat() if row['worn_at'] else None,
+                        "recommendation_score": row['recommendation_score'] or 0.0,
+                        "reason": row['reason'] or "Worn outfit",
+                        "top": {"id": row['top_id'], "name": row['top_name'], "category": row['top_category'], "color": row['top_color'], "image_path": row['top_image_path']} if row['top_id'] else None,
+                        "outerwear": {"id": row['out_id'], "name": row['out_name'], "category": row['out_category'], "color": row['out_color'], "image_path": row['out_image_path']} if row['out_id'] else None,
+                        "bottom": {"id": row['bot_id'], "name": row['bot_name'], "category": row['bot_category'], "color": row['bot_color'], "image_path": row['bot_image_path']} if row['bot_id'] else None,
+                        "footwear": {"id": row['foot_id'], "name": row['foot_name'], "category": row['foot_category'], "color": row['foot_color'], "image_path": row['foot_image_path']} if row['foot_id'] else None
+                    }
+                    recent_outfits.append(outfit)
 
                 name = user['name'] if user else "User"
                 

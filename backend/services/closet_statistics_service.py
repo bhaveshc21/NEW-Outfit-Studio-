@@ -44,11 +44,6 @@ def get_closet_statistics(user_id):
                         "rarely_used_count": 0,
                         "most_worn_item": None
                     },
-                    "saved_outfits": {
-                        "available": False,
-                        "count": 0,
-                        "message": "Saved outfit tracking is not available yet."
-                    },
                     "wardrobe_gaps": {
                         "critical": ["Tops", "Bottoms", "Footwear"],
                         "optional": ["Accessories", "Jackets", "Dresses"],
@@ -208,11 +203,6 @@ def get_closet_statistics(user_id):
                     "never_worn_count": never_worn_count,
                     "rarely_used_count": rarely_used_count,
                     "most_worn_item": most_worn_item
-                },
-                "saved_outfits": {
-                    "available": False,
-                    "count": 0,
-                    "message": "Saved outfit tracking is not available yet."
                 },
                 "wardrobe_gaps": wardrobe_gaps,
                 "insights": insights

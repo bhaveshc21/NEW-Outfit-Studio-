@@ -80,6 +80,14 @@ public class ClosetStatisticsActivity extends AppCompatActivity {
         showLoading(true);
         int userId = tokenManager.getUserId();
 
+        if (userId == -1) {
+            Toast.makeText(this, "Session expired or invalid. Please login again.", Toast.LENGTH_LONG).show();
+            tokenManager.clear();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
+
         ClosetApiService apiService = ApiClient.getClient(this).create(ClosetApiService.class);
         Call<ClosetStatisticsResponse> call = apiService.getClosetStatistics(userId);
 
