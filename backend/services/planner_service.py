@@ -54,6 +54,12 @@ class PlannerService:
             if not wardrobe or len(wardrobe) < 3:
                 return {"success": False, "message": "Add more clothing to your wardrobe before planning outfits."}
                 
+            cursor.execute("SELECT skin_tone FROM appearance_analysis WHERE user_id = %s", (user_id,))
+            appearance = cursor.fetchone()
+            if appearance:
+                cols = [col[0] for col in cursor.description]
+                appearance = dict(zip(cols, appearance))
+                
             # Get weather
             weekly_weather = self.weather_service.get_weekly_weather(location)
             
@@ -72,7 +78,7 @@ class PlannerService:
                         if row.get(key):
                             used_items_counts[row[key]] = used_items_counts.get(row[key], 0) + 1
             
-            generator = OutfitGenerator(wardrobe, profile)
+            generator = OutfitGenerator(wardrobe, profile, appearance)
             
             weekly_result = []
             

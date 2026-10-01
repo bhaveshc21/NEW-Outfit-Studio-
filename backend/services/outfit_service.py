@@ -17,10 +17,14 @@ class OutfitService:
             cursor.execute("SELECT * FROM wardrobe_items WHERE user_id = %s", (user_id,))
             wardrobe_items = cursor.fetchall()
             
+            # Fetch appearance data
+            cursor.execute("SELECT skin_tone FROM appearance_analysis WHERE user_id = %s", (user_id,))
+            appearance = cursor.fetchone()
+            
             cursor.close()
             
             # Initialize Generator
-            generator = OutfitGenerator(wardrobe_items, profile)
+            generator = OutfitGenerator(wardrobe_items, profile, appearance)
             result = generator.generate_outfits(limit=limit, occasion=occasion, weather_data=weather_data)
             
             return result

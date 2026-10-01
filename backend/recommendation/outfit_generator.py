@@ -3,10 +3,25 @@ from .occasion_rules import get_occasion_score, get_missing_occasion_categories
 from .weather_rules import get_weather_score, get_missing_weather_categories
 import random
 
+def is_long_dress(item):
+    if not item:
+        return False
+    cat = item.get('category', '').lower()
+    name = item.get('name', '').lower()
+    keywords = ['dress', 'maxi', 'gown', 'one piece', 'one-piece', 'full length', 'bodycon', 'frock']
+    for k in keywords:
+        if k in cat or k in name:
+            return True
+    return False
+
+
 class OutfitGenerator:
-    def __init__(self, wardrobe_items, profile):
+    def __init__(self, wardrobe_items, profile, appearance=None):
         self.wardrobe = wardrobe_items
         self.profile = profile
+        self.appearance = appearance
+        self.skin_tone = appearance.get('skin_tone') if appearance else None
+        
         self.tops = []
         self.outerwear = []
         self.bottoms = []
@@ -23,7 +38,7 @@ class OutfitGenerator:
     def _categorize_wardrobe(self):
         for item in self.wardrobe:
             cat = item.get('category', '').lower()
-            if 'dress' in cat or 'bodycon' in cat or 'frock' in cat:
+            if is_long_dress(item):
                 self.dresses.append(item)
             elif 'jacket' in cat or 'blazer' in cat or 'coat' in cat or 'cardigan' in cat or 'sweater' in cat:
                 self.outerwear.append(item)
@@ -206,17 +221,16 @@ class OutfitGenerator:
         
         comb_penalty = 0.0
         
-        top_is_formal = 'formal' in top_cat or 'suit' in top_cat or 'shirt' in top_cat
+        # We only apply a very tiny penalty for extreme formal/casual clashes if they happen, 
+        # but let occasion_rules.py do the heavy lifting.
+        top_is_formal = 'formal' in top_cat or 'suit' in top_cat or ('shirt' in top_cat and 'tshirt' not in top_cat)
         if out_cat:
-            if 'blazer' in out_cat or 'suit' in out_cat or 'formal' in out_cat:
+            if 'suit' in out_cat or 'formal' in out_cat:
                 top_is_formal = True
                 
-        if bottom and top_is_formal and ('short' in bot_cat or 'sweat' in bot_cat or 'jean' in bot_cat):
-            comb_penalty += 30.0
-        if (top_is_formal or 'formal' in bot_cat) and ('sneaker' in shoe_cat or 'sport' in shoe_cat):
-            comb_penalty += 20.0
-        if ('t-shirt' in top_cat or 'sport' in top_cat or 'casual' in top_cat) and ('formal' in shoe_cat) and not out_cat:
-            comb_penalty += 25.0
+        # Only penalize if it's extreme (like a formal suit with sweatpants)
+        if bottom and top_is_formal and ('sweat' in bot_cat or 'track' in bot_cat):
+            comb_penalty += 10.0
             
         # Weighting: 40% Color, 30% Occasion, 30% Weather
         score = (color_score_raw * 0.4) + (occ_avg * 0.3) + (wea_avg * 0.3)
@@ -227,6 +241,10 @@ class OutfitGenerator:
             colors_in_outfit = {normalize_color(item.get('color')) for item in items}
             matches = colors_in_outfit.intersection(set(self.preferred_colors))
             score += (len(matches) * 2.0)
+            
+        # Skin tone harmony bonus (up to 10 points)
+        skin_bonus = self._get_skin_tone_bonus(items)
+        score += skin_bonus
             
         # Tie-breaker (so it's deterministic and visually unique in the UI)
         t_id = top.get('id', 0) or 0
@@ -250,4 +268,28 @@ class OutfitGenerator:
         if self.preferred_colors and score > 80:
             reason += " Matches your preferred colors!"
             
+        if skin_bonus > 0 and score > 75:
+            reason += " Complements your skin tone!"
+            
         return score, reason, is_invalid
+
+    def _get_skin_tone_bonus(self, items):
+        if not self.skin_tone or self.skin_tone == "Not Analyzed":
+            return 0.0
+            
+        outfit_colors = {normalize_color(item.get('color')) for item in items if item}
+        bonus = 0.0
+        
+        st = self.skin_tone.lower()
+        if st == "light":
+            best_colors = {"navy", "emerald", "dark red", "pink", "light blue", "black"}
+        elif st == "medium" or st == "tan":
+            best_colors = {"beige", "brown", "mustard", "olive", "red", "cream", "white"}
+        elif st == "deep":
+            best_colors = {"yellow", "white", "red", "cobalt blue", "emerald", "pink"}
+        else:
+            best_colors = set()
+            
+        matches = outfit_colors.intersection(best_colors)
+        bonus += len(matches) * 3.0
+        return min(bonus, 10.0)

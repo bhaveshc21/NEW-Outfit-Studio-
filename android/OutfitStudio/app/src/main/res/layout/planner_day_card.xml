@@ -168,11 +168,11 @@
             app:cornerRadius="8dp" />
 
         <Button
-            android:id="@+id/btnWhy"
+            android:id="@+id/btnSaveOutfitPlanner"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="48dp"
-            android:text="Why?"
+            android:text="SAVE THIS OUTFIT"
             android:textSize="12sp"
             android:layout_marginStart="4dp"
             style="@style/Widget.MaterialComponents.Button.TextButton" />

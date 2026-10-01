@@ -26,15 +26,7 @@
             android:layout_marginTop="-24dp"
             android:elevation="4dp">
 
-            <TextView
-                android:id="@+id/tvDetailName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Clothing Name"
-                android:textSize="26sp"
-                android:textStyle="bold"
-                android:textColor="@color/on_background"
-                android:layout_marginBottom="8dp"/>
+
 
             <TextView
                 android:id="@+id/tvDetailCategory"
@@ -55,23 +47,88 @@
                 android:layout_marginBottom="32dp"/>
 
             <TextView
-                android:id="@+id/tvUsageInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="USAGE\nWorn 0 times\nNo usage history"
-                android:textColor="@color/on_background"
-                android:textSize="16sp"
-                android:layout_marginBottom="16dp"
-                android:visibility="visible"/>
+                android:text="USAGE"
+                android:textColor="@color/primary"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.1"
+                android:layout_marginBottom="8dp"/>
                 
-            <Button
-                android:id="@+id/btnMarkWorn"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="Mark as Worn"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+                
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:background="@drawable/rounded_card_bg"
+                    android:layout_marginEnd="8dp">
+                    
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Worn"
+                        android:textColor="@color/text_hint"
+                        android:textSize="12sp"/>
+                        
+                    <TextView
+                        android:id="@+id/tvWornCount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0 times"
+                        android:textColor="@color/on_background"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="2dp"/>
+                </LinearLayout>
+                
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:background="@drawable/rounded_card_bg"
+                    android:layout_marginStart="8dp">
+                    
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Last Worn"
+                        android:textColor="@color/text_hint"
+                        android:textSize="12sp"/>
+                        
+                    <TextView
+                        android:id="@+id/tvLastWorn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Never"
+                        android:textColor="@color/on_background"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="2dp"/>
+                </LinearLayout>
+                
+            </LinearLayout>
+            
+            <TextView
+                android:id="@+id/tvRarelyUsedWarning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="RARELY USED\nNot worn for over 4 months"
+                android:textColor="@color/error"
+                android:textSize="14sp"
+                android:textStyle="bold"
                 android:layout_marginBottom="16dp"
-                app:cornerRadius="12dp"
-                style="@style/Widget.MaterialComponents.Button"/>
+                android:visibility="gone"/>
+
                 
             <Button
                 android:id="@+id/btnDonate"

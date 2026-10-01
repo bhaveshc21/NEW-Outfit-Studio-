@@ -38,18 +38,31 @@ def estimate_skin_tone(cv_image):
         if skin_crop.size == 0:
             return "Deep", None
             
-        # Convert to YCrCb color space which is good for skin tone analysis
+        # Convert to HSV to create a skin mask
+        hsv = cv2.cvtColor(skin_crop, cv2.COLOR_BGR2HSV)
+        
+        # Define broad range of skin color in HSV
+        lower_skin = np.array([0, 10, 60], dtype=np.uint8)
+        upper_skin = np.array([30, 150, 255], dtype=np.uint8)
+        mask = cv2.inRange(hsv, lower_skin, upper_skin)
+        
+        # Convert to YCrCb for accurate luminance analysis
         ycrcb = cv2.cvtColor(skin_crop, cv2.COLOR_BGR2YCrCb)
+        y_channel = ycrcb[:,:,0]
         
-        # Calculate average Y (luminance) channel
-        avg_y = np.mean(ycrcb[:,:,0])
+        skin_y = y_channel[mask > 0]
         
-        # Updated thresholds for better accuracy on dark skin tones
-        if avg_y > 165:
+        if len(skin_y) < 20: # Fallback if mask fails
+            avg_y = np.mean(y_channel)
+        else:
+            avg_y = np.mean(skin_y)
+        
+        # Updated thresholds for better accuracy
+        if avg_y > 175:
             return "Light", None
-        elif avg_y > 120:
+        elif avg_y > 135:
             return "Medium", None
-        elif avg_y > 75:
+        elif avg_y > 90:
             return "Tan", None
         else:
             return "Deep", None

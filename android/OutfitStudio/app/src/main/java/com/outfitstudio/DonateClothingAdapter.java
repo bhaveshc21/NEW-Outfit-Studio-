@@ -53,19 +53,18 @@ public class DonateClothingAdapter extends RecyclerView.Adapter<DonateClothingAd
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         WardrobeItem item = items.get(position);
-        holder.tvName.setText(item.getName());
         holder.tvCategory.setText(item.getCategory());
         holder.tvColor.setText(item.getColor());
 
-        String imageUrl = "http://192.168.1.101:5000/" + item.getImagePath().replace("\\", "/");
+        String imageUrl = "http://192.168.1.12:5000/" + item.getImagePath().replace("\\", "/");
         
         Glide.with(context)
                 .load(imageUrl)
                 .centerCrop()
                 .into(holder.ivImage);
 
+        holder.tvUsageStatus.setVisibility(View.VISIBLE);
         holder.tvUsageStatus.setText("Status: " + (item.getUsageStatus() != null ? item.getUsageStatus() : "Unknown"));
-        holder.tvUsageCount.setText("Worn: " + item.getUsageCount() + " times");
 
         holder.itemView.setOnClickListener(v -> showConfirmationDialog(item));
     }
@@ -115,16 +114,14 @@ public class DonateClothingAdapter extends RecyclerView.Adapter<DonateClothingAd
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView ivImage;
-        TextView tvName, tvCategory, tvColor, tvUsageStatus, tvUsageCount;
+        TextView tvCategory, tvColor, tvUsageStatus;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivImage = itemView.findViewById(R.id.ivClothingImage);
-            tvName = itemView.findViewById(R.id.tvClothingName);
             tvCategory = itemView.findViewById(R.id.tvClothingCategory);
             tvColor = itemView.findViewById(R.id.tvClothingColor);
             tvUsageStatus = itemView.findViewById(R.id.tvUsageStatus);
-            tvUsageCount = itemView.findViewById(R.id.tvUsageCount);
         }
     }
 }

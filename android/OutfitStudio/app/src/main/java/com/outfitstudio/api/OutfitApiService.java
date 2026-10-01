@@ -27,4 +27,13 @@ public interface OutfitApiService {
     
     @POST("outfits/worn")
     Call<com.outfitstudio.api.models.WardrobeResponse.EmptyResponse> markOutfitWorn(@Body java.util.Map<String, java.util.List<Integer>> body);
+    
+    @POST("outfits/save")
+    Call<com.outfitstudio.api.models.WardrobeResponse.EmptyResponse> saveOutfit(@Body java.util.Map<String, com.outfitstudio.api.models.GeneratedOutfit> body);
+    
+    @retrofit2.http.GET("outfits/saved")
+    Call<com.outfitstudio.api.models.OutfitResponse> getSavedOutfits();
+    
+    @retrofit2.http.DELETE("outfits/saved/{id}")
+    Call<com.outfitstudio.api.models.WardrobeResponse.EmptyResponse> removeSavedOutfit(@retrofit2.http.Path("id") int outfitId);
 }

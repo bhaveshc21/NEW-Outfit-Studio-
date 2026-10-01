@@ -132,7 +132,6 @@ public class CompareOutfitsActivity extends AppCompatActivity {
                         .load("http://172.19.182.239:5000/" + path)
                         .centerCrop()
                         .into((android.widget.ImageView) card.findViewById(R.id.ivTop));
-                ((TextView) card.findViewById(R.id.tvTopName)).setText(outfit.getTop().getName());
             }
 
             // Outerwear
@@ -143,7 +142,6 @@ public class CompareOutfitsActivity extends AppCompatActivity {
                         .load("http://172.19.182.239:5000/" + path)
                         .centerCrop()
                         .into((android.widget.ImageView) card.findViewById(R.id.ivOuterwear));
-                ((TextView) card.findViewById(R.id.tvOuterwearName)).setText(outfit.getOuterwear().getName());
             } else {
                 card.findViewById(R.id.layoutOuterwear).setVisibility(View.GONE);
             }
@@ -155,7 +153,6 @@ public class CompareOutfitsActivity extends AppCompatActivity {
                         .load("http://172.19.182.239:5000/" + path)
                         .centerCrop()
                         .into((android.widget.ImageView) card.findViewById(R.id.ivBottom));
-                ((TextView) card.findViewById(R.id.tvBottomName)).setText(outfit.getBottom().getName());
             }
 
             // Footwear
@@ -165,7 +162,6 @@ public class CompareOutfitsActivity extends AppCompatActivity {
                         .load("http://172.19.182.239:5000/" + path)
                         .centerCrop()
                         .into((android.widget.ImageView) card.findViewById(R.id.ivFootwear));
-                ((TextView) card.findViewById(R.id.tvFootwearName)).setText(outfit.getFootwear().getName());
             }
             
             llCompareResults.addView(card);

@@ -21,9 +21,16 @@ public class WardrobeAdapter extends RecyclerView.Adapter<WardrobeAdapter.Wardro
     private Context context;
     private List<WardrobeItem> items;
 
+    private boolean showUsageStatus;
+
     public WardrobeAdapter(Context context, List<WardrobeItem> items) {
+        this(context, items, false);
+    }
+
+    public WardrobeAdapter(Context context, List<WardrobeItem> items, boolean showUsageStatus) {
         this.context = context;
         this.items = items;
+        this.showUsageStatus = showUsageStatus;
     }
 
     public void updateData(List<WardrobeItem> newItems) {
@@ -41,19 +48,38 @@ public class WardrobeAdapter extends RecyclerView.Adapter<WardrobeAdapter.Wardro
     @Override
     public void onBindViewHolder(@NonNull WardrobeViewHolder holder, int position) {
         WardrobeItem item = items.get(position);
-        holder.tvName.setText(item.getName());
         holder.tvCategory.setText(item.getCategory());
         holder.tvColor.setText(item.getColor());
 
-        String imageUrl = "http://192.168.1.101:5000/" + item.getImagePath().replace("\\", "/");
+        String imageUrl = "http://192.168.1.12:5000/" + item.getImagePath().replace("\\", "/");
         
         Glide.with(context)
                 .load(imageUrl)
                 .centerCrop()
                 .into(holder.ivImage);
 
-        holder.tvUsageStatus.setText("Status: " + (item.getUsageStatus() != null ? item.getUsageStatus() : "Unknown"));
-        holder.tvUsageCount.setText("Worn: " + item.getUsageCount() + " times");
+        if (showUsageStatus) {
+            holder.tvUsageStatus.setVisibility(View.VISIBLE);
+            String formattedDate = "Never";
+            if (item.getLastWornAt() != null) {
+                formattedDate = item.getLastWornAt();
+                try {
+                    if (formattedDate.contains("T")) {
+                        formattedDate = formattedDate.split("T")[0];
+                    } else if (formattedDate.contains(" ")) {
+                        formattedDate = formattedDate.split(" ")[0];
+                    }
+                } catch (Exception e) {
+                    // Ignore, use fallback
+                }
+            }
+            holder.tvUsageStatus.setText("Last Worn:\n" + formattedDate);
+            holder.tvUsageCount.setVisibility(View.VISIBLE);
+            holder.tvUsageCount.setText("Times Worn: " + item.getUsageCount());
+        } else {
+            holder.tvUsageStatus.setVisibility(View.GONE);
+            holder.tvUsageCount.setVisibility(View.GONE);
+        }
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ClothingDetailsActivity.class);
@@ -69,12 +95,11 @@ public class WardrobeAdapter extends RecyclerView.Adapter<WardrobeAdapter.Wardro
 
     public static class WardrobeViewHolder extends RecyclerView.ViewHolder {
         ImageView ivImage;
-        TextView tvName, tvCategory, tvColor, tvUsageStatus, tvUsageCount;
+        TextView tvCategory, tvColor, tvUsageStatus, tvUsageCount;
 
         public WardrobeViewHolder(@NonNull View itemView) {
             super(itemView);
             ivImage = itemView.findViewById(R.id.ivClothingImage);
-            tvName = itemView.findViewById(R.id.tvClothingName);
             tvCategory = itemView.findViewById(R.id.tvClothingCategory);
             tvColor = itemView.findViewById(R.id.tvClothingColor);
             tvUsageStatus = itemView.findViewById(R.id.tvUsageStatus);

@@ -39,6 +39,8 @@ def normalize_color(color_name):
     """Normalize a color string for matching."""
     if not color_name:
         return ""
+    if color_name.strip().lower() == 'unknown':
+        return ""
     return color_name.strip().lower()
 
 def is_compatible(color1, color2):
@@ -89,10 +91,10 @@ def color_pair_score(color1, color2):
     is_c2_neutral = c2 in NEUTRAL_COLORS
     
     if is_c1_neutral and is_c2_neutral:
-        return 90.0
+        return 85.0
         
     if is_c1_neutral or is_c2_neutral:
-        return 95.0
+        return 70.0
         
     return 30.0  # Clashing colors
 

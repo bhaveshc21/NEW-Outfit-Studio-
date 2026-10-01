@@ -47,7 +47,7 @@ public class EditClothingActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_CAMERA = 100;
 
     private ImageView ivClothingPreview;
-    private TextInputEditText etName, etColor;
+    private TextInputEditText etColor;
     private Spinner spinnerCategory;
     private Button btnSave;
     private ProgressBar progressBar;
@@ -70,7 +70,6 @@ public class EditClothingActivity extends AppCompatActivity {
         }
 
         ivClothingPreview = findViewById(R.id.ivClothingPreview);
-        etName = findViewById(R.id.etName);
         etColor = findViewById(R.id.etColor);
         spinnerCategory = findViewById(R.id.spinnerCategory);
         btnSave = findViewById(R.id.btnSave);
@@ -84,7 +83,11 @@ public class EditClothingActivity extends AppCompatActivity {
         // Setup Spinner
         String gender = TokenManager.getInstance(this).getGender();
         String[] categories = CategoryConstants.getCategoriesByGender(gender);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
+        String[] upperCategories = new String[categories.length];
+        for (int i = 0; i < categories.length; i++) {
+            upperCategories[i] = categories[i].toUpperCase();
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, upperCategories);
         spinnerCategory.setAdapter(adapter);
 
         btnCamera.setOnClickListener(v -> checkCameraPermission());
@@ -123,7 +126,6 @@ public class EditClothingActivity extends AppCompatActivity {
     private void populateData() {
         if (currentItem == null) return;
         
-        etName.setText(currentItem.getName());
         etColor.setText(currentItem.getColor());
         
         String gender = TokenManager.getInstance(this).getGender();
@@ -135,7 +137,7 @@ public class EditClothingActivity extends AppCompatActivity {
             }
         }
 
-        String imageUrl = "http://192.168.1.101:5000/" + currentItem.getImagePath().replace("\\", "/");
+        String imageUrl = "http://192.168.1.12:5000/" + currentItem.getImagePath().replace("\\", "/");
         Glide.with(this).load(imageUrl).centerCrop().into(ivClothingPreview);
     }
 
@@ -197,12 +199,12 @@ public class EditClothingActivity extends AppCompatActivity {
     }
 
     private void saveChanges() {
-        String name = etName.getText().toString().trim();
         String category = spinnerCategory.getSelectedItem().toString();
+        String name = category; // Use category as the name
         String color = etColor.getText().toString().trim();
         int userId = TokenManager.getInstance(this).getUserId();
 
-        if (name.isEmpty() || color.isEmpty()) {
+        if (color.isEmpty()) {
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
             return;
         }

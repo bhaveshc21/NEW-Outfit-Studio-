@@ -76,8 +76,10 @@ public class SmartShoppingActivity extends AppCompatActivity {
         String gender = TokenManager.getInstance(this).getGender();
         String[] baseCategories = CategoryConstants.getCategoriesByGender(gender);
         String[] categories = new String[baseCategories.length + 1];
-        categories[0] = "Unknown";
-        System.arraycopy(baseCategories, 0, categories, 1, baseCategories.length);
+        categories[0] = "UNKNOWN";
+        for (int i = 0; i < baseCategories.length; i++) {
+            categories[i + 1] = baseCategories[i].toUpperCase();
+        }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
         spinnerCategory.setAdapter(adapter);
 

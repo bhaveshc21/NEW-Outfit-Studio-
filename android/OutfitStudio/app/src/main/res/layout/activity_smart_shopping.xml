@@ -102,7 +102,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Optional: Help us identify the item"
+            android:text="Select the Clothing Category"
             android:textColor="@color/primary_variant"
             android:textStyle="bold"
             android:textSize="14sp"

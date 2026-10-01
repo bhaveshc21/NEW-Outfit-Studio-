@@ -16,17 +16,17 @@ def get_weather_score(item, weather_data):
     
     # Temperature rules
     if temp >= 28: # HOT
-        if 'jacket' in cat or 'sweater' in cat or 'coat' in cat or 'winter' in cat:
+        if any(w in cat for w in ['jacket', 'sweater', 'coat', 'winter', 'blazer']):
             score -= 40
             is_invalid = True
-        elif 'short' in cat or 't-shirt' in cat or 'light' in cat:
+        elif any(w in cat for w in ['short', 'tshirt', 'light', 'crop top', 'sandal', 'slipper', 'croc', 'sleeveless tops']):
             score += 30
     elif 15 <= temp < 28: # MILD
         score += 10 # generally most clothes are fine
     elif temp < 15: # COLD
-        if 'jacket' in cat or 'sweater' in cat or 'coat' in cat or 'winter' in cat:
+        if any(w in cat for w in ['jacket', 'sweater', 'coat', 'winter', 'blazer']):
             score += 40
-        elif 'short' in cat or 'sleeveless' in cat:
+        elif any(w in cat for w in ['short', 'sleeveless', 'crop top', 'sandal', 'slipper', 'croc']):
             score -= 30
             is_invalid = True
             

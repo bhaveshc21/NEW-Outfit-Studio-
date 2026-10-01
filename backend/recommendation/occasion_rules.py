@@ -23,50 +23,54 @@ def get_occasion_score(item, occasion):
     is_invalid = False
     
     if occasion == 'college':
-        if 't-shirt' in cat or 'jean' in cat or 'sneaker' in cat or 'casual' in cat:
+        if any(w in cat for w in ['tshirt', 'shirt', 'sleeveless top', 'sleeved top', 'crop top', 'jean', 'skirt', 'legging', 'jacket', 'sneaker', 'sandal', 'sport', 'frock']):
             score += 30
-        elif 'formal' in cat or 'suit' in cat:
-            score -= 20
+        if any(w in cat for w in ['formal', 'blazer', 'tie', 'suit', 'long dress', 'heel']):
+            score -= 30
+            is_invalid = True
             
     elif occasion == 'office':
-        if 'formal' in cat or 'shirt' in cat or 'trouser' in cat:
-            score += 30
-        if 't-shirt' in cat or 'short' in cat or 'sneaker' in cat:
-            score -= 30
-            if 'short' in cat:
-                is_invalid = True
+        if any(w in cat for w in ['shirt', 'sleeved top', 'trouser', 'skirt', 'blazer', 'formal', 'heel']):
+            score += 40
+        if any(w in cat for w in ['jean', 'tshirt', 'sneaker', 'jacket', 'sleeveless top']):
+            score -= 10 # slightly penalized but not invalid
+        if any(w in cat for w in ['crop top', 'legging', 'slipper', 'sandal', 'sport', 'croc', 'bodycon', 'frock', 'long dress', 'short']):
+            score -= 40
+            is_invalid = True
                 
     elif occasion == 'interview':
-        if 'formal' in cat or 'suit' in cat or 'tie' in cat or 'shirt' in cat:
+        if any(w in cat for w in ['shirt', 'sleeved top', 'trouser', 'blazer', 'formal', 'heel', 'suit', 'tie']):
             score += 40
-        if 't-shirt' in cat or 'short' in cat or 'jean' in cat or 'sneaker' in cat:
+        if any(w in cat for w in ['tshirt', 'sleeveless top', 'crop top', 'jean', 'legging', 'jacket', 'sneaker', 'slipper', 'sandal', 'sport', 'croc', 'bodycon', 'frock', 'long dress', 'short']):
             score -= 40
             is_invalid = True
             
     elif occasion == 'party':
-        if 'party' in cat or 'dress' in cat or 'stylish' in cat or 'jacket' in cat:
+        if any(w in cat for w in ['shirt', 'tshirt', 'sleeveless top', 'crop top', 'jean', 'skirt', 'legging', 'jacket', 'blazer', 'sneaker', 'heel', 'bodycon', 'frock', 'long dress']):
             score += 30
-        if 'formal' in cat and 'trouser' not in cat: # some formal trousers can be partied in
-            score -= 10
+        if any(w in cat for w in ['trouser', 'slipper', 'sandal', 'sport', 'formal', 'croc', 'suit', 'tie']):
+            score -= 20
             
     elif occasion == 'wedding':
-        if 'formal' in cat or 'suit' in cat or 'traditional' in cat or 'dress' in cat:
+        if any(w in cat for w in ['shirt', 'sleeved top', 'trouser', 'blazer', 'formal', 'heel', 'long dress', 'suit', 'tie']):
             score += 40
-        if 't-shirt' in cat or 'short' in cat or 'jean' in cat or 'sneaker' in cat:
+        if any(w in cat for w in ['tshirt', 'sleeveless top', 'crop top', 'jean', 'legging', 'jacket', 'sneaker', 'slipper', 'sandal', 'sport', 'croc', 'bodycon', 'short']):
             score -= 40
             is_invalid = True
             
     elif occasion == 'travel':
-        if 'casual' in cat or 't-shirt' in cat or 'jean' in cat or 'sneaker' in cat or 'comfortable' in cat:
-            score += 30
-        if 'formal' in cat or 'suit' in cat:
-            score -= 30
+        if any(w in cat for w in ['tshirt', 'sleeveless top', 'crop top', 'jean', 'legging', 'jacket', 'sneaker', 'sport', 'slipper', 'croc']):
+            score += 40
+        if any(w in cat for w in ['trouser', 'blazer', 'formal', 'heel', 'long dress', 'bodycon', 'frock', 'suit', 'tie']):
+            score -= 40
+            is_invalid = True
             
     elif occasion == 'casual':
-        if 'casual' in cat or 't-shirt' in cat or 'jean' in cat or 'sneaker' in cat or 'short' in cat:
-            score += 30
-        if 'formal' in cat or 'suit' in cat:
-            score -= 30
+        if any(w in cat for w in ['tshirt', 'shirt', 'sleeveless top', 'crop top', 'jean', 'skirt', 'legging', 'jacket', 'sneaker', 'slipper', 'sandal', 'sport', 'croc', 'short']):
+            score += 40
+        if any(w in cat for w in ['trouser', 'blazer', 'formal', 'heel', 'long dress', 'bodycon', 'suit', 'tie']):
+            score -= 40
+            is_invalid = True
             
     # clamp score
     score = max(0, min(100, score))
@@ -86,9 +90,9 @@ def get_missing_occasion_categories(wardrobe_items, occasion):
     missing = []
     
     if occasion in ['office', 'interview', 'wedding']:
-        has_formal_top = any('shirt' in c or 'formal' in c for c in categories if 't-shirt' not in c)
+        has_formal_top = any('shirt' in c or 'formal' in c or 'sleeved' in c for c in categories if 'tshirt' not in c)
         has_formal_bottom = any('trouser' in c or 'formal' in c for c in categories)
-        has_formal_shoes = any('formal' in c or 'leather' in c for c in categories if 'shoe' in c)
+        has_formal_shoes = any('formal' in c or 'heel' in c for c in categories)
         
         if not has_formal_top:
             missing.append({"item": "Formal shirt", "reason": f"Would create more suitable {occasion} combinations."})
@@ -98,9 +102,9 @@ def get_missing_occasion_categories(wardrobe_items, occasion):
             missing.append({"item": "Formal footwear", "reason": f"Would complete more suitable {occasion} combinations."})
             
     elif occasion in ['college', 'travel', 'casual']:
-        has_casual_top = any('t-shirt' in c or 'casual' in c for c in categories)
-        has_casual_bottom = any('jean' in c or 'short' in c for c in categories)
-        has_casual_shoes = any('sneaker' in c or 'casual' in c for c in categories)
+        has_casual_top = any('tshirt' in c or 'crop top' in c for c in categories)
+        has_casual_bottom = any('jean' in c or 'legging' in c for c in categories)
+        has_casual_shoes = any('sneaker' in c or 'sport' in c or 'croc' in c for c in categories)
         
         if not has_casual_top:
             missing.append({"item": "Casual t-shirt", "reason": f"Essential for comfortable {occasion} wear."})

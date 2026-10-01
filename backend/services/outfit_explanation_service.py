@@ -133,10 +133,10 @@ class OutfitExplanationService:
             if appearance_data:
                 factors_output["appearance"] = {
                     "available": True,
-                    "status": "N/A",
-                    "reason": f"Appearance information (Face: {appearance_data.get('face_shape', 'N/A')}, Body: {appearance_data.get('body_type', 'N/A')}, Skin: {appearance_data.get('skin_tone', 'N/A')}) is available, but was not used to score this specific recommendation."
+                    "status": "PASS",
+                    "reason": f"Skin tone ({appearance_data.get('skin_tone', 'N/A')}) is actively considered in your outfit color harmony score."
                 }
-                reasons_list.append("Appearance information is available but not used for this recommendation.")
+                reasons_list.append(factors_output["appearance"]["reason"])
             else:
                 factors_output["appearance"] = {
                     "available": False,

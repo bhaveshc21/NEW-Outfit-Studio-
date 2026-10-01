@@ -206,3 +206,116 @@ def mark_outfit_worn(current_user_id):
     finally:
         if db.is_connected():
             db.close()
+
+@outfit_bp.route('/save', methods=['POST'])
+@token_required
+def save_outfit(current_user_id):
+    db = get_db()
+    try:
+        data = request.get_json(silent=True)
+        if not data or 'outfit' not in data:
+            return jsonify({"success": False, "message": "outfit object is required"}), 400
+            
+        outfit_data = data['outfit']
+        top = outfit_data.get('top')
+        top_id = top.get('id') if top and isinstance(top, dict) else outfit_data.get('top_id')
+        
+        outerwear = outfit_data.get('outerwear')
+        outerwear_id = outerwear.get('id') if outerwear and isinstance(outerwear, dict) else outfit_data.get('outerwear_id')
+        
+        bottom = outfit_data.get('bottom')
+        bottom_id = bottom.get('id') if bottom and isinstance(bottom, dict) else outfit_data.get('bottom_id')
+        
+        footwear = outfit_data.get('footwear')
+        footwear_id = footwear.get('id') if footwear and isinstance(footwear, dict) else outfit_data.get('footwear_id')
+        score = outfit_data.get('recommendation_score')
+        reason = outfit_data.get('reason')
+        
+        cursor = db.cursor()
+        query = """
+            INSERT INTO saved_outfits (user_id, top_id, outerwear_id, bottom_id, footwear_id, fashion_score, reason)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """
+        cursor.execute(query, (current_user_id, top_id, outerwear_id, bottom_id, footwear_id, score, reason))
+        db.commit()
+        cursor.close()
+        
+        return jsonify({
+            "success": True, 
+            "message": "Outfit saved successfully"
+        }), 200
+        
+    except Exception as e:
+        print(f"Save Outfit error: {e}")
+        return jsonify({"success": False, "message": "Internal server error"}), 500
+    finally:
+        if db.is_connected():
+            db.close()
+
+@outfit_bp.route('/saved', methods=['GET'])
+@token_required
+def get_saved_outfits(current_user_id):
+    db = get_db()
+    try:
+        cursor = db.cursor(dictionary=True)
+        query = """
+            SELECT so.id as saved_outfit_id, so.fashion_score as recommendation_score, so.reason,
+                   t.id as top_id, t.name as top_name, t.category as top_category, t.color as top_color, t.image_path as top_image_path,
+                   o.id as out_id, o.name as out_name, o.category as out_category, o.color as out_color, o.image_path as out_image_path,
+                   b.id as bot_id, b.name as bot_name, b.category as bot_category, b.color as bot_color, b.image_path as bot_image_path,
+                   f.id as foot_id, f.name as foot_name, f.category as foot_category, f.color as foot_color, f.image_path as foot_image_path
+            FROM saved_outfits so
+            LEFT JOIN wardrobe_items t ON so.top_id = t.id
+            LEFT JOIN wardrobe_items o ON so.outerwear_id = o.id
+            LEFT JOIN wardrobe_items b ON so.bottom_id = b.id
+            LEFT JOIN wardrobe_items f ON so.footwear_id = f.id
+            WHERE so.user_id = %s
+            ORDER BY so.created_at DESC
+        """
+        cursor.execute(query, (current_user_id,))
+        results = cursor.fetchall()
+        cursor.close()
+        
+        outfits = []
+        for row in results:
+            outfit = {
+                "id": row['saved_outfit_id'],
+                "recommendation_score": row['recommendation_score'] or 0.0,
+                "reason": row['reason'] or "User saved outfit",
+                "top": {"id": row['top_id'], "name": row['top_name'], "category": row['top_category'], "color": row['top_color'], "image_path": row['top_image_path']} if row['top_id'] else None,
+                "outerwear": {"id": row['out_id'], "name": row['out_name'], "category": row['out_category'], "color": row['out_color'], "image_path": row['out_image_path']} if row['out_id'] else None,
+                "bottom": {"id": row['bot_id'], "name": row['bot_name'], "category": row['bot_category'], "color": row['bot_color'], "image_path": row['bot_image_path']} if row['bot_id'] else None,
+                "footwear": {"id": row['foot_id'], "name": row['foot_name'], "category": row['foot_category'], "color": row['foot_color'], "image_path": row['foot_image_path']} if row['foot_id'] else None
+            }
+            outfits.append(outfit)
+            
+        return jsonify({
+            "success": True, 
+            "data": {
+                "outfits": outfits
+            }
+        }), 200
+        
+    except Exception as e:
+        print(f"Get Saved Outfits error: {e}")
+        return jsonify({"success": False, "message": "Internal server error"}), 500
+    finally:
+        if db.is_connected():
+            db.close()
+
+@outfit_bp.route('/saved/<int:outfit_id>', methods=['DELETE'])
+@token_required
+def delete_saved_outfit(current_user_id, outfit_id):
+    db = get_db()
+    try:
+        cursor = db.cursor()
+        cursor.execute("DELETE FROM saved_outfits WHERE id = %s AND user_id = %s", (outfit_id, current_user_id))
+        db.commit()
+        cursor.close()
+        return jsonify({"success": True, "message": "Saved outfit deleted"}), 200
+    except Exception as e:
+        print(f"Delete saved outfit error: {e}")
+        return jsonify({"success": False, "message": "Internal server error"}), 500
+    finally:
+        if db.is_connected():
+            db.close()

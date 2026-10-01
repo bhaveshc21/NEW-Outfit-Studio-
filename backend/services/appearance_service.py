@@ -32,11 +32,8 @@ class AppearanceService:
             return None, skin_err
             
         # 4. Body type estimation
-        profile = self.get_profile(user_id)
-        body_type, body_err = estimate_body_type(profile)
-        # We don't fail completely if body type fails, just use None or a default
-        if body_err:
-            print(f"Body type warning: {body_err}")
+        # Removed per user request
+        body_type = "Not Analyzed"
             
         # Save image securely
         upload_dir = os.path.join('uploads', 'appearance')

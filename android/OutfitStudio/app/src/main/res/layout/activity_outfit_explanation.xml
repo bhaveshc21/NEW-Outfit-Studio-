@@ -16,7 +16,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Why this outfit?"
+            app:title="SAVE THIS OUTFIT"
             app:titleTextColor="@color/primary" />
     </com.google.android.material.appbar.AppBarLayout>
 

@@ -84,9 +84,12 @@ class OutfitScoreService:
             
             cursor.execute("SELECT * FROM wardrobe_items WHERE user_id = %s", (user_id,))
             wardrobe_items = cursor.fetchall()
+            
+            cursor.execute("SELECT skin_tone FROM appearance_analysis WHERE user_id = %s", (user_id,))
+            appearance = cursor.fetchone()
             cursor.close()
 
-            generator = OutfitGenerator(wardrobe_items, profile)
+            generator = OutfitGenerator(wardrobe_items, profile, appearance)
             # The generator returns a list of sorted outfits
             gen_result = generator.generate_outfits(limit=5, occasion=occasion, weather_data=weather_data)
             

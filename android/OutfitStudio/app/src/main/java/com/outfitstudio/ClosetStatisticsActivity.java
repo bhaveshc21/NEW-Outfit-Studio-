@@ -39,9 +39,7 @@ public class ClosetStatisticsActivity extends AppCompatActivity {
     private TextView tvTotalItems;
     private LinearLayout layoutCategoryChart;
     private LinearLayout layoutColorChart;
-    private TextView tvUsage;
-    private TextView tvSavedOutfits;
-    private TextView tvWardrobeGaps;
+
     private LinearLayout layoutInsights;
     private Button btnEmptyGoToWardrobe;
 
@@ -62,9 +60,7 @@ public class ClosetStatisticsActivity extends AppCompatActivity {
         tvTotalItems = findViewById(R.id.tvTotalItems);
         layoutCategoryChart = findViewById(R.id.layoutCategoryChart);
         layoutColorChart = findViewById(R.id.layoutColorChart);
-        tvUsage = findViewById(R.id.tvUsage);
-        tvSavedOutfits = findViewById(R.id.tvSavedOutfits);
-        tvWardrobeGaps = findViewById(R.id.tvWardrobeGaps);
+
         layoutInsights = findViewById(R.id.layoutInsights);
         btnEmptyGoToWardrobe = findViewById(R.id.btnEmptyGoToWardrobe);
 
@@ -73,10 +69,7 @@ public class ClosetStatisticsActivity extends AppCompatActivity {
             finish();
         });
 
-        LinearLayout llUsageInsights = findViewById(R.id.llUsageInsights);
-        llUsageInsights.setOnClickListener(v -> {
-            startActivity(new Intent(ClosetStatisticsActivity.this, UsageInsightsActivity.class));
-        });
+
 
         tokenManager = TokenManager.getInstance(this);
 
@@ -152,38 +145,6 @@ public class ClosetStatisticsActivity extends AppCompatActivity {
         if (data.getColorDistribution() != null) {
             for (ColorStatistic stat : data.getColorDistribution()) {
                 addBarToChart(layoutColorChart, stat.getName(), stat.getCount(), stat.getPercentage());
-            }
-        }
-
-        // Usage
-        if (data.getUsage() != null) {
-            tvUsage.setText(data.getUsage().getMessage());
-        }
-
-        // Saved Outfits
-        if (data.getSavedOutfits() != null) {
-            tvSavedOutfits.setText(data.getSavedOutfits().getMessage());
-        }
-
-        // Gaps
-        if (data.getWardrobeGaps() != null) {
-            StringBuilder gapsText = new StringBuilder();
-            WardrobeGapStatistics gaps = data.getWardrobeGaps();
-            
-            if (gaps.getCritical() != null && !gaps.getCritical().isEmpty()) {
-                gapsText.append("Critical Missing: ").append(String.join(", ", gaps.getCritical())).append("\n");
-            }
-            if (gaps.getOptional() != null && !gaps.getOptional().isEmpty()) {
-                gapsText.append("Optional Missing: ").append(String.join(", ", gaps.getOptional())).append("\n");
-            }
-            if (gaps.getUnderrepresented() != null && !gaps.getUnderrepresented().isEmpty()) {
-                gapsText.append("Underrepresented: ").append(String.join(", ", gaps.getUnderrepresented())).append("\n");
-            }
-            
-            if (gapsText.length() == 0) {
-                tvWardrobeGaps.setText("No significant gaps detected.");
-            } else {
-                tvWardrobeGaps.setText(gapsText.toString().trim());
             }
         }
 

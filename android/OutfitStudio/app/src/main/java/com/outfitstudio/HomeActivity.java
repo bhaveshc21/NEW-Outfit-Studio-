@@ -149,6 +149,8 @@ public class HomeActivity extends AppCompatActivity {
             popup.getMenu().add(0, 1, 0, "Fashion Score");
             popup.getMenu().add(0, 2, 1, "Weekly Planner");
             popup.getMenu().add(0, 3, 2, "Donate Clothing");
+            popup.getMenu().add(0, 4, 3, "Usage Insights");
+            popup.getMenu().add(0, 5, 4, "Saved Outfits");
             popup.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
                     case 1:
@@ -159,6 +161,12 @@ public class HomeActivity extends AppCompatActivity {
                         return true;
                     case 3:
                         startActivity(new Intent(HomeActivity.this, DonateClothingActivity.class));
+                        return true;
+                    case 4:
+                        startActivity(new Intent(HomeActivity.this, UsageInsightsActivity.class));
+                        return true;
+                    case 5:
+                        startActivity(new Intent(HomeActivity.this, SavedOutfitsActivity.class));
                         return true;
                 }
                 return false;

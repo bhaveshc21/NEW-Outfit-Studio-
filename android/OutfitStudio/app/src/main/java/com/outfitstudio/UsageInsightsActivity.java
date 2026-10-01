@@ -35,7 +35,7 @@ public class UsageInsightsActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(v -> finish());
 
         rvUsageInsights = findViewById(R.id.rvUsageInsights);
-        rvUsageInsights.setLayoutManager(new LinearLayoutManager(this));
+        rvUsageInsights.setLayoutManager(new androidx.recyclerview.widget.GridLayoutManager(this, 2));
         progressBar = findViewById(R.id.progressBar);
 
         loadUsageInsights();
@@ -52,7 +52,7 @@ public class UsageInsightsActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     // Reuse WardrobeAdapter to list items
-                    WardrobeAdapter adapter = new WardrobeAdapter(UsageInsightsActivity.this, response.body().getDataList());
+                    WardrobeAdapter adapter = new WardrobeAdapter(UsageInsightsActivity.this, response.body().getDataList(), true);
                     rvUsageInsights.setAdapter(adapter);
                 } else {
                     Toast.makeText(UsageInsightsActivity.this, "Failed to load usage insights", Toast.LENGTH_SHORT).show();

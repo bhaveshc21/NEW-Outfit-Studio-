@@ -46,6 +46,7 @@
         <activity android:name=".UsageInsightsActivity" />
         <activity android:name=".DonationActivity" />
         <activity android:name=".DonateClothingActivity" />
+        <activity android:name=".SavedOutfitsActivity" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

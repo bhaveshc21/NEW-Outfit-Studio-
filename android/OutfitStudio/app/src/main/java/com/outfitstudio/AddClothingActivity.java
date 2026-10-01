@@ -47,7 +47,6 @@ public class AddClothingActivity extends AppCompatActivity {
 
     private ImageView ivClothingPreview;
     private View llImagePlaceholder;
-    private TextInputEditText etName;
     private Spinner spinnerCategory;
     private Button btnSave;
     private ProgressBar progressBar;
@@ -62,7 +61,6 @@ public class AddClothingActivity extends AppCompatActivity {
 
         ivClothingPreview = findViewById(R.id.ivClothingPreview);
         llImagePlaceholder = findViewById(R.id.llImagePlaceholder);
-        etName = findViewById(R.id.etName);
 
         spinnerCategory = findViewById(R.id.spinnerCategory);
         btnSave = findViewById(R.id.btnSave);
@@ -76,7 +74,11 @@ public class AddClothingActivity extends AppCompatActivity {
         // Setup Spinner
         String gender = TokenManager.getInstance(this).getGender();
         String[] categories = CategoryConstants.getCategoriesByGender(gender);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
+        String[] upperCategories = new String[categories.length];
+        for (int i = 0; i < categories.length; i++) {
+            upperCategories[i] = categories[i].toUpperCase();
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, upperCategories);
         spinnerCategory.setAdapter(adapter);
 
         btnCamera.setOnClickListener(v -> showUploadGuidelinesDialog(this::checkCameraPermission));
@@ -158,8 +160,8 @@ public class AddClothingActivity extends AppCompatActivity {
     }
 
     private void saveClothing() {
-        String name = etName.getText().toString().trim();
         String category = spinnerCategory.getSelectedItem().toString();
+        String name = category; // Use category as the name
         String color = "Unknown";
         int userId = TokenManager.getInstance(this).getUserId();
 
@@ -167,10 +169,7 @@ public class AddClothingActivity extends AppCompatActivity {
             Toast.makeText(this, "Please select an image", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (name.isEmpty()) {
-            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
-            return;
-        }
+
         if (userId == -1) {
             Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
             return;

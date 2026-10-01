@@ -36,7 +36,7 @@ public class FashionScoreActivity extends AppCompatActivity {
     
     // Current Outfit views
     private ImageView ivTop, ivOuterwear, ivBottom, ivFootwear;
-    private TextView tvTopName, tvOuterwearName, tvBottomName, tvFootwearName;
+
     private View layoutOuterwear;
     private TextView tvCurrentScore, tvCurrentReason;
     
@@ -49,12 +49,12 @@ public class FashionScoreActivity extends AppCompatActivity {
     // Improved Outfit views
     private View incImprovedOutfit;
     private ImageView ivImpTop, ivImpOuterwear, ivImpBottom, ivImpFootwear;
-    private TextView tvImpTopName, tvImpOuterwearName, tvImpBottomName, tvImpFootwearName;
+
     private View layoutImpOuterwear;
     private TextView tvImpScore, tvImpReason;
     private TextView tvNoImprovedOutfit;
 
-    private static final String BASE_IMAGE_URL = "http://192.168.1.101:5000/";
+    private static final String BASE_IMAGE_URL = "http://192.168.1.12:5000/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,14 +70,11 @@ public class FashionScoreActivity extends AppCompatActivity {
         ivOuterwear = incCurrent.findViewById(R.id.ivOuterwear);
         ivBottom = incCurrent.findViewById(R.id.ivBottom);
         ivFootwear = incCurrent.findViewById(R.id.ivFootwear);
-        tvTopName = incCurrent.findViewById(R.id.tvTopName);
-        tvOuterwearName = incCurrent.findViewById(R.id.tvOuterwearName);
-        tvBottomName = incCurrent.findViewById(R.id.tvBottomName);
-        tvFootwearName = incCurrent.findViewById(R.id.tvFootwearName);
         layoutOuterwear = incCurrent.findViewById(R.id.layoutOuterwear);
         tvCurrentScore = incCurrent.findViewById(R.id.tvScore);
         tvCurrentReason = incCurrent.findViewById(R.id.tvReason);
         incCurrent.findViewById(R.id.btnRateOutfit).setVisibility(View.GONE);
+        incCurrent.findViewById(R.id.btnSaveOutfit).setVisibility(View.GONE);
 
         // Overall Score
         tvOverallScore = findViewById(R.id.tvOverallScore);
@@ -93,14 +90,11 @@ public class FashionScoreActivity extends AppCompatActivity {
         ivImpOuterwear = incImprovedOutfit.findViewById(R.id.ivOuterwear);
         ivImpBottom = incImprovedOutfit.findViewById(R.id.ivBottom);
         ivImpFootwear = incImprovedOutfit.findViewById(R.id.ivFootwear);
-        tvImpTopName = incImprovedOutfit.findViewById(R.id.tvTopName);
-        tvImpOuterwearName = incImprovedOutfit.findViewById(R.id.tvOuterwearName);
-        tvImpBottomName = incImprovedOutfit.findViewById(R.id.tvBottomName);
-        tvImpFootwearName = incImprovedOutfit.findViewById(R.id.tvFootwearName);
         layoutImpOuterwear = incImprovedOutfit.findViewById(R.id.layoutOuterwear);
         tvImpScore = incImprovedOutfit.findViewById(R.id.tvScore);
         tvImpReason = incImprovedOutfit.findViewById(R.id.tvReason);
         incImprovedOutfit.findViewById(R.id.btnRateOutfit).setVisibility(View.GONE);
+        incImprovedOutfit.findViewById(R.id.btnSaveOutfit).setVisibility(View.GONE);
         
         tvNoImprovedOutfit = findViewById(R.id.tvNoImprovedOutfit);
 
@@ -171,7 +165,7 @@ public class FashionScoreActivity extends AppCompatActivity {
         tvOverallRating.setText(data.getRating());
 
         // Current Outfit
-        bindOutfitToViews(data.getCurrentOutfit(), ivTop, ivOuterwear, ivBottom, ivFootwear, tvTopName, tvOuterwearName, tvBottomName, tvFootwearName, layoutOuterwear);
+        bindOutfitToViews(data.getCurrentOutfit(), ivTop, ivOuterwear, ivBottom, ivFootwear, layoutOuterwear);
         tvCurrentScore.setText(String.format("Current Score: %.1f", data.getFashionScore()));
         tvCurrentReason.setText("");
 
@@ -205,7 +199,7 @@ public class FashionScoreActivity extends AppCompatActivity {
         if (data.getImprovedOutfit() != null && data.getImprovedScore() != null && data.getImprovedScore() > data.getFashionScore()) {
             incImprovedOutfit.setVisibility(View.VISIBLE);
             tvNoImprovedOutfit.setVisibility(View.GONE);
-            bindOutfitToViews(data.getImprovedOutfit(), ivImpTop, ivImpOuterwear, ivImpBottom, ivImpFootwear, tvImpTopName, tvImpOuterwearName, tvImpBottomName, tvImpFootwearName, layoutImpOuterwear);
+            bindOutfitToViews(data.getImprovedOutfit(), ivImpTop, ivImpOuterwear, ivImpBottom, ivImpFootwear, layoutImpOuterwear);
             tvImpScore.setText(String.format("Improved Score: %.1f", data.getImprovedScore()));
             tvImpReason.setText("Suggested better combination from your wardrobe.");
         } else {
@@ -253,29 +247,25 @@ public class FashionScoreActivity extends AppCompatActivity {
         return ll;
     }
 
-    private void bindOutfitToViews(GeneratedOutfit outfit, ImageView top, ImageView outerwear, ImageView bottom, ImageView footwear, TextView tvTop, TextView tvOuterwear, TextView tvBottom, TextView tvFootwear, View layoutOuterwear) {
+    private void bindOutfitToViews(GeneratedOutfit outfit, ImageView top, ImageView outerwear, ImageView bottom, ImageView footwear, View layoutOuterwear) {
         if (outfit == null) return;
         
         if (outfit.getTop() != null && outfit.getTop().getImagePath() != null) {
-            tvTop.setText(outfit.getTop().getName());
             Glide.with(this).load(BASE_IMAGE_URL + outfit.getTop().getImagePath().replace("\\", "/")).centerCrop().into(top);
         }
         
         if (outfit.getOuterwear() != null && outfit.getOuterwear().getImagePath() != null) {
             layoutOuterwear.setVisibility(View.VISIBLE);
-            tvOuterwear.setText(outfit.getOuterwear().getName());
             Glide.with(this).load(BASE_IMAGE_URL + outfit.getOuterwear().getImagePath().replace("\\", "/")).centerCrop().into(outerwear);
         } else {
             layoutOuterwear.setVisibility(View.GONE);
         }
         
         if (outfit.getBottom() != null && outfit.getBottom().getImagePath() != null) {
-            tvBottom.setText(outfit.getBottom().getName());
             Glide.with(this).load(BASE_IMAGE_URL + outfit.getBottom().getImagePath().replace("\\", "/")).centerCrop().into(bottom);
         }
         
         if (outfit.getFootwear() != null && outfit.getFootwear().getImagePath() != null) {
-            tvFootwear.setText(outfit.getFootwear().getName());
             Glide.with(this).load(BASE_IMAGE_URL + outfit.getFootwear().getImagePath().replace("\\", "/")).centerCrop().into(footwear);
         }
     }

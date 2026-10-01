@@ -6,7 +6,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Button;
 import android.widget.Toast;
+import android.content.Intent;
+import com.google.gson.Gson;
+import com.outfitstudio.api.models.GeneratedOutfit;
+import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,8 +30,8 @@ import retrofit2.Response;
 public class CompleteLookActivity extends AppCompatActivity {
 
     private ImageView ivLockedItem;
-    private TextView tvLockedName, tvLockedDetails, tvMissingComponents, tvError;
-    private LinearLayout llLockedItem, llMissingComponents;
+    private TextView tvLockedDetails, tvMissingComponents, tvError;
+    private LinearLayout llLockedItem, llMissingComponents, llActionButtons;
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private OutfitAdapter adapter;
@@ -42,7 +47,7 @@ public class CompleteLookActivity extends AppCompatActivity {
         setContentView(R.layout.activity_complete_look);
 
         ivLockedItem = findViewById(R.id.ivLockedItem);
-        tvLockedName = findViewById(R.id.tvLockedName);
+        ivLockedItem = findViewById(R.id.ivLockedItem);
         tvLockedDetails = findViewById(R.id.tvLockedDetails);
         tvMissingComponents = findViewById(R.id.tvMissingComponents);
         tvError = findViewById(R.id.tvError);
@@ -50,6 +55,63 @@ public class CompleteLookActivity extends AppCompatActivity {
         llMissingComponents = findViewById(R.id.llMissingComponents);
         progressBar = findViewById(R.id.progressBar);
         recyclerView = findViewById(R.id.recyclerView);
+        llActionButtons = findViewById(R.id.llActionButtons);
+
+        Button btnMarkAsWorn = findViewById(R.id.btnMarkAsWorn);
+        Button btnCompareSelected = findViewById(R.id.btnCompareSelected);
+
+        btnMarkAsWorn.setOnClickListener(v -> {
+            if (adapter == null) return;
+            List<GeneratedOutfit> selected = adapter.getSelectedOutfits();
+            if (selected.size() != 1) {
+                Toast.makeText(this, "Please select exactly ONE outfit to wear.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            GeneratedOutfit outfit = selected.get(0);
+            btnMarkAsWorn.setEnabled(false);
+            btnMarkAsWorn.setText("Marking...");
+            
+            java.util.List<Integer> itemIds = new java.util.ArrayList<>();
+            if (outfit.getTop() != null) itemIds.add(outfit.getTop().getId());
+            if (outfit.getBottom() != null) itemIds.add(outfit.getBottom().getId());
+            if (outfit.getOuterwear() != null) itemIds.add(outfit.getOuterwear().getId());
+            if (outfit.getFootwear() != null) itemIds.add(outfit.getFootwear().getId());
+            
+            java.util.Map<String, java.util.List<Integer>> body = new java.util.HashMap<>();
+            body.put("item_ids", itemIds);
+            
+            apiService.markOutfitWorn(body).enqueue(new Callback<com.outfitstudio.api.models.WardrobeResponse.EmptyResponse>() {
+                @Override
+                public void onResponse(Call<com.outfitstudio.api.models.WardrobeResponse.EmptyResponse> call, Response<com.outfitstudio.api.models.WardrobeResponse.EmptyResponse> response) {
+                    btnMarkAsWorn.setEnabled(true);
+                    if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                        btnMarkAsWorn.setText("WORN!");
+                        Toast.makeText(CompleteLookActivity.this, "Outfit marked as worn.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        btnMarkAsWorn.setText("Mark as worn");
+                        Toast.makeText(CompleteLookActivity.this, "Failed to mark as worn", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                @Override
+                public void onFailure(Call<com.outfitstudio.api.models.WardrobeResponse.EmptyResponse> call, Throwable t) {
+                    btnMarkAsWorn.setEnabled(true);
+                    btnMarkAsWorn.setText("Mark as worn");
+                    Toast.makeText(CompleteLookActivity.this, "Network error", Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
+
+        btnCompareSelected.setOnClickListener(v -> {
+            if (adapter == null) return;
+            List<GeneratedOutfit> selected = adapter.getSelectedOutfits();
+            if (selected.size() < 2) {
+                Toast.makeText(this, "Please select at least two outfits to compare.", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent compareIntent = new Intent(this, CompareOutfitsActivity.class);
+                compareIntent.putExtra("selected_outfits_json", new Gson().toJson(selected));
+                startActivity(compareIntent);
+            }
+        });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -69,6 +131,7 @@ public class CompleteLookActivity extends AppCompatActivity {
         llLockedItem.setVisibility(View.GONE);
         llMissingComponents.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
+        if (llActionButtons != null) llActionButtons.setVisibility(View.GONE);
         tvError.setVisibility(View.GONE);
 
         CompleteLookRequest request = new CompleteLookRequest(lockedItemId);
@@ -101,7 +164,6 @@ public class CompleteLookActivity extends AppCompatActivity {
     private void displayData(CompleteLookResponse.CompleteLookData data) {
         if (data.getLockedItem() != null) {
             llLockedItem.setVisibility(View.VISIBLE);
-            tvLockedName.setText(data.getLockedItem().getName());
             tvLockedDetails.setText(data.getLockedItem().getCategory() + " • " + data.getLockedItem().getColor());
             
             String imagePath = data.getLockedItem().getImagePath().replace("\\", "/");
@@ -125,6 +187,7 @@ public class CompleteLookActivity extends AppCompatActivity {
 
         if (data.getLooks() != null && !data.getLooks().isEmpty()) {
             recyclerView.setVisibility(View.VISIBLE);
+            if (llActionButtons != null) llActionButtons.setVisibility(View.VISIBLE);
             adapter = new OutfitAdapter(this, data.getLooks());
             recyclerView.setAdapter(adapter);
         } else {

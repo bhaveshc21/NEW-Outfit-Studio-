@@ -1,4 +1,4 @@
-from recommendation.outfit_generator import OutfitGenerator
+from recommendation.outfit_generator import OutfitGenerator, is_long_dress
 from recommendation.outfit_score import evaluate_outfit
 from services.weather_service import WeatherService
 import traceback
@@ -38,7 +38,7 @@ class CompleteLookService:
             locked_cat = locked_item.get('category', '').lower()
             missing_components = []
             
-            if 'dress' in locked_cat or 'bodycon' in locked_cat or 'frock' in locked_cat:
+            if is_long_dress(locked_item):
                 generator.dresses = [locked_item]
                 generator.tops = []
                 generator.bottoms = []

@@ -78,7 +78,7 @@ public class WardrobeActivity extends AppCompatActivity {
         
         // Add "All" chip
         Chip chipAll = new Chip(this);
-        chipAll.setText("All");
+        chipAll.setText("ALL");
         chipAll.setCheckable(true);
         chipAll.setChecked(true);
         cgCategories.addView(chipAll);
@@ -88,16 +88,12 @@ public class WardrobeActivity extends AppCompatActivity {
         String[] categories = CategoryConstants.getCategoriesByGender(gender);
         for (String category : categories) {
             Chip chip = new Chip(this);
-            chip.setText(category);
+            chip.setText(category.toUpperCase());
             chip.setCheckable(true);
             cgCategories.addView(chip);
         }
         
-        // Add Rarely Used chip
-        Chip chipRarelyUsed = new Chip(this);
-        chipRarelyUsed.setText("Rarely Used");
-        chipRarelyUsed.setCheckable(true);
-        cgCategories.addView(chipRarelyUsed);
+
     }
 
     @Override
@@ -153,16 +149,8 @@ public class WardrobeActivity extends AppCompatActivity {
     }
 
     private void filterItems(String category) {
-        if (category.equals("All")) {
+        if (category.equalsIgnoreCase("ALL")) {
             updateUI(allItems);
-        } else if (category.equals("Rarely Used")) {
-            List<WardrobeItem> filtered = new ArrayList<>();
-            for (WardrobeItem item : allItems) {
-                if (item.isRarelyUsed()) {
-                    filtered.add(item);
-                }
-            }
-            updateUI(filtered);
         } else {
             List<WardrobeItem> filtered = new ArrayList<>();
             for (WardrobeItem item : allItems) {

@@ -22,7 +22,7 @@ public class WeeklyPlannerAdapter extends RecyclerView.Adapter<WeeklyPlannerAdap
     private Context context;
     private List<PlannedDay> days;
     private PlannerActionCallback callback;
-    private static final String BASE_IMAGE_URL = "http://172.19.182.239:5000/";
+    private static final String BASE_IMAGE_URL = "http://192.168.1.12:5000/";
 
     public interface PlannerActionCallback {
         void onRegenerate(String date, String occasion, int position);
@@ -117,12 +117,41 @@ public class WeeklyPlannerAdapter extends RecyclerView.Adapter<WeeklyPlannerAdap
             if (callback != null) callback.onToggleLock(day.getDate(), day.isLocked(), position);
         });
         
-        holder.btnWhy.setOnClickListener(v -> {
-            new AlertDialog.Builder(context)
-                .setTitle("Why this outfit?")
-                .setMessage(day.getReason() != null ? day.getReason() : "No explanation available.")
-                .setPositiveButton("OK", null)
-                .show();
+        holder.btnSaveOutfitPlanner.setOnClickListener(v -> {
+            holder.btnSaveOutfitPlanner.setEnabled(false);
+            holder.btnSaveOutfitPlanner.setText("Saving...");
+            
+            com.outfitstudio.api.models.GeneratedOutfit outfit = day.getOutfit();
+            if (outfit == null) {
+                holder.btnSaveOutfitPlanner.setEnabled(true);
+                holder.btnSaveOutfitPlanner.setText("SAVE THIS OUTFIT");
+                android.widget.Toast.makeText(context, "No outfit to save", android.widget.Toast.LENGTH_SHORT).show();
+                return;
+            }
+            
+            java.util.Map<String, com.outfitstudio.api.models.GeneratedOutfit> body = new java.util.HashMap<>();
+            body.put("outfit", outfit);
+            
+            com.outfitstudio.api.OutfitApiService apiService = com.outfitstudio.api.ApiClient.getClient(context).create(com.outfitstudio.api.OutfitApiService.class);
+            apiService.saveOutfit(body).enqueue(new retrofit2.Callback<com.outfitstudio.api.models.WardrobeResponse.EmptyResponse>() {
+                @Override
+                public void onResponse(retrofit2.Call<com.outfitstudio.api.models.WardrobeResponse.EmptyResponse> call, retrofit2.Response<com.outfitstudio.api.models.WardrobeResponse.EmptyResponse> response) {
+                    holder.btnSaveOutfitPlanner.setEnabled(true);
+                    if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                        holder.btnSaveOutfitPlanner.setText("SAVED");
+                        android.widget.Toast.makeText(context, "Outfit saved successfully!", android.widget.Toast.LENGTH_SHORT).show();
+                    } else {
+                        holder.btnSaveOutfitPlanner.setText("SAVE THIS OUTFIT");
+                        android.widget.Toast.makeText(context, "Failed to save outfit", android.widget.Toast.LENGTH_SHORT).show();
+                    }
+                }
+                @Override
+                public void onFailure(retrofit2.Call<com.outfitstudio.api.models.WardrobeResponse.EmptyResponse> call, Throwable t) {
+                    holder.btnSaveOutfitPlanner.setEnabled(true);
+                    holder.btnSaveOutfitPlanner.setText("SAVE THIS OUTFIT");
+                    android.widget.Toast.makeText(context, "Network error", android.widget.Toast.LENGTH_SHORT).show();
+                }
+            });
         });
     }
 
@@ -153,7 +182,7 @@ public class WeeklyPlannerAdapter extends RecyclerView.Adapter<WeeklyPlannerAdap
         android.widget.Spinner spinnerOccasion;
         LinearLayout llOutfitContainer;
         ImageView ivTop, ivBottom, ivOuterwear, ivFootwear;
-        Button btnRegenerate, btnLock, btnWhy;
+        Button btnRegenerate, btnLock, btnSaveOutfitPlanner;
 
         public PlannerViewHolder(View itemView) {
             super(itemView);
@@ -170,7 +199,7 @@ public class WeeklyPlannerAdapter extends RecyclerView.Adapter<WeeklyPlannerAdap
             ivFootwear = itemView.findViewById(R.id.ivFootwear);
             btnRegenerate = itemView.findViewById(R.id.btnRegenerate);
             btnLock = itemView.findViewById(R.id.btnLock);
-            btnWhy = itemView.findViewById(R.id.btnWhy);
+            btnSaveOutfitPlanner = itemView.findViewById(R.id.btnSaveOutfitPlanner);
         }
     }
 }

@@ -27,9 +27,10 @@ import retrofit2.Response;
 public class ClothingDetailsActivity extends AppCompatActivity {
 
     private ImageView ivClothingDetail;
-    private TextView tvDetailName, tvDetailCategory, tvDetailColor, tvUsageInfo;
+    private TextView tvDetailCategory, tvDetailColor;
+    private TextView tvWornCount, tvLastWorn, tvRarelyUsedWarning;
     private ProgressBar progressBar;
-    private Button btnDelete, btnEdit, btnMarkWorn, btnDonate;
+    private Button btnDelete, btnEdit, btnDonate;
     
     private int itemId = -1;
     private WardrobeApiService apiService;
@@ -40,14 +41,15 @@ public class ClothingDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_clothing_details);
 
         ivClothingDetail = findViewById(R.id.ivClothingDetail);
-        tvDetailName = findViewById(R.id.tvDetailName);
         tvDetailCategory = findViewById(R.id.tvDetailCategory);
         tvDetailColor = findViewById(R.id.tvDetailColor);
-        tvUsageInfo = findViewById(R.id.tvUsageInfo);
+        tvWornCount = findViewById(R.id.tvWornCount);
+        tvLastWorn = findViewById(R.id.tvLastWorn);
+        tvRarelyUsedWarning = findViewById(R.id.tvRarelyUsedWarning);
         progressBar = findViewById(R.id.progressBar);
         btnDelete = findViewById(R.id.btnDelete);
         btnEdit = findViewById(R.id.btnEdit);
-        btnMarkWorn = findViewById(R.id.btnMarkWorn);
+
         btnDonate = findViewById(R.id.btnDonate);
         Button btnCompleteLook = findViewById(R.id.btnCompleteLook);
 
@@ -73,8 +75,7 @@ public class ClothingDetailsActivity extends AppCompatActivity {
             startActivity(intent);
         });
         
-        btnMarkWorn.setOnClickListener(v -> markAsWorn());
-        
+
         btnDonate.setOnClickListener(v -> {
             new AlertDialog.Builder(this)
                 .setTitle("Donate Item")
@@ -122,37 +123,51 @@ public class ClothingDetailsActivity extends AppCompatActivity {
     }
 
     private void displayData(WardrobeItem item) {
-        tvDetailName.setText(item.getName());
+
         tvDetailCategory.setText(item.getCategory());
         tvDetailColor.setText(item.getColor());
-        
-        StringBuilder usageText = new StringBuilder("USAGE\n");
-        usageText.append("Worn ").append(item.getUsageCount()).append(" times\n");
+        tvWornCount.setText(item.getUsageCount() + " times");
         
         if (item.getUsageCount() == 0 && item.getLastWornAt() == null) {
-            usageText.append("Never Worn");
+            tvLastWorn.setText("Never");
         } else {
             if (item.getDaysSinceLastWorn() != null) {
                 if (item.getDaysSinceLastWorn() == 0) {
-                    usageText.append("Last worn today");
+                    tvLastWorn.setText("Today");
+                } else if (item.getDaysSinceLastWorn() == 1) {
+                    tvLastWorn.setText("Yesterday");
                 } else {
-                    usageText.append("Last worn ").append(item.getDaysSinceLastWorn()).append(" days ago");
+                    // Show date instead of days
+                    try {
+                        String rawDate = item.getLastWornAt();
+                        if (rawDate != null) {
+                            String datePart = rawDate;
+                            if (rawDate.contains("T")) {
+                                datePart = rawDate.split("T")[0];
+                            } else if (rawDate.contains(" ")) {
+                                datePart = rawDate.split(" ")[0];
+                            }
+                            tvLastWorn.setText(datePart);
+                        } else {
+                            tvLastWorn.setText(item.getDaysSinceLastWorn() + " days ago");
+                        }
+                    } catch (Exception e) {
+                        tvLastWorn.setText(item.getDaysSinceLastWorn() + " days ago");
+                    }
                 }
             } else {
-                usageText.append("Last worn recently");
+                tvLastWorn.setText("Recently");
             }
         }
         
         if (item.isRarelyUsed()) {
-            usageText.append("\n\nRARELY USED\nNot worn for over 4 months");
+            tvRarelyUsedWarning.setVisibility(View.VISIBLE);
             btnDonate.setVisibility(View.VISIBLE);
         } else {
+            tvRarelyUsedWarning.setVisibility(View.GONE);
             btnDonate.setVisibility(View.GONE);
         }
-        
-        tvUsageInfo.setText(usageText.toString());
-
-        String imageUrl = "http://192.168.1.101:5000/" + item.getImagePath().replace("\\", "/");
+        String imageUrl = "http://192.168.1.12:5000/" + item.getImagePath().replace("\\", "/");
         Glide.with(this)
                 .load(imageUrl)
                 .centerCrop()
@@ -225,34 +240,5 @@ public class ClothingDetailsActivity extends AppCompatActivity {
             }
         });
     }
-    private void markAsWorn() {
-        btnMarkWorn.setEnabled(false);
-        btnMarkWorn.setText("Recording...");
-        
-        apiService.markItemAsWorn(itemId).enqueue(new Callback<WardrobeResponse.SingleResponse>() {
-            @Override
-            public void onResponse(Call<WardrobeResponse.SingleResponse> call, Response<WardrobeResponse.SingleResponse> response) {
-                btnMarkWorn.setEnabled(true);
-                btnMarkWorn.setText("Mark as Worn");
-                
-                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                    Toast.makeText(ClothingDetailsActivity.this, "Marked as worn", Toast.LENGTH_SHORT).show();
-                    if (response.body().getSingleData() != null) {
-                        displayData(response.body().getSingleData());
-                    } else {
-                        loadDetails();
-                    }
-                } else {
-                    Toast.makeText(ClothingDetailsActivity.this, "Failed to mark as worn", Toast.LENGTH_SHORT).show();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<WardrobeResponse.SingleResponse> call, Throwable t) {
-                btnMarkWorn.setEnabled(true);
-                btnMarkWorn.setText("Mark as Worn");
-                Toast.makeText(ClothingDetailsActivity.this, "Network error", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 }

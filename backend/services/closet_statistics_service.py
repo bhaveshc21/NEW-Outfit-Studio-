@@ -147,6 +147,8 @@ def get_closet_statistics(user_id):
         
         for item in items:
             usage = item.get('usage_count', 0)
+            if usage is None:
+                usage = 0
             last_worn = item.get('last_worn_at')
             
             if usage == 0 and last_worn is None:
