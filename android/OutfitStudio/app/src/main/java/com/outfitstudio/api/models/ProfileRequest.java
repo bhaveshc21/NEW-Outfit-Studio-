@@ -11,6 +11,16 @@ public class ProfileRequest {
     
     public static class UserUpdate {
         private String name;
-        public UserUpdate(String name) { this.name = name; }
+        private String email;
+        
+        public UserUpdate(String name) {
+            this.name = name;
+            this.email = null;
+        }
+        
+        public UserUpdate(String name, String email) { 
+            this.name = name; 
+            this.email = email;
+        }
     }
 }

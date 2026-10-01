@@ -1,13 +1,18 @@
 package com.outfitstudio;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
@@ -18,7 +23,13 @@ import com.outfitstudio.api.TokenManager;
 import com.outfitstudio.api.models.ApiResponse;
 import com.outfitstudio.api.models.AppearanceResponse;
 import com.outfitstudio.api.models.ProfileResponse;
+import com.outfitstudio.api.models.UploadImageResponse;
 
+import java.io.File;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,13 +38,15 @@ public class ProfileActivity extends AppCompatActivity {
 
     private ImageView ivProfileImage;
     private TextView tvProfileName, tvProfileEmail;
-    private TextView btnMyProfile, btnChangePassword, btnMeasurements, btnAppearanceAnalysis;
+    private TextView btnMyProfile, btnChangePassword, btnAppearanceAnalysis;
     private Switch switchNotifications;
     private Button btnLogoutNew;
 
     private AuthApiService authService;
     private AppearanceApiService appearanceService;
     private TokenManager tokenManager;
+
+    private ActivityResultLauncher<Intent> imagePickerLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +64,22 @@ public class ProfileActivity extends AppCompatActivity {
         tvProfileEmail = findViewById(R.id.tvProfileEmail);
         btnMyProfile = findViewById(R.id.btnMyProfile);
         btnChangePassword = findViewById(R.id.btnChangePassword);
-        btnMeasurements = findViewById(R.id.btnMeasurements);
         btnAppearanceAnalysis = findViewById(R.id.btnAppearanceAnalysis);
         switchNotifications = findViewById(R.id.switchNotifications);
         btnLogoutNew = findViewById(R.id.btnLogoutNew);
 
+        imagePickerLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        Uri selectedImage = result.getData().getData();
+                        if (selectedImage != null) {
+                            uploadProfileImage(selectedImage);
+                        }
+                    }
+                });
+
         loadProfileData();
-        loadAppearanceData();
 
         btnMyProfile.setOnClickListener(v -> {
             Intent intent = new Intent(ProfileActivity.this, MyProfileActivity.class);
@@ -65,17 +87,19 @@ public class ProfileActivity extends AppCompatActivity {
         });
         
         btnChangePassword.setOnClickListener(v -> {
-            Toast.makeText(ProfileActivity.this, "Change Password clicked", Toast.LENGTH_SHORT).show();
-        });
-        
-        btnMeasurements.setOnClickListener(v -> {
-            Intent intent = new Intent(ProfileActivity.this, MeasurementsActivity.class);
+            Intent intent = new Intent(ProfileActivity.this, ChangePasswordActivity.class);
             startActivity(intent);
         });
         
         btnAppearanceAnalysis.setOnClickListener(v -> {
             Intent intent = new Intent(ProfileActivity.this, AppearanceAnalysisActivity.class);
             startActivity(intent);
+        });
+
+        ImageView btnEditProfileImage = findViewById(R.id.btnEditProfileImage);
+        btnEditProfileImage.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            imagePickerLauncher.launch(intent);
         });
 
         btnLogoutNew.setOnClickListener(v -> logout());
@@ -91,6 +115,18 @@ public class ProfileActivity extends AppCompatActivity {
                     if (data.getUser() != null) {
                         tvProfileName.setText(data.getUser().getName());
                         tvProfileEmail.setText(data.getUser().getEmail());
+                        
+                        if (data.getUser().getProfileImage() != null) {
+                            String baseUrl = ApiClient.BASE_URL.replace("/api/", "");
+                            String imageUrl = baseUrl + data.getUser().getProfileImage();
+                            Glide.with(ProfileActivity.this)
+                                 .load(imageUrl)
+                                 .placeholder(R.drawable.ic_profile)
+                                 .error(R.drawable.ic_profile)
+                                 .into(ivProfileImage);
+                        } else {
+                            loadAppearanceData();
+                        }
                     }
                 }
             }
@@ -120,6 +156,42 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<AppearanceResponse> call, Throwable t) {}
         });
+    }
+    
+    private void uploadProfileImage(Uri imageUri) {
+        try {
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getContentResolver().query(imageUri, filePathColumn, null, null, null);
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            File file = new File(picturePath);
+            RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
+            MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
+
+            int userId = tokenManager.getUserId();
+            authService.uploadProfileImage(userId, body).enqueue(new Callback<ApiResponse<UploadImageResponse>>() {
+                @Override
+                public void onResponse(Call<ApiResponse<UploadImageResponse>> call, Response<ApiResponse<UploadImageResponse>> response) {
+                    if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                        Toast.makeText(ProfileActivity.this, "Profile picture updated!", Toast.LENGTH_SHORT).show();
+                        loadProfileData(); // Reload profile to fetch the new image URL
+                    } else {
+                        Toast.makeText(ProfileActivity.this, "Upload failed", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ApiResponse<UploadImageResponse>> call, Throwable t) {
+                    Toast.makeText(ProfileActivity.this, "Network error", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Could not read image file", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void logout() {

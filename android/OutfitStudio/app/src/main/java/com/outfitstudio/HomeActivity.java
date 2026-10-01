@@ -17,6 +17,9 @@ import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.outfitstudio.api.ApiClient;
 import com.outfitstudio.api.DashboardApiService;
 import com.outfitstudio.api.TokenManager;
@@ -105,7 +108,22 @@ public class HomeActivity extends AppCompatActivity {
 
     private void updateUI(DashboardResponse.DashboardData data) {
         if (data.getUser() != null && data.getUser().getName() != null) {
-            tvWelcome.setText("Hello, " + data.getUser().getName() + " \uD83D\uDC4B");
+            String fullName = data.getUser().getName().trim();
+            String firstName = fullName.contains(" ") ? fullName.substring(0, fullName.indexOf(" ")) : fullName;
+            tvWelcome.setText("Hello, " + firstName + " \uD83D\uDC4B");
+            if (data.getUser().getProfileImage() != null) {
+                ImageView btnProfile = findViewById(R.id.btnProfile);
+                btnProfile.setPadding(0, 0, 0, 0);
+                btnProfile.setImageTintList(null);
+                String baseUrl = ApiClient.BASE_URL.replace("/api/", "");
+                String imageUrl = baseUrl + data.getUser().getProfileImage();
+                Glide.with(this)
+                     .load(imageUrl)
+                     .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                     .placeholder(R.drawable.ic_profile)
+                     .error(R.drawable.ic_profile)
+                     .into(btnProfile);
+            }
         }
 
         if (data.getWardrobe() != null) {

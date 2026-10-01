@@ -58,5 +58,6 @@
         </provider>
         <activity android:name=".MyProfileActivity" />
         <activity android:name=".MeasurementsActivity" />
+        <activity android:name=".ChangePasswordActivity" />
     </application>
 </manifest>

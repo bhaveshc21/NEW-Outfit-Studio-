@@ -17,7 +17,7 @@ class DashboardService:
                 cursor = connection.cursor(dictionary=True)
                 
                 # Get user info
-                cursor.execute("SELECT name FROM users WHERE id = %s", (user_id,))
+                cursor.execute("SELECT name, profile_image FROM users WHERE id = %s", (user_id,))
                 user = cursor.fetchone()
                 
                 # Get wardrobe count
@@ -61,11 +61,13 @@ class DashboardService:
                     recent_outfits.append(outfit)
 
                 name = user['name'] if user else "User"
+                profile_image = user['profile_image'] if user and 'profile_image' in user else None
                 
                 return {
                     "user": {
                         "id": user_id,
-                        "name": name
+                        "name": name,
+                        "profile_image": profile_image
                     },
                     "wardrobe": {
                         "total_items": wardrobe_count

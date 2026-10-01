@@ -33,7 +33,7 @@ def get_profile(current_user_id, user_id):
         cursor = connection.cursor(dictionary=True)
         
         # Get user basic info
-        cursor.execute("SELECT id, name, email FROM users WHERE id = %s", (user_id,))
+        cursor.execute("SELECT id, name, email, profile_image FROM users WHERE id = %s", (user_id,))
         user = cursor.fetchone()
         
         if not user:
@@ -96,6 +96,12 @@ def update_profile(current_user_id, user_id):
             name = user_data['name'].strip()
             if name:
                 cursor.execute("UPDATE users SET name = %s WHERE id = %s", (name, user_id))
+                
+        if 'email' in user_data:
+            email = user_data['email'].strip()
+            if email:
+                # Basic email validation or unique constraint will be handled by the database
+                cursor.execute("UPDATE users SET email = %s WHERE id = %s", (email, user_id))
         
         # Update profile info
         profile_data = data.get('profile', {})
@@ -141,6 +147,62 @@ def update_profile(current_user_id, user_id):
         if connection:
             connection.rollback()
         return jsonify({'success': False, 'message': f'Database error: {str(e)}'}), 500
+    finally:
+        if connection and connection.is_connected():
+            cursor.close()
+            connection.close()
+
+import os
+import time
+import werkzeug
+
+@profile_bp.route('/<int:user_id>/upload_image', methods=['POST'])
+@token_required
+def upload_profile_image(current_user_id, user_id):
+    if current_user_id != user_id:
+        return jsonify({'success': False, 'message': 'Unauthorized access to profile'}), 403
+
+    if 'image' not in request.files:
+        return jsonify({'success': False, 'message': 'No image provided'}), 400
+
+    image_file = request.files['image']
+    if image_file.filename == '':
+        return jsonify({'success': False, 'message': 'No selected image'}), 400
+
+    connection = get_db_connection()
+    if not connection:
+        return jsonify({'success': False, 'message': 'Database connection error'}), 500
+
+    try:
+        cursor = connection.cursor()
+        
+        # Save image securely
+        upload_dir = os.path.join('uploads', 'profiles')
+        os.makedirs(upload_dir, exist_ok=True)
+        
+        filename = werkzeug.utils.secure_filename(image_file.filename)
+        unique_filename = f"{user_id}_{int(time.time())}_{filename}"
+        image_path = os.path.join(upload_dir, unique_filename)
+        
+        image_file.seek(0)
+        image_file.save(image_path)
+        
+        # Save relative URL (using forward slashes)
+        image_url = f"/uploads/profiles/{unique_filename}"
+        
+        cursor.execute("UPDATE users SET profile_image = %s WHERE id = %s", (image_url, user_id))
+        connection.commit()
+        
+        return jsonify({
+            'success': True,
+            'message': 'Profile image updated successfully',
+            'data': {'image_url': image_url}
+        }), 200
+
+    except Exception as e:
+        if connection:
+            connection.rollback()
+        return jsonify({'success': False, 'message': f'Error: {str(e)}'}), 500
     finally:
         if connection and connection.is_connected():
             cursor.close()

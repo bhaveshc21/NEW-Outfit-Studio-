@@ -38,6 +38,19 @@
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_profile"/>
                 </androidx.cardview.widget.CardView>
+                
+                <!-- Camera Icon -->
+                <ImageView
+                    android:id="@+id/btnEditProfileImage"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="@drawable/bg_circle_profile"
+                    android:padding="6dp"
+                    android:src="@android:drawable/ic_menu_camera"
+                    app:tint="@color/primary"/>
             </FrameLayout>
 
             <TextView
@@ -93,18 +106,7 @@
                     android:drawableEnd="@drawable/ic_arrow_forward"
                     android:background="?attr/selectableItemBackground"/>
                     
-                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0" android:layout_marginHorizontal="16dp"/>
-                
-                <TextView
-                    android:id="@+id/btnMeasurements"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Measurements &amp; Body Doubling"
-                    android:textSize="16sp"
-                    android:padding="16dp"
-                    android:textColor="@color/on_surface"
-                    android:drawableEnd="@drawable/ic_arrow_forward"
-                    android:background="?attr/selectableItemBackground"/>
+
             </LinearLayout>
 
             <!-- Card 2 -->

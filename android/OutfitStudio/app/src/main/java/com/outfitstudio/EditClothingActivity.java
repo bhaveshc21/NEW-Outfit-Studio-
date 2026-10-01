@@ -139,7 +139,7 @@ public class EditClothingActivity extends AppCompatActivity {
 
         String imagePath = currentItem.getImagePath();
         if (imagePath != null) {
-            String imageUrl = "http://192.168.1.103:5000/" + imagePath.replace("\\", "/");
+            String imageUrl = "http://192.168.1.11:5000/" + imagePath.replace("\\", "/");
             Glide.with(this).load(imageUrl).centerCrop().into(ivClothingPreview);
         } else {
             ivClothingPreview.setImageResource(android.R.color.transparent);

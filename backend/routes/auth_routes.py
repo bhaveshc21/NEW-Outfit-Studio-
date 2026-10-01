@@ -5,6 +5,7 @@ import datetime
 import mysql.connector
 from config import Config
 import re
+from utils.auth_middleware import token_required
 
 auth_bp = Blueprint('auth_bp', __name__)
 
@@ -167,3 +168,48 @@ def logout():
         'success': True,
         'message': 'Logout successful. Please remove token on client side.'
     }), 200
+
+@auth_bp.route('/change-password', methods=['POST'])
+@token_required
+def change_password(current_user_id):
+    data = request.get_json()
+    
+    if not data:
+        return jsonify({'success': False, 'message': 'No input data provided'}), 400
+        
+    old_password = data.get('old_password', '')
+    new_password = data.get('new_password', '')
+    
+    if not old_password or not new_password:
+        return jsonify({'success': False, 'message': 'Old and new passwords are required'}), 400
+        
+    if len(new_password) < 6:
+        return jsonify({'success': False, 'message': 'New password must be at least 6 characters'}), 400
+        
+    connection = get_db_connection()
+    if not connection:
+        return jsonify({'success': False, 'message': 'Database connection error'}), 500
+        
+    try:
+        cursor = connection.cursor(dictionary=True)
+        
+        # Verify old password
+        cursor.execute("SELECT password FROM users WHERE id = %s", (current_user_id,))
+        user = cursor.fetchone()
+        
+        if not user or not check_password_hash(user['password'], old_password):
+            return jsonify({'success': False, 'message': 'Invalid old password'}), 401
+            
+        # Update to new password
+        hashed_password = generate_password_hash(new_password)
+        cursor.execute("UPDATE users SET password = %s WHERE id = %s", (hashed_password, current_user_id))
+        connection.commit()
+        
+        return jsonify({'success': True, 'message': 'Password changed successfully'}), 200
+        
+    except mysql.connector.Error as e:
+        return jsonify({'success': False, 'message': f'Database error: {str(e)}'}), 500
+    finally:
+        if connection and connection.is_connected():
+            cursor.close()
+            connection.close()

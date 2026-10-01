@@ -46,9 +46,13 @@ public class DashboardResponse {
 
         @SerializedName("name")
         private String name;
+        
+        @SerializedName("profile_image")
+        private String profileImage;
 
         public int getId() { return id; }
         public String getName() { return name; }
+        public String getProfileImage() { return profileImage; }
     }
 
     public static class Wardrobe {

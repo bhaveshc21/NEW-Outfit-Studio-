@@ -29,4 +29,14 @@ public interface AuthApiService {
     
     @PUT("profile/{user_id}")
     Call<ApiResponse<Void>> updateProfile(@Path("user_id") int userId, @Body ProfileRequest request);
+    
+    @POST("change-password")
+    Call<ApiResponse<Void>> changePassword(@Body com.outfitstudio.api.models.ChangePasswordRequest request);
+
+    @retrofit2.http.Multipart
+    @POST("profile/{user_id}/upload_image")
+    Call<ApiResponse<com.outfitstudio.api.models.UploadImageResponse>> uploadProfileImage(
+            @Path("user_id") int userId,
+            @retrofit2.http.Part okhttp3.MultipartBody.Part image
+    );
 }

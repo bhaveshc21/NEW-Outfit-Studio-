@@ -22,7 +22,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MyProfileActivity extends AppCompatActivity {
-    private TextInputEditText etName, etEmail, etPassword;
+    private TextInputEditText etName, etEmail;
     private Button btnEditSave;
     private ProgressBar progressBar;
     private AuthApiService apiService;
@@ -37,7 +37,6 @@ public class MyProfileActivity extends AppCompatActivity {
 
         etName = findViewById(R.id.etName);
         etEmail = findViewById(R.id.etEmail);
-        etPassword = findViewById(R.id.etPassword);
         btnEditSave = findViewById(R.id.btnEditSave);
         progressBar = findViewById(R.id.progressBar);
 
@@ -50,11 +49,7 @@ public class MyProfileActivity extends AppCompatActivity {
             if (!isEditing) {
                 isEditing = true;
                 etName.setEnabled(true);
-                // Email might not be updatable in backend easily, but let's enable it if user wants
-                // etEmail.setEnabled(true);
-                etPassword.setEnabled(true);
-                etPassword.setText("");
-                etPassword.setHint("Enter new password (optional)");
+                etEmail.setEnabled(true);
                 btnEditSave.setText("Save Changes");
             } else {
                 saveData();
@@ -88,7 +83,8 @@ public class MyProfileActivity extends AppCompatActivity {
     private void saveData() {
         setLoading(true);
         String newName = etName.getText().toString();
-        ProfileRequest.UserUpdate userUpdate = new ProfileRequest.UserUpdate(newName);
+        String newEmail = etEmail.getText().toString();
+        ProfileRequest.UserUpdate userUpdate = new ProfileRequest.UserUpdate(newName, newEmail);
         
         ProfileData profileData = currentProfileData;
         if (profileData == null) {
@@ -106,8 +102,7 @@ public class MyProfileActivity extends AppCompatActivity {
                     Toast.makeText(MyProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
                     isEditing = false;
                     etName.setEnabled(false);
-                    etPassword.setEnabled(false);
-                    etPassword.setText("********");
+                    etEmail.setEnabled(false);
                     btnEditSave.setText("Edit");
                 } else {
                     Toast.makeText(MyProfileActivity.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
