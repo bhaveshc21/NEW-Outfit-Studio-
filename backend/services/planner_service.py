@@ -4,6 +4,7 @@ from recommendation.outfit_generator import OutfitGenerator
 from recommendation.outfit_score import evaluate_outfit
 from services.weather_service import WeatherService
 import traceback
+import random
 
 class PlannerService:
     def __init__(self):
@@ -133,7 +134,7 @@ class PlannerService:
                             count = used_items_counts.get(item_id, 0)
                             penalty += (count * 5) # 5 points penalty per reuse
                             
-                    final_score = f_score - penalty
+                    final_score = f_score - penalty + random.uniform(0, 0.5)
                     
                     if final_score > best_score:
                         best_score = final_score
@@ -268,7 +269,7 @@ class PlannerService:
                     
                 f_score = eval_res.get("fashion_score", 0)
                 penalty = sum(used_items_counts.get(cand.get(k, {}).get('id'), 0) * 5 for k in ['top', 'bottom', 'outerwear', 'footwear'] if cand.get(k))
-                final_score = f_score - penalty
+                final_score = f_score - penalty + random.uniform(0, 0.5)
                 
                 if final_score > best_score:
                     best_score = final_score

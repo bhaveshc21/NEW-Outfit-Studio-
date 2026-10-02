@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Usage Status: Unknown"
-                android:textColor="@color/secondary"
+                android:textColor="@color/on_surface"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 android:layout_marginTop="6dp"/>
@@ -62,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Times Worn: 0"
-                android:textColor="@color/secondary"
+                android:textColor="@color/text_hint"
                 android:textSize="12sp"
                 android:visibility="gone"
                 android:layout_marginTop="2dp"/>

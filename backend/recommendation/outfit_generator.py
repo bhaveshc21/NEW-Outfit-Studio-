@@ -42,7 +42,7 @@ class OutfitGenerator:
                 self.dresses.append(item)
             elif 'jacket' in cat or 'blazer' in cat or 'coat' in cat or 'cardigan' in cat or 'sweater' in cat:
                 self.outerwear.append(item)
-            elif 'shirt' in cat or 'top' in cat:
+            elif 'shirt' in cat or 'top' in cat or 'kurta' in cat:
                 self.tops.append(item)
             elif 'jean' in cat or 'trouser' in cat or 'pant' in cat or 'bottom' in cat or 'short' in cat or 'skirt' in cat or 'legging' in cat:
                 self.bottoms.append(item)
@@ -136,6 +136,33 @@ class OutfitGenerator:
         # Sort by recommendation score descending
         outfits.sort(key=lambda x: x["recommendation_score"], reverse=True)
         
+        # Enforce diversity limits (max 3 kurtas, max 3 shorts per generation)
+        final_outfits = []
+        kurta_count = 0
+        shorts_count = 0
+        for outfit in outfits:
+            top_name = outfit['top'].get('name', '').lower()
+            top_cat = outfit['top'].get('category', '').lower()
+            is_kurta = 'kurta' in top_name or 'kurta' in top_cat
+            
+            bottom_item = outfit.get('bottom')
+            is_short = False
+            if bottom_item:
+                bot_str = (bottom_item.get('category', '') + ' ' + bottom_item.get('name', '')).lower()
+                is_short = 'short' in bot_str
+                
+            if is_kurta and kurta_count >= 3:
+                continue
+            if is_short and shorts_count >= 3:
+                continue
+                
+            final_outfits.append(outfit)
+            if is_kurta: kurta_count += 1
+            if is_short: shorts_count += 1
+                
+            if len(final_outfits) >= limit:
+                break
+        
         # Shopping suggestions
         suggestions = []
         if occasion:
@@ -145,9 +172,9 @@ class OutfitGenerator:
             
         return {
             "success": True,
-            "message": f"Generated {len(outfits)} outfits successfully.",
+            "message": f"Generated {len(final_outfits)} outfits successfully.",
             "data": {
-                "outfits": outfits[:limit],
+                "outfits": final_outfits,
                 "shopping_suggestions": suggestions
             }
         }
@@ -219,7 +246,49 @@ class OutfitGenerator:
         shoe_cat = shoe.get('category', '').lower()
         out_cat = outerwear.get('category', '').lower() if outerwear else ""
         
+        top_str = top_cat + " " + top.get('name', '').lower()
+        bot_str = bot_cat + " " + (bottom.get('name', '').lower() if bottom else "")
+        shoe_str = shoe_cat + " " + shoe.get('name', '').lower()
+        out_str = out_cat + " " + (outerwear.get('name', '').lower() if outerwear else "")
+        
         comb_penalty = 0.0
+        comb_bonus = 0.0
+        
+        # Strict User Preferences for Kurta and Footwear
+        is_kurta = 'kurta' in top_str
+        is_sandal_or_slipper = 'sandal' in shoe_str or 'slipper' in shoe_str
+        is_kurta_footwear = is_sandal_or_slipper or 'heel' in shoe_str
+        
+        if is_kurta:
+            if bottom:
+                is_jeans = 'jean' in bot_str
+                is_white_skirt = 'skirt' in bot_str and bottom.get('color', '').lower() == 'white'
+                if is_jeans or is_white_skirt:
+                    comb_bonus += 5.0 # small bonus for correct pairing, don't overpower
+                else:
+                    comb_penalty += 30.0 # penalty for bad pairing with kurta
+            else:
+                comb_penalty += 30.0 # penalty for no bottom with kurta
+                
+            if not is_kurta_footwear:
+                comb_penalty += 50.0 # Strict penalty to forbid other shoes with kurtas
+                
+            if 'jacket' in out_str:
+                comb_penalty += 100.0 # Strict penalty to forbid jackets with kurtas
+        else:
+            # Not a kurta
+            if is_sandal_or_slipper:
+                comb_penalty += 50.0 # Strict penalty to forbid sandals and slippers with non-kurtas
+                
+        is_short = 'short' in bot_str
+        if is_short:
+            is_casual_shoe = any(w in shoe_str for w in ['sandal', 'slipper', 'sneaker', 'sport', 'croc'])
+            if not is_casual_shoe:
+                comb_penalty += 40.0 # Strict penalty for formal shoes/heels with shorts
+            else:
+                # Shorts logic is balanced out here. Remove the non-kurta sandal penalty if they are wearing shorts.
+                if is_sandal_or_slipper:
+                    comb_penalty -= 50.0
         
         # We only apply a very tiny penalty for extreme formal/casual clashes if they happen, 
         # but let occasion_rules.py do the heavy lifting.
@@ -234,6 +303,7 @@ class OutfitGenerator:
             
         # Weighting: 40% Color, 30% Occasion, 30% Weather
         score = (color_score_raw * 0.4) + (occ_avg * 0.3) + (wea_avg * 0.3)
+        score += comb_bonus
         score -= comb_penalty
         
         # User preferences bonus (up to 5 points)

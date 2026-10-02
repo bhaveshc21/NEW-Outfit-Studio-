@@ -110,7 +110,14 @@ def calculate_outfit_color_score(top_color, bottom_color, footwear_color, outerw
         of_score = color_pair_score(outerwear_color, footwear_color)
         return (io_score * 0.25) + (ob_score * 0.3) + (ib_score * 0.15) + (bf_score * 0.2) + (of_score * 0.1)
     else:
-        tb_score = color_pair_score(top_color, bottom_color)
+        # If dress, just evaluate top and shoe color harmony
+        if top_color == bottom_color:
+            # It's a dress (top and bottom are the same item). 
+            # Give full credit for the "top/bottom" match so it isn't penalized compared to two-piece outfits.
+            tb_score = 100.0
+        else:
+            tb_score = color_pair_score(top_color, bottom_color)
+            
         bf_score = color_pair_score(bottom_color, footwear_color)
         tf_score = color_pair_score(top_color, footwear_color)
         # Weights: Top/Bottom is most important (50%), Bottom/Footwear (30%), Top/Footwear (20%)

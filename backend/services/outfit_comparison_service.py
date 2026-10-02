@@ -83,22 +83,95 @@ class OutfitComparisonService:
                     return {"success": False, "message": f"Failed to evaluate {outfit_id}: {evaluation_result.get('message')}"}
 
                 factors_dict = evaluation_result.get("factors", {})
-                flat_factors = {}
-                for f_key, f_val in factors_dict.items():
-                    key_title = f_key.replace("_", " ").title()
-                    if isinstance(f_val, dict) and "reason" in f_val:
-                        flat_factors[key_title] = f_val["reason"]
-                    else:
-                        flat_factors[key_title] = str(f_val)
-
+                
                 compared_outfits.append({
                     "id": outfit_id,
                     "outfit_index": idx,
                     "fashion_score": evaluation_result.get("fashion_score"),
                     "rating": evaluation_result.get("rating"),
-                    "factors": flat_factors,
+                    "raw_factors": factors_dict,
                     "items": current_outfit
                 })
+
+            # Sort outfits so the better one comes first
+            compared_outfits.sort(key=lambda x: x.get("fashion_score", 0), reverse=True)
+
+            # If exactly 2 outfits, add comparative reasoning
+            if len(compared_outfits) == 2:
+                o1 = compared_outfits[0]
+                o2 = compared_outfits[1]
+                
+                if o1["fashion_score"] > o2["fashion_score"]:
+                    o1["rating"] = "Better Choice"
+                    o2["rating"] = "Good Choice"
+                else:
+                    o1["rating"] = "Great Choice"
+                    o2["rating"] = "Great Choice"
+                
+                for idx, o in enumerate([o1, o2]):
+                    other_o = o2 if idx == 0 else o1
+                    flat_factors = {}
+                    for f_key, f_val in o["raw_factors"].items():
+                        key_title = f_key.replace("_", " ").title()
+                        my_score = f_val.get("score", 0) if isinstance(f_val, dict) else 0
+                        other_val = other_o["raw_factors"].get(f_key, {})
+                        other_score = other_val.get("score", 0) if isinstance(other_val, dict) else 0
+                        
+                        diff = my_score - other_score
+                        
+                        if f_key == "color_coordination":
+                            if diff > 0:
+                                reason = "Features a more harmonious and visually appealing color palette."
+                            elif diff < 0:
+                                reason = "Has a nice color combination, though slightly less vibrant."
+                            else:
+                                reason = "Displays excellent color coordination."
+                        elif f_key == "occasion_suitability":
+                            if diff > 0:
+                                reason = "Perfectly captures the dress code for this occasion."
+                            elif diff < 0:
+                                reason = "Appropriate for the occasion with a more relaxed feel."
+                            else:
+                                reason = "Highly suitable for the selected occasion."
+                        elif f_key == "weather_suitability":
+                            if diff > 0:
+                                reason = "Offers superior comfort for the current weather conditions."
+                            elif diff < 0:
+                                reason = "Comfortable enough for the forecast."
+                            else:
+                                reason = "Well-adapted to the current weather."
+                        elif f_key == "clothing_combination":
+                            if diff > 0:
+                                reason = "The pieces complement each other exceptionally well."
+                            elif diff < 0:
+                                reason = "A solid combination of individual pieces."
+                            else:
+                                reason = "The pieces form a well-balanced silhouette."
+                        else:
+                            if diff > 0:
+                                reason = "Excels in this particular aspect."
+                            elif diff < 0:
+                                reason = "Performs well in this aspect."
+                            else:
+                                reason = "A wonderful addition to this outfit."
+                                
+                        flat_factors[key_title] = reason
+                    o["factors"] = flat_factors
+            else:
+                for o in compared_outfits:
+                    flat_factors = {}
+                    for f_key, f_val in o["raw_factors"].items():
+                        key_title = f_key.replace("_", " ").title()
+                        if isinstance(f_val, dict) and "reason" in f_val:
+                            flat_factors[key_title] = f_val["reason"]
+                        else:
+                            flat_factors[key_title] = str(f_val)
+                    o["factors"] = flat_factors
+
+            # Remove raw_factors from response
+            for o in compared_outfits:
+                if "raw_factors" in o:
+                    del o["raw_factors"]
 
             cursor.close()
 

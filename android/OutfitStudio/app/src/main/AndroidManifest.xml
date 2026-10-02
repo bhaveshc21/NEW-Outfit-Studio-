@@ -40,6 +40,7 @@
         <activity android:name=".ClosetStatisticsActivity" />
         <activity android:name=".VisualizationActivity" />
         <activity android:name=".CompleteLookActivity" />
+        <activity android:name=".NotificationsActivity" />
         <activity android:name=".WeeklyPlannerActivity" />
         <activity android:name=".CompareOutfitsActivity" />
         <activity android:name=".OutfitExplanationActivity" />

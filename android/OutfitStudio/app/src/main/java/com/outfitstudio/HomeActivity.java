@@ -164,7 +164,7 @@ public class HomeActivity extends AppCompatActivity {
         ImageView btnDashboard = findViewById(R.id.btnDashboard);
         btnDashboard.setOnClickListener(v -> {
             android.widget.PopupMenu popup = new android.widget.PopupMenu(HomeActivity.this, v);
-            popup.getMenu().add(0, 1, 0, "Fashion Score");
+            popup.getMenu().add(0, 1, 0, "Notifications");
             popup.getMenu().add(0, 2, 1, "Weekly Planner");
             popup.getMenu().add(0, 3, 2, "Donate Clothing");
             popup.getMenu().add(0, 4, 3, "Usage Insights");
@@ -172,7 +172,7 @@ public class HomeActivity extends AppCompatActivity {
             popup.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
                     case 1:
-                        startActivity(new Intent(HomeActivity.this, FashionScoreActivity.class));
+                        startActivity(new Intent(HomeActivity.this, NotificationsActivity.class));
                         return true;
                     case 2:
                         startActivity(new Intent(HomeActivity.this, WeeklyPlannerActivity.class));
