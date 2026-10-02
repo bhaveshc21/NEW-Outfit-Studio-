@@ -193,7 +193,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
     }
-
+ 
     private void handleLogout() {
         TokenManager.getInstance(this).clear();
         Intent intent = new Intent(this, LoginActivity.class);
