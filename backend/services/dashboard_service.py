@@ -40,7 +40,7 @@ class DashboardService:
                     LEFT JOIN wardrobe_items o ON so.outerwear_id = o.id
                     LEFT JOIN wardrobe_items b ON so.bottom_id = b.id
                     LEFT JOIN wardrobe_items f ON so.footwear_id = f.id
-                    WHERE so.user_id = %s
+                    WHERE so.user_id = %s AND so.reason = 'Worn by user'
                     ORDER BY so.created_at DESC
                     LIMIT 5
                 """, (user_id,))

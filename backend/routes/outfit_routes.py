@@ -207,11 +207,15 @@ def mark_outfit_worn(current_user_id):
                 cursor.execute("SELECT category FROM wardrobe_items WHERE id = %s AND user_id = %s", (item_id, current_user_id))
                 row = cursor.fetchone()
                 if row:
-                    cat = row['category']
-                    if cat == 'Top': top_id = item_id
-                    elif cat == 'Outerwear': outerwear_id = item_id
-                    elif cat == 'Bottom': bottom_id = item_id
-                    elif cat == 'Footwear': footwear_id = item_id
+                    cat_lower = row['category'].lower()
+                    if any(word in cat_lower for word in ['blazer', 'jacket', 'coat', 'outerwear']):
+                        outerwear_id = item_id
+                    elif any(word in cat_lower for word in ['trouser', 'jean', 'skirt', 'pant', 'bottom', 'short']):
+                        bottom_id = item_id
+                    elif any(word in cat_lower for word in ['footwear', 'shoe', 'sneaker', 'heel', 'boot']):
+                        footwear_id = item_id
+                    else:
+                        top_id = item_id
 
         if top_id or bottom_id or outerwear_id or footwear_id:
             cursor.execute("""
@@ -297,7 +301,7 @@ def get_saved_outfits(current_user_id):
             LEFT JOIN wardrobe_items o ON so.outerwear_id = o.id
             LEFT JOIN wardrobe_items b ON so.bottom_id = b.id
             LEFT JOIN wardrobe_items f ON so.footwear_id = f.id
-            WHERE so.user_id = %s
+            WHERE so.user_id = %s AND (so.reason != 'Worn by user' OR so.reason IS NULL)
             ORDER BY so.created_at DESC
         """
         cursor.execute(query, (current_user_id,))

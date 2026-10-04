@@ -26,8 +26,8 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
     private Set<GeneratedOutfit> selectedOutfits = new HashSet<>();
     private boolean isSavedOutfitsMode;
     
-    // Change if hosting backend elsewhere or using emulator 10.0.2.2
-    private static final String BASE_IMAGE_URL = "http://192.168.1.7:5000/";
+    // Change if hosting backend elsewhere or using emulator 192.168.1.101
+    private static final String BASE_IMAGE_URL = "http://192.168.1.101:5000/";
 
     public OutfitAdapter(Context context, List<GeneratedOutfit> outfits) {
         this(context, outfits, false);
@@ -54,8 +54,21 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
     public void onBindViewHolder(@NonNull OutfitViewHolder holder, int position) {
         GeneratedOutfit outfit = outfits.get(position);
         
-        holder.tvScore.setText(String.format("Recommendation Score: %.1f", outfit.getRecommendationScore()));
-        holder.tvReason.setText(outfit.getReason());
+        if (context instanceof com.outfitstudio.HomeActivity) {
+            holder.tvScore.setVisibility(View.GONE);
+            holder.tvReason.setVisibility(View.GONE);
+            holder.btnRateOutfit.setVisibility(View.GONE);
+            holder.btnSaveOutfit.setVisibility(View.GONE);
+            holder.cbSelect.setVisibility(View.GONE);
+        } else {
+            holder.tvScore.setVisibility(View.VISIBLE);
+            holder.tvReason.setVisibility(View.VISIBLE);
+            holder.tvScore.setText(String.format("Recommendation Score: %.1f", outfit.getRecommendationScore()));
+            holder.tvReason.setText(outfit.getReason());
+            holder.btnRateOutfit.setVisibility(View.VISIBLE);
+            holder.btnSaveOutfit.setVisibility(View.VISIBLE);
+            holder.cbSelect.setVisibility(View.VISIBLE);
+        }
         
         if (outfit.getTop() != null && outfit.getTop().getImagePath() != null) {
             String topPath = outfit.getTop().getImagePath().replace("\\", "/");

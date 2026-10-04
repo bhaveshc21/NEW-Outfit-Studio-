@@ -128,10 +128,20 @@ public class ProfileActivity extends AppCompatActivity {
                             loadAppearanceData();
                         }
                     }
+                } else {
+                    Toast.makeText(ProfileActivity.this, "Error: " + response.message(), Toast.LENGTH_LONG).show();
+                    if (response.errorBody() != null) {
+                        try {
+                            android.util.Log.e("ProfileActivity", "Error body: " + response.errorBody().string());
+                        } catch (Exception e) {}
+                    }
                 }
             }
             @Override
-            public void onFailure(Call<ApiResponse<ProfileResponse>> call, Throwable t) {}
+            public void onFailure(Call<ApiResponse<ProfileResponse>> call, Throwable t) {
+                Toast.makeText(ProfileActivity.this, "Failed: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                android.util.Log.e("ProfileActivity", "Error fetching profile", t);
+            }
         });
     }
 
