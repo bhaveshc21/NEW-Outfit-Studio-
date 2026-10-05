@@ -54,11 +54,13 @@ def rgb_to_color_name(rgb):
     v = v * 100
     
     # Grayscale/Black/White check
-    if v < 25:
+    if v < 15:
         return "Black"
-    if v > 80 and s < 15:
+    if v > 80 and s < 8:
         return "White"
-    if s < 15:
+    if v > 85 and 8 <= s < 20:
+        return "Off White"
+    if s < 10:
         return "Grey"
         
     # Hue-based classification
@@ -71,8 +73,10 @@ def rgb_to_color_name(rgb):
         return "Orange"
     elif 45 <= h < 65:
         if s < 35 and v > 60: return "Beige"
+        if v < 60: return "Olive Green"
         return "Yellow"
     elif 65 <= h < 150:
+        if h < 85 and v < 55: return "Olive Green"
         return "Green"
     elif 150 <= h < 190:
         return "Cyan"

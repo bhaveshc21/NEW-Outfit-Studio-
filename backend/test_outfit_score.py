@@ -50,7 +50,7 @@ class TestOutfitScore(unittest.TestCase):
         self.assertLess(color_factor["score"], 10)
         
     def test_wrong_occasion(self):
-        res = evaluate_outfit(self.perfect_outfit, occasion="Wedding")
+        res = evaluate_outfit(self.perfect_outfit, occasion="Traditional")
         self.assertTrue(res.get("success"))
         
         occ_factor = res["factors"]["occasion"]

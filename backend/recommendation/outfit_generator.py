@@ -44,7 +44,7 @@ class OutfitGenerator:
                 self.outerwear.append(item)
             elif 'shirt' in cat or 'top' in cat or 'kurta' in cat:
                 self.tops.append(item)
-            elif 'jean' in cat or 'trouser' in cat or 'pant' in cat or 'bottom' in cat or 'short' in cat or 'skirt' in cat or 'legging' in cat:
+            elif 'jean' in cat or 'trouser' in cat or 'pant' in cat or 'bottom' in cat or 'short' in cat or 'skirt' in cat or 'legging' in cat or 'sweatpant' in cat:
                 self.bottoms.append(item)
             elif any(keyword in cat for keyword in ['shoe', 'footwear', 'sneaker', 'slipper', 'sandal', 'sport', 'formal', 'heel', 'croc', 'boot']):
                 self.footwear.append(item)
@@ -153,7 +153,7 @@ class OutfitGenerator:
                 
             if is_kurta and kurta_count >= 3:
                 continue
-            if is_short and shorts_count >= 3:
+            if is_short and shorts_count >= 7:
                 continue
                 
             final_outfits.append(outfit)
@@ -232,8 +232,8 @@ class OutfitGenerator:
             for item in items:
                 occ_score, occ_inv = get_occasion_score(item, occasion, gender=gender)
                 
-                # Overrides for kurta wedding combinations
-                if occasion == 'wedding' and is_kurta_pre:
+                # Overrides for kurta traditional combinations
+                if occasion == 'traditional' and is_kurta_pre:
                     item_str = (item.get('category', '') + ' ' + item.get('name', '')).lower()
                     if 'sandal' in item_str or 'slipper' in item_str or 'trouser' in item_str or 'formal' in item_str:
                         occ_inv = False
@@ -274,35 +274,33 @@ class OutfitGenerator:
         if is_kurta:
             if bottom:
                 is_jeans = 'jean' in bot_str
-                is_trouser = 'trouser' in bot_str
-                is_white_skirt = 'skirt' in bot_str and bottom.get('color', '').lower() == 'white'
-                if is_jeans or is_white_skirt or is_trouser:
+                is_white_lower = 'white' in bottom.get('color', '').lower()
+                if is_jeans or is_white_lower:
                     comb_bonus += 5.0 # small bonus for correct pairing, don't overpower
                 else:
-                    comb_penalty += 30.0 # penalty for bad pairing with kurta
+                    comb_penalty += 100.0 # penalty for bad pairing with kurta
             else:
-                comb_penalty += 30.0 # penalty for no bottom with kurta
+                comb_penalty += 100.0 # penalty for no bottom with kurta
                 
             is_valid_shoe = is_sandal_or_slipper or 'heel' in shoe_str or 'formal' in shoe_str or 'shoe' in shoe_str
             if not is_valid_shoe:
                 comb_penalty += 50.0 # Strict penalty to forbid other shoes with kurtas
                 
-            if 'jacket' in out_str:
-                comb_penalty += 100.0 # Strict penalty to forbid jackets with kurtas
+            if outerwear and ('jacket' in out_str or 'blazer' in out_str or 'coat' in out_str):
+                comb_penalty += 100.0 # Strict penalty to forbid outerwear with kurtas
         else:
             # Not a kurta
             if is_sandal_or_slipper:
-                comb_penalty += 50.0 # Strict penalty to forbid sandals and slippers with non-kurtas
+                if occasion == 'casual' or 'sweat' in bot_str or 'short' in bot_str:
+                    pass
+                else:
+                    comb_penalty += 50.0 # Strict penalty to forbid sandals and slippers with non-kurtas
                 
         is_short = 'short' in bot_str
         if is_short:
             is_casual_shoe = any(w in shoe_str for w in ['sandal', 'slipper', 'sneaker', 'sport', 'croc'])
             if not is_casual_shoe:
                 comb_penalty += 40.0 # Strict penalty for formal shoes/heels with shorts
-            else:
-                # Shorts logic is balanced out here. Remove the non-kurta sandal penalty if they are wearing shorts.
-                if is_sandal_or_slipper:
-                    comb_penalty -= 50.0
         
         # We only apply a very tiny penalty for extreme formal/casual clashes if they happen, 
         # but let occasion_rules.py do the heavy lifting.

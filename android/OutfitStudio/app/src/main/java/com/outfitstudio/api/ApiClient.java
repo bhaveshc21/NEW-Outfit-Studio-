@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class ApiClient {
     // Use the computer's local IP address for physical device testing
-    public static final String BASE_URL = "http://192.168.1.7:5000/api/";
+    public static final String BASE_URL = "http://192.168.1.103:5000/api/";
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient(Context context) {

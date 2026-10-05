@@ -47,7 +47,7 @@ public class WeeklyPlannerAdapter extends RecyclerView.Adapter<WeeklyPlannerAdap
         
         holder.tvDate.setText(day.getDay() + " " + day.getDate());
         
-        String[] occasions = {"Casual", "College", "Office", "Interview", "Party", "Wedding", "Travel"};
+        String[] occasions = {"Casual", "College", "Office", "Interview", "Party", "Traditional", "Travel"};
         android.widget.ArrayAdapter<String> occAdapter = new android.widget.ArrayAdapter<>(context, android.R.layout.simple_spinner_item, occasions);
         occAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         holder.spinnerOccasion.setAdapter(occAdapter);

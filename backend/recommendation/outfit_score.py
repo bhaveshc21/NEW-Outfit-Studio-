@@ -211,15 +211,18 @@ def evaluate_outfit(outfit, occasion=None, weather_data=None):
     is_kurta_footwear = is_sandal_or_slipper or 'heel' in shoe_str
     
     if is_kurta:
+        if outerwear and ('blazer' in out_str or 'coat' in out_str or 'jacket' in out_str):
+            comb_score -= 25.0
+            
         if bot_str:
             is_jeans = 'jean' in bot_str
-            is_white_skirt = 'skirt' in bot_str and bottom.get('color', '').lower() == 'white'
-            if is_jeans or is_white_skirt:
+            is_white_lower = 'white' in bottom.get('color', '').lower()
+            if is_jeans or is_white_lower:
                 comb_score += 5.0 # big bonus for correct pairing
             else:
-                comb_score -= 10.0 # penalty for bad pairing with kurta
+                comb_score -= 25.0 # penalty for bad pairing with kurta
         else:
-            comb_score -= 10.0 # penalty for no bottom with kurta
+            comb_score -= 25.0 # penalty for no bottom with kurta
             
         if is_kurta_footwear:
             comb_score += 5.0
@@ -228,7 +231,11 @@ def evaluate_outfit(outfit, occasion=None, weather_data=None):
     else:
         # Not a kurta
         if is_sandal_or_slipper:
-            comb_score -= 20.0 # Strict penalty to forbid sandals and slippers with non-kurtas
+            is_casual_bottom = bot_str and ('sweat' in bot_str or 'short' in bot_str)
+            if occasion == 'casual' or is_casual_bottom:
+                pass
+            else:
+                comb_score -= 20.0 # Strict penalty to forbid sandals and slippers with non-kurtas
         
     # If it's a completely uniform outfit but not strictly categorized, give a tiny realistic penalty
     # so not everything perfectly hits 25/25 unless it's a dedicated matched suit/set.

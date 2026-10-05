@@ -16,7 +16,7 @@ def get_weather_score(item, weather_data):
     
     # Temperature rules
     if temp >= 28: # HOT
-        if any(w in cat for w in ['jacket', 'sweater', 'coat', 'winter', 'blazer']):
+        if any(w in cat for w in ['jacket', 'sweater', 'coat', 'winter', 'blazer', 'sweatpant']):
             score -= 40
             is_invalid = True
         elif any(w in cat for w in ['short', 'tshirt', 'light', 'crop top', 'sandal', 'slipper', 'croc', 'sleeveless tops']):
@@ -66,7 +66,7 @@ def get_missing_weather_categories(wardrobe_items, weather_data, occasion):
     if temp < 15:
         has_warm_layer = any('jacket' in c or 'sweater' in c or 'coat' in c for c in categories)
         if not has_warm_layer:
-            if occasion in ['office', 'interview', 'wedding']:
+            if occasion in ['office', 'interview', 'traditional']:
                 missing.append({"item": "Formal jacket or coat", "reason": "Would expand formal outfit options for cooler weather."})
             else:
                 missing.append({"item": "Lightweight jacket", "reason": "Would expand casual outfit options for cooler weather."})
