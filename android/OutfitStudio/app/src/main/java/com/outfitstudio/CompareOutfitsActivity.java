@@ -103,6 +103,7 @@ public class CompareOutfitsActivity extends AppCompatActivity {
             TextView tvScore = card.findViewById(R.id.tvScore);
             TextView tvReason = card.findViewById(R.id.tvReason);
             android.widget.Button btnRateOutfit = card.findViewById(R.id.btnRateOutfit);
+            android.widget.Button btnSaveOutfit = card.findViewById(R.id.btnSaveOutfit);
             View cbSelect = card.findViewById(R.id.cbSelect);
             
             if (cbSelect != null) {
@@ -113,6 +114,35 @@ public class CompareOutfitsActivity extends AppCompatActivity {
             }
 
             GeneratedOutfit outfit = selectedOutfits.get(result.getOutfitIndex());
+
+            if (btnSaveOutfit != null) {
+                btnSaveOutfit.setOnClickListener(v -> {
+                    btnSaveOutfit.setEnabled(false);
+                    btnSaveOutfit.setText("Saving...");
+                    java.util.Map<String, com.outfitstudio.api.models.GeneratedOutfit> body = new java.util.HashMap<>();
+                    body.put("outfit", outfit);
+                    OutfitApiService apiService = ApiClient.getClient(CompareOutfitsActivity.this).create(OutfitApiService.class);
+                    apiService.saveOutfit(body).enqueue(new retrofit2.Callback<com.outfitstudio.api.models.WardrobeResponse.EmptyResponse>() {
+                        @Override
+                        public void onResponse(retrofit2.Call<com.outfitstudio.api.models.WardrobeResponse.EmptyResponse> call, retrofit2.Response<com.outfitstudio.api.models.WardrobeResponse.EmptyResponse> response) {
+                            btnSaveOutfit.setEnabled(true);
+                            if (response.isSuccessful()) {
+                                btnSaveOutfit.setText("SAVED");
+                            } else {
+                                btnSaveOutfit.setText("SAVE THIS OUTFIT");
+                                Toast.makeText(CompareOutfitsActivity.this, "Failed to save", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(retrofit2.Call<com.outfitstudio.api.models.WardrobeResponse.EmptyResponse> call, Throwable t) {
+                            btnSaveOutfit.setEnabled(true);
+                            btnSaveOutfit.setText("SAVE THIS OUTFIT");
+                            Toast.makeText(CompareOutfitsActivity.this, "Network error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                });
+            }
 
             tvScore.setText(String.format("Score: %.1f - %s", result.getFashionScore(), result.getRating()));
             
@@ -129,7 +159,7 @@ public class CompareOutfitsActivity extends AppCompatActivity {
             if (outfit.getTop() != null && outfit.getTop().getImagePath() != null) {
                 String path = outfit.getTop().getImagePath().replace("\\", "/");
                 com.bumptech.glide.Glide.with(this)
-                        .load("http://192.168.1.103:5000/" + path)
+                        .load(com.outfitstudio.api.ApiClient.BASE_URL.replace("api/", "") + path)
                         .centerCrop()
                         .into((android.widget.ImageView) card.findViewById(R.id.ivTop));
             }
@@ -139,7 +169,7 @@ public class CompareOutfitsActivity extends AppCompatActivity {
                 card.findViewById(R.id.layoutOuterwear).setVisibility(View.VISIBLE);
                 String path = outfit.getOuterwear().getImagePath().replace("\\", "/");
                 com.bumptech.glide.Glide.with(this)
-                        .load("http://192.168.1.103:5000/" + path)
+                        .load(com.outfitstudio.api.ApiClient.BASE_URL.replace("api/", "") + path)
                         .centerCrop()
                         .into((android.widget.ImageView) card.findViewById(R.id.ivOuterwear));
             } else {
@@ -150,7 +180,7 @@ public class CompareOutfitsActivity extends AppCompatActivity {
             if (outfit.getBottom() != null && outfit.getBottom().getImagePath() != null) {
                 String path = outfit.getBottom().getImagePath().replace("\\", "/");
                 com.bumptech.glide.Glide.with(this)
-                        .load("http://192.168.1.103:5000/" + path)
+                        .load(com.outfitstudio.api.ApiClient.BASE_URL.replace("api/", "") + path)
                         .centerCrop()
                         .into((android.widget.ImageView) card.findViewById(R.id.ivBottom));
             }
@@ -159,7 +189,7 @@ public class CompareOutfitsActivity extends AppCompatActivity {
             if (outfit.getFootwear() != null && outfit.getFootwear().getImagePath() != null) {
                 String path = outfit.getFootwear().getImagePath().replace("\\", "/");
                 com.bumptech.glide.Glide.with(this)
-                        .load("http://192.168.1.103:5000/" + path)
+                        .load(com.outfitstudio.api.ApiClient.BASE_URL.replace("api/", "") + path)
                         .centerCrop()
                         .into((android.widget.ImageView) card.findViewById(R.id.ivFootwear));
             }

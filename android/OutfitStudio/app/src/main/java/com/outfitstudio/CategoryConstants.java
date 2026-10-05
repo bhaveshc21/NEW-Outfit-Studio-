@@ -9,7 +9,7 @@ public class CategoryConstants {
 
     public static final String[] FEMALE_CATEGORIES = {
         "long dress", "bodycon", "frock", "sleeveless tops", 
-        "sleeved top", "crop top", "skirt", "shorts", "leggings", 
+        "long sleeved top", "crop top", "skirt", "shorts", "leggings", 
         "tshirt", "shirt", "jeans", "trousers", "jacket", 
         "Sneakers", "Slippers", "Sandals", "Sports shoes", 
         "Formal Shoes", "Heels", "Crocs", "blazer", "kurta"

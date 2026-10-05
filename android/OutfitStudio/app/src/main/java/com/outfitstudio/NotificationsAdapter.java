@@ -40,7 +40,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         // Ensure image URL is absolute
         String imageUrl = item.getImagePath();
         if (imageUrl != null && !imageUrl.startsWith("http")) {
-            imageUrl = "http://192.168.1.103:5000/" + imageUrl.replace("\\", "/");
+            imageUrl = com.outfitstudio.api.ApiClient.BASE_URL.replace("api/", "") + imageUrl.replace("\\", "/");
         }
 
         Glide.with(context)

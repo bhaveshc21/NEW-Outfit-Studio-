@@ -26,15 +26,6 @@
             android:textStyle="bold"
             android:textColor="@color/on_background" />
 
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@android:drawable/ic_menu_sort_by_size"
-            app:tint="@color/primary"
-            android:background="@drawable/bg_button_rounded"
-            android:backgroundTint="@color/secondary"
-            android:padding="12dp"
-            android:elevation="2dp" />
     </LinearLayout>
 
     <!-- Loading State -->

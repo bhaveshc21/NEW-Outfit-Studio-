@@ -125,28 +125,28 @@ class OutfitComparisonService:
                             elif diff < 0:
                                 reason = "Has a nice color combination, though slightly less vibrant."
                             else:
-                                reason = "Displays excellent color coordination."
-                        elif f_key == "occasion_suitability":
+                                reason = "Displays excellent color coordination." if idx == 0 else "Equally great color coordination."
+                        elif f_key == "occasion":
                             if diff > 0:
                                 reason = "Perfectly captures the dress code for this occasion."
                             elif diff < 0:
                                 reason = "Appropriate for the occasion with a more relaxed feel."
                             else:
-                                reason = "Highly suitable for the selected occasion."
-                        elif f_key == "weather_suitability":
+                                reason = "Highly suitable for the selected occasion." if idx == 0 else "Equally appropriate for this occasion."
+                        elif f_key == "weather":
                             if diff > 0:
                                 reason = "Offers superior comfort for the current weather conditions."
                             elif diff < 0:
                                 reason = "Comfortable enough for the forecast."
                             else:
-                                reason = "Well-adapted to the current weather."
-                        elif f_key == "clothing_combination":
+                                reason = "Well-adapted to the current weather." if idx == 0 else "Similarly well-suited for the forecast."
+                        elif f_key == "combination":
                             if diff > 0:
                                 reason = "The pieces complement each other exceptionally well."
                             elif diff < 0:
                                 reason = "A solid combination of individual pieces."
                             else:
-                                reason = "The pieces form a well-balanced silhouette."
+                                reason = "The pieces form a well-balanced silhouette." if idx == 0 else "Also features a well-balanced clothing combination."
                         else:
                             if diff > 0:
                                 reason = "Excels in this particular aspect."

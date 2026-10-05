@@ -169,7 +169,7 @@ public class ClothingDetailsActivity extends AppCompatActivity {
         }
         String imagePath = item.getImagePath();
         if (imagePath != null) {
-            String imageUrl = "http://192.168.1.103:5000/" + imagePath.replace("\\", "/");
+            String imageUrl = com.outfitstudio.api.ApiClient.BASE_URL.replace("api/", "") + imagePath.replace("\\", "/");
             Glide.with(this)
                     .load(imageUrl)
                     .centerCrop()

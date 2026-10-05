@@ -30,14 +30,14 @@ def get_occasion_score(item, occasion, gender="Female"):
         return 0, True
     
     if occasion == 'college':
-        if any(w in cat for w in ['tshirt', 'shirt', 'sleeveless top', 'sleeved top', 'crop top', 'jean', 'skirt', 'legging', 'jacket', 'sneaker', 'sandal', 'sport', 'frock', 'kurta']):
+        if any(w in cat for w in ['tshirt', 'shirt', 'sleeveless top', 'long sleeved top', 'crop top', 'jean', 'skirt', 'legging', 'jacket', 'sneaker', 'sandal', 'sport', 'frock', 'kurta']):
             score += 30
         if any(w in cat for w in ['formal', 'blazer', 'tie', 'suit', 'long dress', 'heel', 'shorts']):
             score -= 30
             is_invalid = True
             
     elif occasion == 'office':
-        if any(w in cat for w in ['shirt', 'sleeved top', 'trouser', 'skirt', 'blazer', 'formal', 'heel', 'sneaker', 'shoe', 'sandal', 'slipper', 'kurta']):
+        if any(w in cat for w in ['shirt', 'long sleeved top', 'trouser', 'skirt', 'blazer', 'formal', 'heel', 'sneaker', 'shoe', 'sandal', 'slipper', 'kurta']):
             score += 40
         if any(w in cat for w in ['jean', 'tshirt', 'jacket', 'sleeveless top']):
             score -= 10 # slightly penalized but not invalid
@@ -46,7 +46,7 @@ def get_occasion_score(item, occasion, gender="Female"):
             is_invalid = True
                 
     elif occasion == 'interview':
-        if any(w in cat for w in ['shirt', 'sleeved top', 'trouser', 'blazer', 'formal', 'heel', 'suit', 'tie']):
+        if any(w in cat for w in ['shirt', 'long sleeved top', 'trouser', 'blazer', 'formal', 'heel', 'suit', 'tie']):
             score += 40
         if any(w in cat for w in ['tshirt', 'sleeveless top', 'crop top', 'jean', 'legging', 'jacket', 'sneaker', 'slipper', 'sandal', 'sport', 'croc', 'bodycon', 'frock', 'long dress', 'shorts', 'kurta']):
             score -= 40
@@ -64,7 +64,7 @@ def get_occasion_score(item, occasion, gender="Female"):
             is_invalid = True
             
     elif occasion == 'wedding':
-        if any(w in cat for w in ['shirt', 'sleeved top', 'trouser', 'blazer', 'formal', 'heel', 'long dress', 'suit', 'tie', 'kurta']):
+        if any(w in cat for w in ['shirt', 'long sleeved top', 'trouser', 'blazer', 'formal', 'heel', 'long dress', 'suit', 'tie', 'kurta']):
             score += 40
         if any(w in cat for w in ['tshirt', 'sleeveless top', 'crop top', 'jean', 'legging', 'jacket', 'sneaker', 'slipper', 'sandal', 'sport', 'croc', 'bodycon', 'shorts']):
             score -= 40

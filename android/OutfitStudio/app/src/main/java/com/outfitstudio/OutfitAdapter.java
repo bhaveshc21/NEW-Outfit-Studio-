@@ -26,8 +26,8 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
     private Set<GeneratedOutfit> selectedOutfits = new HashSet<>();
     private boolean isSavedOutfitsMode;
     
-    // Change if hosting backend elsewhere or using emulator 192.168.1.103
-    private static final String BASE_IMAGE_URL = "http://192.168.1.103:5000/";
+    // Dynamically use ApiClient's BASE_URL for images
+    private static final String BASE_IMAGE_URL = com.outfitstudio.api.ApiClient.BASE_URL.replace("api/", "");
 
     public OutfitAdapter(Context context, List<GeneratedOutfit> outfits) {
         this(context, outfits, false);
