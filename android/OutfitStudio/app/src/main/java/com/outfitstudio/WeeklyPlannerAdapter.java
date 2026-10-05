@@ -22,7 +22,7 @@ public class WeeklyPlannerAdapter extends RecyclerView.Adapter<WeeklyPlannerAdap
     private Context context;
     private List<PlannedDay> days;
     private PlannerActionCallback callback;
-    private static final String BASE_IMAGE_URL = "http://192.168.1.101:5000/";
+    private static final String BASE_IMAGE_URL = "http://192.168.1.12:5000/";
 
     public interface PlannerActionCallback {
         void onRegenerate(String date, String occasion, int position);

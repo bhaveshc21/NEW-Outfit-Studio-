@@ -8,7 +8,7 @@ OCCASIONS = [
     "Casual"
 ]
 
-def get_occasion_score(item, occasion):
+def get_occasion_score(item, occasion, gender="Female"):
     """
     Returns a suitability score (0-100) for an item based on the occasion.
     Also returns a boolean indicating if it's a completely invalid choice (e.g. shorts for wedding).
@@ -21,6 +21,13 @@ def get_occasion_score(item, occasion):
     
     score = 50
     is_invalid = False
+    
+    is_male = gender and gender.lower() == "male"
+    is_kurta = 'kurta' in cat
+    
+    # If it's a kurta for a male and the occasion is NOT wedding, it's strictly invalid.
+    if is_male and is_kurta and occasion != 'wedding':
+        return 0, True
     
     if occasion == 'college':
         if any(w in cat for w in ['tshirt', 'shirt', 'sleeveless top', 'sleeved top', 'crop top', 'jean', 'skirt', 'legging', 'jacket', 'sneaker', 'sandal', 'sport', 'frock', 'kurta']):
@@ -57,9 +64,9 @@ def get_occasion_score(item, occasion):
             is_invalid = True
             
     elif occasion == 'wedding':
-        if any(w in cat for w in ['shirt', 'sleeved top', 'trouser', 'blazer', 'formal', 'heel', 'long dress', 'suit', 'tie']):
+        if any(w in cat for w in ['shirt', 'sleeved top', 'trouser', 'blazer', 'formal', 'heel', 'long dress', 'suit', 'tie', 'kurta']):
             score += 40
-        if any(w in cat for w in ['tshirt', 'sleeveless top', 'crop top', 'jean', 'legging', 'jacket', 'sneaker', 'slipper', 'sandal', 'sport', 'croc', 'bodycon', 'shorts', 'kurta']):
+        if any(w in cat for w in ['tshirt', 'sleeveless top', 'crop top', 'jean', 'legging', 'jacket', 'sneaker', 'slipper', 'sandal', 'sport', 'croc', 'bodycon', 'shorts']):
             score -= 40
             is_invalid = True
             

@@ -56,7 +56,7 @@ public class DonateClothingAdapter extends RecyclerView.Adapter<DonateClothingAd
         holder.tvCategory.setText(item.getCategory());
         holder.tvColor.setText(item.getColor());
 
-        String imageUrl = "http://192.168.1.101:5000/" + item.getImagePath().replace("\\", "/");
+        String imageUrl = "http://192.168.1.12:5000/" + item.getImagePath().replace("\\", "/");
         
         Glide.with(context)
                 .load(imageUrl)

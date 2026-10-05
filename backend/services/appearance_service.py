@@ -11,7 +11,7 @@ class AppearanceService:
         
     def get_profile(self, user_id):
         cursor = self.db.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM profiles WHERE user_id = %s", (user_id,))
+        cursor.execute("SELECT p.*, u.gender FROM profiles p JOIN users u ON p.user_id = u.id WHERE p.user_id = %s", (user_id,))
         profile = cursor.fetchone()
         cursor.close()
         return profile

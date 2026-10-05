@@ -13,7 +13,7 @@ with app.app_context():
     )
     cursor = connection.cursor(dictionary=True)
     
-    cursor.execute('SELECT * FROM profiles WHERE user_id = 15')
+    cursor.execute('SELECT p.*, u.gender FROM profiles p JOIN users u ON p.user_id = u.id WHERE p.user_id = 15')
     profile = cursor.fetchone()
     
     cursor.execute('SELECT * FROM wardrobe_items WHERE user_id = 15')

@@ -129,7 +129,7 @@ public class CompareOutfitsActivity extends AppCompatActivity {
             if (outfit.getTop() != null && outfit.getTop().getImagePath() != null) {
                 String path = outfit.getTop().getImagePath().replace("\\", "/");
                 com.bumptech.glide.Glide.with(this)
-                        .load("http://192.168.1.101:5000/" + path)
+                        .load("http://192.168.1.12:5000/" + path)
                         .centerCrop()
                         .into((android.widget.ImageView) card.findViewById(R.id.ivTop));
             }
@@ -139,7 +139,7 @@ public class CompareOutfitsActivity extends AppCompatActivity {
                 card.findViewById(R.id.layoutOuterwear).setVisibility(View.VISIBLE);
                 String path = outfit.getOuterwear().getImagePath().replace("\\", "/");
                 com.bumptech.glide.Glide.with(this)
-                        .load("http://192.168.1.101:5000/" + path)
+                        .load("http://192.168.1.12:5000/" + path)
                         .centerCrop()
                         .into((android.widget.ImageView) card.findViewById(R.id.ivOuterwear));
             } else {
@@ -150,7 +150,7 @@ public class CompareOutfitsActivity extends AppCompatActivity {
             if (outfit.getBottom() != null && outfit.getBottom().getImagePath() != null) {
                 String path = outfit.getBottom().getImagePath().replace("\\", "/");
                 com.bumptech.glide.Glide.with(this)
-                        .load("http://192.168.1.101:5000/" + path)
+                        .load("http://192.168.1.12:5000/" + path)
                         .centerCrop()
                         .into((android.widget.ImageView) card.findViewById(R.id.ivBottom));
             }
@@ -159,7 +159,7 @@ public class CompareOutfitsActivity extends AppCompatActivity {
             if (outfit.getFootwear() != null && outfit.getFootwear().getImagePath() != null) {
                 String path = outfit.getFootwear().getImagePath().replace("\\", "/");
                 com.bumptech.glide.Glide.with(this)
-                        .load("http://192.168.1.101:5000/" + path)
+                        .load("http://192.168.1.12:5000/" + path)
                         .centerCrop()
                         .into((android.widget.ImageView) card.findViewById(R.id.ivFootwear));
             }

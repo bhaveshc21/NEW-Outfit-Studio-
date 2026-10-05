@@ -4,7 +4,7 @@ public class CategoryConstants {
     public static final String[] MALE_CATEGORIES = {
         "tshirt", "shirt", "jeans", "trousers", "shorts", "jacket", 
         "Sneakers", "Slippers", "Sandals", "Sports shoes", 
-        "Formal Shoes", "Crocs", "blazer"
+        "Formal Shoes", "Crocs", "blazer", "kurta"
     };
 
     public static final String[] FEMALE_CATEGORIES = {

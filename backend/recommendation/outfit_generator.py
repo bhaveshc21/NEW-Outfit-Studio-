@@ -222,11 +222,23 @@ class OutfitGenerator:
             # If dress, just evaluate top and shoe color harmony
             color_score_raw = calculate_outfit_color_score(top.get('color'), top.get('color'), shoe.get('color'))
         
+        top_str_pre = top.get('category', '').lower() + " " + top.get('name', '').lower()
+        is_kurta_pre = 'kurta' in top_str_pre
+        
         occ_avg = 50.0
         if occasion:
             occ_scores = []
+            gender = self.profile.get('gender', 'Female') if self.profile else 'Female'
             for item in items:
-                occ_score, occ_inv = get_occasion_score(item, occasion)
+                occ_score, occ_inv = get_occasion_score(item, occasion, gender=gender)
+                
+                # Overrides for kurta wedding combinations
+                if occasion == 'wedding' and is_kurta_pre:
+                    item_str = (item.get('category', '') + ' ' + item.get('name', '')).lower()
+                    if 'sandal' in item_str or 'slipper' in item_str or 'trouser' in item_str or 'formal' in item_str:
+                        occ_inv = False
+                        occ_score = max(occ_score, 70)
+                        
                 occ_scores.append(occ_score)
                 if occ_inv: is_invalid = True
             occ_avg = sum(occ_scores) / len(items)
@@ -262,15 +274,17 @@ class OutfitGenerator:
         if is_kurta:
             if bottom:
                 is_jeans = 'jean' in bot_str
+                is_trouser = 'trouser' in bot_str
                 is_white_skirt = 'skirt' in bot_str and bottom.get('color', '').lower() == 'white'
-                if is_jeans or is_white_skirt:
+                if is_jeans or is_white_skirt or is_trouser:
                     comb_bonus += 5.0 # small bonus for correct pairing, don't overpower
                 else:
                     comb_penalty += 30.0 # penalty for bad pairing with kurta
             else:
                 comb_penalty += 30.0 # penalty for no bottom with kurta
                 
-            if not is_kurta_footwear:
+            is_valid_shoe = is_sandal_or_slipper or 'heel' in shoe_str or 'formal' in shoe_str or 'shoe' in shoe_str
+            if not is_valid_shoe:
                 comb_penalty += 50.0 # Strict penalty to forbid other shoes with kurtas
                 
             if 'jacket' in out_str:

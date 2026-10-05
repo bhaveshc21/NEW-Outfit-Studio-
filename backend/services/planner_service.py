@@ -16,7 +16,7 @@ class PlannerService:
         return [dict(zip(columns, row)) for row in cursor.fetchall()]
 
     def get_user_profile(self, cursor, user_id):
-        cursor.execute("SELECT * FROM profiles WHERE user_id = %s", (user_id,))
+        cursor.execute("SELECT p.*, u.gender FROM profiles p JOIN users u ON p.user_id = u.id WHERE p.user_id = %s", (user_id,))
         row = cursor.fetchone()
         if not row:
             return None

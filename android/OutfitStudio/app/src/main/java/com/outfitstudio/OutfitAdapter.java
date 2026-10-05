@@ -26,8 +26,8 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
     private Set<GeneratedOutfit> selectedOutfits = new HashSet<>();
     private boolean isSavedOutfitsMode;
     
-    // Change if hosting backend elsewhere or using emulator 192.168.1.101
-    private static final String BASE_IMAGE_URL = "http://192.168.1.101:5000/";
+    // Change if hosting backend elsewhere or using emulator 10.0.2.2
+    private static final String BASE_IMAGE_URL = "http://192.168.1.12:5000/";
 
     public OutfitAdapter(Context context, List<GeneratedOutfit> outfits) {
         this(context, outfits, false);
