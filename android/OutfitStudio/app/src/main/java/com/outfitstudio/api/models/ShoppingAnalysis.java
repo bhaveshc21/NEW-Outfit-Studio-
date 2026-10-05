@@ -67,6 +67,9 @@ public class ShoppingAnalysis {
         
         @SerializedName("example_outfits")
         private List<GeneratedOutfit> exampleOutfits;
+        
+        @SerializedName("duplicate_exists")
+        private boolean duplicateExists;
 
         public CandidateItem getCandidateItem() { return candidateItem; }
         public Compatibility getCompatibility() { return compatibility; }
@@ -75,6 +78,7 @@ public class ShoppingAnalysis {
         public WardrobeGap getWardrobeGap() { return wardrobeGap; }
         public Explanation getExplanation() { return explanation; }
         public List<GeneratedOutfit> getExampleOutfits() { return exampleOutfits; }
+        public boolean isDuplicateExists() { return duplicateExists; }
     }
 
     public static class CandidateItem {

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="220dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_popup_menu"
+    android:elevation="8dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
+
+    <TextView
+        android:id="@+id/menu_notifications"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="Notifications"
+        android:textColor="@color/on_background"
+        android:textSize="16sp"
+        android:background="?attr/selectableItemBackground"
+        android:drawablePadding="16dp"
+        app:drawableStartCompat="@android:drawable/ic_dialog_info"
+        app:drawableTint="@color/primary" />
+
+    <TextView
+        android:id="@+id/menu_weekly_planner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="Weekly Planner"
+        android:textColor="@color/on_background"
+        android:textSize="16sp"
+        android:background="?attr/selectableItemBackground"
+        android:drawablePadding="16dp"
+        app:drawableStartCompat="@android:drawable/ic_menu_today"
+        app:drawableTint="@color/primary" />
+
+    <TextView
+        android:id="@+id/menu_donate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="Donate Clothing"
+        android:textColor="@color/on_background"
+        android:textSize="16sp"
+        android:background="?attr/selectableItemBackground"
+        android:drawablePadding="16dp"
+        app:drawableStartCompat="@android:drawable/ic_menu_send"
+        app:drawableTint="@color/primary" />
+
+    <TextView
+        android:id="@+id/menu_insights"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="Usage Insights"
+        android:textColor="@color/on_background"
+        android:textSize="16sp"
+        android:background="?attr/selectableItemBackground"
+        android:drawablePadding="16dp"
+        app:drawableStartCompat="@android:drawable/ic_menu_sort_by_size"
+        app:drawableTint="@color/primary" />
+
+    <TextView
+        android:id="@+id/menu_saved"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="Saved Outfits"
+        android:textColor="@color/on_background"
+        android:textSize="16sp"
+        android:background="?attr/selectableItemBackground"
+        android:drawablePadding="16dp"
+        app:drawableStartCompat="@android:drawable/ic_menu_gallery"
+        app:drawableTint="@color/primary" />
+
+</LinearLayout>

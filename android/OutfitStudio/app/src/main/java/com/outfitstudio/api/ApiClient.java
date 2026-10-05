@@ -11,8 +11,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import java.io.IOException;
 
 public class ApiClient {
-    // 10.0.2.2 is the special alias for localhost on the Android Emulator
-    public static final String BASE_URL = "http://192.168.1.12:5000/api/";
+    // 192.168.1.103 is the special alias for localhost on the Android Emulator
+    public static final String BASE_URL = "http://192.168.1.103:5000/api/";
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient(Context context) {

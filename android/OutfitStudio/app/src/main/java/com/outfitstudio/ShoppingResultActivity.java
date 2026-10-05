@@ -22,7 +22,7 @@ public class ShoppingResultActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private OutfitAdapter adapter;
-    private static final String BASE_IMAGE_URL = "http://192.168.1.12:5000/";
+    private static final String BASE_IMAGE_URL = "http://192.168.1.103:5000/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +64,14 @@ public class ShoppingResultActivity extends AppCompatActivity {
             // Purchase Utility Analysis sections
             if (analysis.getPurchaseUtility() != null) {
                 ShoppingAnalysis.PurchaseUtility utility = analysis.getPurchaseUtility();
+                
+                if (utility.isDuplicateExists()) {
+                    new android.app.AlertDialog.Builder(this)
+                        .setTitle("Similar Item Found")
+                        .setMessage("You already own a similar clothing item. Are you sure you want to buy this?")
+                        .setPositiveButton("OK", null)
+                        .show();
+                }
                 
                 // Why Useful
                 TextView tvWhyUseful = findViewById(R.id.tvWhyUseful);

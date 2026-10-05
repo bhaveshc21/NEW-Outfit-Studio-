@@ -25,8 +25,14 @@ class DashboardService:
                 wardrobe_count = cursor.fetchone()['total_items']
                 
                 # Check if appearance is available
-                cursor.execute("SELECT COUNT(*) as count FROM appearance_analysis WHERE user_id = %s", (user_id,))
-                appearance_count = cursor.fetchone()['count']
+                cursor.execute("SELECT image_path FROM appearance_analysis WHERE user_id = %s ORDER BY created_at DESC LIMIT 1", (user_id,))
+                appearance_row = cursor.fetchone()
+                appearance_count = 1 if appearance_row else 0
+                appearance_image = None
+                if appearance_row and appearance_row['image_path']:
+                    appearance_image = appearance_row['image_path'].replace('\\', '/')
+                    if not appearance_image.startswith('/'):
+                        appearance_image = '/' + appearance_image
                 
                 # Fetch recent worn outfits (repurposing saved_outfits)
                 cursor.execute("""
@@ -61,8 +67,7 @@ class DashboardService:
                     recent_outfits.append(outfit)
 
                 name = user['name'] if user else "User"
-                profile_image = user['profile_image'] if user and 'profile_image' in user else None
-                
+                profile_image = user['profile_image'] if (user and user.get('profile_image')) else appearance_image
                 return {
                     "user": {
                         "id": user_id,

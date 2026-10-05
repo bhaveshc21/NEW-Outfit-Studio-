@@ -163,33 +163,42 @@ public class HomeActivity extends AppCompatActivity {
 
         ImageView btnDashboard = findViewById(R.id.btnDashboard);
         btnDashboard.setOnClickListener(v -> {
-            android.widget.PopupMenu popup = new android.widget.PopupMenu(HomeActivity.this, v);
-            popup.getMenu().add(0, 1, 0, "Notifications");
-            popup.getMenu().add(0, 2, 1, "Weekly Planner");
-            popup.getMenu().add(0, 3, 2, "Donate Clothing");
-            popup.getMenu().add(0, 4, 3, "Usage Insights");
-            popup.getMenu().add(0, 5, 4, "Saved Outfits");
-            popup.setOnMenuItemClickListener(item -> {
-                switch (item.getItemId()) {
-                    case 1:
-                        startActivity(new Intent(HomeActivity.this, NotificationsActivity.class));
-                        return true;
-                    case 2:
-                        startActivity(new Intent(HomeActivity.this, WeeklyPlannerActivity.class));
-                        return true;
-                    case 3:
-                        startActivity(new Intent(HomeActivity.this, DonateClothingActivity.class));
-                        return true;
-                    case 4:
-                        startActivity(new Intent(HomeActivity.this, UsageInsightsActivity.class));
-                        return true;
-                    case 5:
-                        startActivity(new Intent(HomeActivity.this, SavedOutfitsActivity.class));
-                        return true;
-                }
-                return false;
+            View popupView = getLayoutInflater().inflate(R.layout.custom_popup_menu, null);
+            android.widget.PopupWindow popupWindow = new android.widget.PopupWindow(
+                    popupView,
+                    android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+                    android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+                    true
+            );
+            
+            // Set elevation for shadow
+            popupWindow.setElevation(16f);
+            popupWindow.setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+            // Set click listeners for the items
+            popupView.findViewById(R.id.menu_notifications).setOnClickListener(item -> {
+                popupWindow.dismiss();
+                startActivity(new Intent(HomeActivity.this, NotificationsActivity.class));
             });
-            popup.show();
+            popupView.findViewById(R.id.menu_weekly_planner).setOnClickListener(item -> {
+                popupWindow.dismiss();
+                startActivity(new Intent(HomeActivity.this, WeeklyPlannerActivity.class));
+            });
+            popupView.findViewById(R.id.menu_donate).setOnClickListener(item -> {
+                popupWindow.dismiss();
+                startActivity(new Intent(HomeActivity.this, DonateClothingActivity.class));
+            });
+            popupView.findViewById(R.id.menu_insights).setOnClickListener(item -> {
+                popupWindow.dismiss();
+                startActivity(new Intent(HomeActivity.this, UsageInsightsActivity.class));
+            });
+            popupView.findViewById(R.id.menu_saved).setOnClickListener(item -> {
+                popupWindow.dismiss();
+                startActivity(new Intent(HomeActivity.this, SavedOutfitsActivity.class));
+            });
+
+            // Show below the dashboard button
+            popupWindow.showAsDropDown(v, 0, 8);
         });
 
     }

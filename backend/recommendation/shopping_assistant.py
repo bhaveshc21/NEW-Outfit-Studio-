@@ -186,7 +186,8 @@ class ShoppingAssistant:
                 "summary": summary,
                 "reasons": reasons
             },
-            "example_outfits": matching_outfits[:5]
+            "example_outfits": matching_outfits[:5],
+            "duplicate_exists": duplicate_exists
         }
 
         return {
@@ -224,5 +225,6 @@ class ShoppingAssistant:
                 "summary": "Cannot determine utility due to empty wardrobe.",
                 "reasons": []
             },
-            "example_outfits": []
+            "example_outfits": [],
+            "duplicate_exists": False
         }
