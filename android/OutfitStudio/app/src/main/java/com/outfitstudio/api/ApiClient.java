@@ -11,8 +11,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import java.io.IOException;
 
 public class ApiClient {
-    // Use the computer's local IP address for physical device testing
-    public static final String BASE_URL = "http://192.168.1.103:5000/api/";
+    // Use the computer's local IP address for physical device testing (10.139.148.254 is your current IP)
+    // If using an Android Emulator, change this to "http://10.0.2.2:5000/api/"
+    public static final String BASE_URL = "http://10.254.53.254:5000/api/";
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient(Context context) {
@@ -38,6 +39,9 @@ public class ApiClient {
                             return chain.proceed(request);
                         }
                     })
+                    .connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+                    .readTimeout(300, java.util.concurrent.TimeUnit.SECONDS)
+                    .writeTimeout(300, java.util.concurrent.TimeUnit.SECONDS)
                     .build();
 
             retrofit = new Retrofit.Builder()

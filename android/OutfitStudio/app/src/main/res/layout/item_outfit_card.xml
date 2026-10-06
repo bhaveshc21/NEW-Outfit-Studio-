@@ -152,5 +152,15 @@
                 app:cornerRadius="8dp"
                 android:backgroundTint="@color/primary"/>
         </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnVisualizeOutfit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Visualize on me"
+            app:cornerRadius="8dp"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/on_primary" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

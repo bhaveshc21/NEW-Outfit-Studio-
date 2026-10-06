@@ -124,37 +124,24 @@
         android:id="@+id/bottomActionLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:background="@color/surface"
         android:elevation="8dp"
         android:padding="16dp"
-        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnWearAsWorn"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginEnd="8dp"
             android:text="Mark as Worn"
             android:visibility="gone"
             app:cornerRadius="24dp"
             android:backgroundTint="@color/secondary"
             android:textColor="@color/on_secondary"/>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnCompare"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp"
-            android:text="Compare Selected"
-            app:cornerRadius="24dp"
-            android:backgroundTint="@color/primary" />
-
+            
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

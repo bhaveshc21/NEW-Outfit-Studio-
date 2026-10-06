@@ -3,6 +3,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
 
     <application
@@ -42,7 +45,7 @@
         <activity android:name=".CompleteLookActivity" />
         <activity android:name=".NotificationsActivity" />
         <activity android:name=".WeeklyPlannerActivity" />
-        <activity android:name=".CompareOutfitsActivity" />
+
         <activity android:name=".OutfitExplanationActivity" />
         <activity android:name=".UsageInsightsActivity" />
         <activity android:name=".DonationActivity" />
@@ -60,5 +63,8 @@
         <activity android:name=".MyProfileActivity" />
         <activity android:name=".MeasurementsActivity" />
         <activity android:name=".ChangePasswordActivity" />
+        <activity android:name=".VirtualTryOnActivity" android:exported="false" />
+        <activity android:name=".VirtualTryOnResultActivity" android:exported="false" />
+
     </application>
 </manifest>

@@ -58,7 +58,6 @@ public class CompleteLookActivity extends AppCompatActivity {
         llActionButtons = findViewById(R.id.llActionButtons);
 
         Button btnMarkAsWorn = findViewById(R.id.btnMarkAsWorn);
-        Button btnCompareSelected = findViewById(R.id.btnCompareSelected);
 
         btnMarkAsWorn.setOnClickListener(v -> {
             if (adapter == null) return;
@@ -101,17 +100,6 @@ public class CompleteLookActivity extends AppCompatActivity {
             });
         });
 
-        btnCompareSelected.setOnClickListener(v -> {
-            if (adapter == null) return;
-            List<GeneratedOutfit> selected = adapter.getSelectedOutfits();
-            if (selected.size() < 2) {
-                Toast.makeText(this, "Please select at least two outfits to compare.", Toast.LENGTH_SHORT).show();
-            } else {
-                Intent compareIntent = new Intent(this, CompareOutfitsActivity.class);
-                compareIntent.putExtra("selected_outfits_json", new Gson().toJson(selected));
-                startActivity(compareIntent);
-            }
-        });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

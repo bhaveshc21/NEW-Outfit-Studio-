@@ -59,6 +59,7 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
             holder.tvReason.setVisibility(View.GONE);
             holder.btnRateOutfit.setVisibility(View.GONE);
             holder.btnSaveOutfit.setVisibility(View.GONE);
+            holder.btnVisualizeOutfit.setVisibility(View.GONE);
             holder.cbSelect.setVisibility(View.GONE);
         } else {
             holder.tvScore.setVisibility(View.VISIBLE);
@@ -67,6 +68,7 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
             holder.tvReason.setText(outfit.getReason());
             holder.btnRateOutfit.setVisibility(View.VISIBLE);
             holder.btnSaveOutfit.setVisibility(View.VISIBLE);
+            holder.btnVisualizeOutfit.setVisibility(View.VISIBLE);
             holder.cbSelect.setVisibility(View.VISIBLE);
         }
         
@@ -122,6 +124,13 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
                     intent.putExtra("occasion", occasion);
                 }
             }
+            context.startActivity(intent);
+        });
+
+        holder.btnVisualizeOutfit.setOnClickListener(v -> {
+            android.content.Intent intent = new android.content.Intent(context, VirtualTryOnActivity.class);
+            com.google.gson.Gson gson = new com.google.gson.Gson();
+            intent.putExtra("outfit_json", gson.toJson(outfit));
             context.startActivity(intent);
         });
 
@@ -204,7 +213,7 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
         TextView tvScore, tvReason;
         ImageView ivTop, ivOuterwear, ivBottom, ivFootwear;
         View layoutOuterwear;
-        android.widget.Button btnRateOutfit, btnSaveOutfit;
+        android.widget.Button btnRateOutfit, btnSaveOutfit, btnVisualizeOutfit;
         android.widget.CheckBox cbSelect;
 
         public OutfitViewHolder(@NonNull View itemView) {
@@ -218,6 +227,7 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
             layoutOuterwear = itemView.findViewById(R.id.layoutOuterwear);
             btnRateOutfit = itemView.findViewById(R.id.btnRateOutfit);
             btnSaveOutfit = itemView.findViewById(R.id.btnSaveOutfit);
+            btnVisualizeOutfit = itemView.findViewById(R.id.btnVisualizeOutfit);
             cbSelect = itemView.findViewById(R.id.cbSelect);
         }
     }
