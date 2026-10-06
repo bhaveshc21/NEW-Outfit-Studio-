@@ -62,6 +62,7 @@ def create_app():
     from routes.visualization_routes import visualization_bp
     from routes.planner_routes import planner_bp
     from routes.dashboard_routes import dashboard_bp
+    from routes.virtual_try_on_routes import virtual_try_on_bp
     
     app.register_blueprint(auth_bp, url_prefix='/api')
     app.register_blueprint(profile_bp, url_prefix='/api/profile')
@@ -73,6 +74,7 @@ def create_app():
     app.register_blueprint(visualization_bp, url_prefix='/api/visualization')
     app.register_blueprint(planner_bp, url_prefix='/api/planner')
     app.register_blueprint(dashboard_bp, url_prefix='/api/dashboard')
+    app.register_blueprint(virtual_try_on_bp, url_prefix='/api/virtual-try-on')
 
 
     @app.route('/uploads/<path:filename>')

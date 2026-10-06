@@ -14,3 +14,6 @@ class Config:
     DATABASE_NAME = os.environ.get('DATABASE_NAME', 'outfit_studio')
     DATABASE_USER = os.environ.get('DATABASE_USER', 'root')
     DATABASE_PASSWORD = os.environ.get('DATABASE_PASSWORD', 'mukul@0906')
+    
+    # Gemini AI
+    GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
