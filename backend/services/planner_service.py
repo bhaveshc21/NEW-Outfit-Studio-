@@ -120,7 +120,8 @@ class PlannerService:
                 best_eval = None
                 
                 for cand in candidates:
-                    eval_res = evaluate_outfit(cand, occasion, weather)
+                    gender = profile.get('gender', 'Female')
+                    eval_res = evaluate_outfit(cand, occasion, weather, gender=gender)
                     if not eval_res.get("success"):
                         continue
                         
@@ -132,7 +133,7 @@ class PlannerService:
                         if cand.get(k):
                             item_id = cand[k]['id']
                             count = used_items_counts.get(item_id, 0)
-                            penalty += (count * 5) # 5 points penalty per reuse
+                            penalty += (count * 15.0) # 15 points penalty per reuse
                             
                     final_score = f_score - penalty + random.uniform(0, 0.5)
                     
@@ -263,12 +264,13 @@ class PlannerService:
                     if cand_top == current_day_plan.get('top_id') and cand_bot == current_day_plan.get('bottom_id'):
                         continue # Skip the exact same combination
                         
-                eval_res = evaluate_outfit(cand, occasion, weather)
+                gender = profile.get('gender', 'Female')
+                eval_res = evaluate_outfit(cand, occasion, weather, gender=gender)
                 if not eval_res.get("success"):
                     continue
                     
                 f_score = eval_res.get("fashion_score", 0)
-                penalty = sum(used_items_counts.get(cand.get(k, {}).get('id'), 0) * 5 for k in ['top', 'bottom', 'outerwear', 'footwear'] if cand.get(k))
+                penalty = sum(used_items_counts.get(cand.get(k, {}).get('id'), 0) * 15.0 for k in ['top', 'bottom', 'outerwear', 'footwear'] if cand.get(k))
                 final_score = f_score - penalty + random.uniform(0, 0.5)
                 
                 if final_score > best_score:

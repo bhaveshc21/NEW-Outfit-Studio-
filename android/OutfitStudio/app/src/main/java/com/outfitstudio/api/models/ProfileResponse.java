@@ -12,10 +12,12 @@ public class ProfileResponse {
         private String name;
         private String email;
         private String profile_image;
+        private String visualization_image;
         
         public int getId() { return id; }
         public String getName() { return name; }
         public String getEmail() { return email; }
         public String getProfileImage() { return profile_image; }
+        public String getVisualizationImage() { return visualization_image; }
     }
 }

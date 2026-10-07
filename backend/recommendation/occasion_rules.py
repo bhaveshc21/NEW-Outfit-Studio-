@@ -28,6 +28,12 @@ def get_occasion_score(item, occasion, gender="Female"):
     # If it's a kurta for a male and the occasion is NOT traditional, it's strictly invalid.
     if is_male and is_kurta and occasion != 'traditional':
         return 0, True
+        
+    if is_male and occasion == 'traditional':
+        if not any(w in cat for w in ['kurta', 'jean', 'sandal']):
+            return 0, True
+        else:
+            return 90, False
     
     if occasion == 'college':
         if any(w in cat for w in ['tshirt', 'shirt', 'sleeveless top', 'long sleeved top', 'crop top', 'jean', 'skirt', 'legging', 'sweatpant', 'jacket', 'sneaker', 'sandal', 'sport', 'frock', 'kurta']):
@@ -53,13 +59,15 @@ def get_occasion_score(item, occasion, gender="Female"):
             is_invalid = True
             
     elif occasion == 'party':
-        if any(w in cat for w in ['crop top', 'skirt', 'jacket', 'blazer', 'formal', 'heel', 'bodycon', 'frock', 'long dress']):
+        if any(w in cat for w in ['crop top', 'skirt', 'jacket', 'blazer', 'heel', 'bodycon', 'frock', 'long dress']):
+            score += 45
+        if 'formal' in cat and 'shoe' not in cat:
             score += 45
         elif any(w in cat for w in ['shirt', 'sleeveless top', 'trouser', 'sneaker']):
             score += 20
         elif any(w in cat for w in ['tshirt', 'jean', 'legging', 'sweatpant']):
             score += 5
-        if any(w in cat for w in ['slipper', 'sandal', 'sport', 'croc', 'suit', 'tie', 'kurta', 'shorts']):
+        if any(w in cat for w in ['slipper', 'sandal', 'sport', 'croc', 'suit', 'tie', 'kurta', 'shorts', 'formal shoe']):
             score -= 20
             is_invalid = True
             

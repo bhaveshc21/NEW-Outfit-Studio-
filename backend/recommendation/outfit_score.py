@@ -2,7 +2,7 @@ from recommendation.color_rules import calculate_outfit_color_score
 from recommendation.occasion_rules import get_occasion_score
 from recommendation.weather_rules import get_weather_score
 
-def evaluate_outfit(outfit, occasion=None, weather_data=None):
+def evaluate_outfit(outfit, occasion=None, weather_data=None, gender="Female"):
     """
     Evaluates an outfit out of 100 points based on 4 factors:
     - Color Coordination (25)
@@ -10,6 +10,9 @@ def evaluate_outfit(outfit, occasion=None, weather_data=None):
     - Weather Suitability (25)
     - Clothing Combination (25)
     """
+    if occasion:
+        occasion = occasion.lower()
+        
     factors = {}
     total_score = 0
     suggestions = []
@@ -59,11 +62,11 @@ def evaluate_outfit(outfit, occasion=None, weather_data=None):
 
     # 2. Occasion Suitability (0-25)
     if occasion:
-        top_occ_raw, top_occ_inv = get_occasion_score(top, occasion)
-        shoe_occ_raw, shoe_occ_inv = get_occasion_score(footwear, occasion)
+        top_occ_raw, top_occ_inv = get_occasion_score(top, occasion, gender=gender)
+        shoe_occ_raw, shoe_occ_inv = get_occasion_score(footwear, occasion, gender=gender)
         
         if bottom:
-            bot_occ_raw, bot_occ_inv = get_occasion_score(bottom, occasion)
+            bot_occ_raw, bot_occ_inv = get_occasion_score(bottom, occasion, gender=gender)
             occ_total = top_occ_raw + bot_occ_raw + shoe_occ_raw
             is_occ_inv = top_occ_inv or bot_occ_inv or shoe_occ_inv
             items_count = 3
@@ -73,7 +76,7 @@ def evaluate_outfit(outfit, occasion=None, weather_data=None):
             items_count = 2
         
         if outerwear:
-            out_occ_raw, out_occ_inv = get_occasion_score(outerwear, occasion)
+            out_occ_raw, out_occ_inv = get_occasion_score(outerwear, occasion, gender=gender)
             occ_total += out_occ_raw
             is_occ_inv = is_occ_inv or out_occ_inv
             items_count += 1

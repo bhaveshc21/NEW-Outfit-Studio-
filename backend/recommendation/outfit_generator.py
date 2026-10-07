@@ -133,22 +133,36 @@ class OutfitGenerator:
                     outfits.append(outfit)
                     outfit_id_counter += 1
 
-        # Sort by recommendation score descending
-        outfits.sort(key=lambda x: x["recommendation_score"], reverse=True)
-        
-        # Enforce diversity limits (max 3 kurtas, max 3 shorts per generation)
+        # Implement dynamic diversity selection (MMR-style) to prevent the exact same items (e.g. same shoes/tshirt) from dominating
         final_outfits = []
         kurta_count = 0
         shorts_count = 0
-        for outfit in outfits:
-            top_name = outfit['top'].get('name', '').lower()
-            top_cat = outfit['top'].get('category', '').lower()
+        item_usage_counts = {}
+        
+        while len(final_outfits) < limit and outfits:
+            # Re-score based on usage
+            for out in outfits:
+                penalty = 0
+                for key in ['top', 'bottom', 'footwear', 'outerwear']:
+                    item = out.get(key)
+                    if item:
+                        item_id = item.get('id', 0)
+                        if item_id:
+                            penalty += item_usage_counts.get(item_id, 0) * 15.0
+                out['dynamic_score'] = out['recommendation_score'] - penalty
+                
+            outfits.sort(key=lambda x: x['dynamic_score'], reverse=True)
+            
+            best_outfit = outfits.pop(0)
+            
+            top_name = best_outfit['top'].get('name', '').lower()
+            top_cat = best_outfit['top'].get('category', '').lower()
             is_kurta = 'kurta' in top_name or 'kurta' in top_cat
             
-            bottom_item = outfit.get('bottom')
+            bottom_item = best_outfit.get('bottom')
             is_short = False
             if bottom_item:
-                bot_str = (bottom_item.get('category', '') + ' ' + bottom_item.get('name', '')).lower()
+                bot_str = (bottom_item.get('category', '') + ' ' + bottom_item.get('name', '').lower())
                 is_short = 'short' in bot_str
                 
             if is_kurta and kurta_count >= 3:
@@ -156,12 +170,17 @@ class OutfitGenerator:
             if is_short and shorts_count >= 7:
                 continue
                 
-            final_outfits.append(outfit)
+            final_outfits.append(best_outfit)
             if is_kurta: kurta_count += 1
             if is_short: shorts_count += 1
-                
-            if len(final_outfits) >= limit:
-                break
+            
+            # Increment usage counts for selected items
+            for key in ['top', 'bottom', 'footwear', 'outerwear']:
+                item = best_outfit.get(key)
+                if item:
+                    item_id = item.get('id', 0)
+                    if item_id:
+                        item_usage_counts[item_id] = item_usage_counts.get(item_id, 0) + 1
         
         # Shopping suggestions
         suggestions = []
@@ -208,6 +227,7 @@ class OutfitGenerator:
         return combinations
 
     def _evaluate_combination(self, top, bottom, shoe, outerwear=None, occasion=None, weather_data=None):
+        if occasion: occasion = occasion.lower()
         is_invalid = False
         
         # Determine items list
@@ -225,6 +245,23 @@ class OutfitGenerator:
         top_str_pre = top.get('category', '').lower() + " " + top.get('name', '').lower()
         is_kurta_pre = 'kurta' in top_str_pre
         
+        gender = self.profile.get('gender', 'Female') if self.profile else 'Female'
+        
+        if gender.lower() == 'male':
+            bot_str_pre = bottom.get('category', '').lower() + " " + bottom.get('name', '').lower() if bottom else ""
+            shoe_str_pre = shoe.get('category', '').lower() + " " + shoe.get('name', '').lower()
+            
+            if occasion == 'traditional':
+                if not is_kurta_pre:
+                    is_invalid = True
+                if bottom and 'jean' not in bot_str_pre:
+                    is_invalid = True
+                if 'sandal' not in shoe_str_pre:
+                    is_invalid = True
+            elif occasion != 'traditional':
+                if is_kurta_pre:
+                    is_invalid = True
+
         occ_avg = 50.0
         if occasion:
             occ_scores = []

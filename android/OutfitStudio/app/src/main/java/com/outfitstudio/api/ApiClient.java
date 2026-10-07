@@ -13,7 +13,7 @@ import java.io.IOException;
 public class ApiClient {
     // Use the computer's local IP address for physical device testing (10.139.148.254 is your current IP)
     // If using an Android Emulator, change this to "http://10.0.2.2:5000/api/"
-    public static final String BASE_URL = "http://10.254.53.254:5000/api/";
+    public static final String BASE_URL = "http://10.139.148.254:5000/api/";
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient(Context context) {

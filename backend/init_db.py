@@ -32,6 +32,7 @@ def init_db():
                 password VARCHAR(255) NOT NULL,
                 gender VARCHAR(10) NOT NULL,
                 profile_image VARCHAR(255) NULL,
+                visualization_image VARCHAR(255) NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
             """

@@ -39,4 +39,11 @@ public interface AuthApiService {
             @Path("user_id") int userId,
             @retrofit2.http.Part okhttp3.MultipartBody.Part image
     );
+
+    @retrofit2.http.Multipart
+    @POST("profile/{user_id}/upload_visualization_image")
+    Call<ApiResponse<com.outfitstudio.api.models.UploadImageResponse>> uploadVisualizationImage(
+            @Path("user_id") int userId,
+            @retrofit2.http.Part okhttp3.MultipartBody.Part image
+    );
 }

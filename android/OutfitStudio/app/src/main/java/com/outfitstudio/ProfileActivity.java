@@ -36,17 +36,18 @@ import retrofit2.Response;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private ImageView ivProfileImage;
+    private ImageView ivProfileImage, ivVirtualTryOnImage;
     private TextView tvProfileName, tvProfileEmail;
     private TextView btnMyProfile, btnChangePassword, btnAppearanceAnalysis;
     private Switch switchNotifications;
-    private Button btnLogoutNew;
+    private Button btnLogoutNew, btnChangeVirtualTryOnImage;
 
     private AuthApiService authService;
     private AppearanceApiService appearanceService;
     private TokenManager tokenManager;
 
     private ActivityResultLauncher<Intent> imagePickerLauncher;
+    private ActivityResultLauncher<Intent> visualizationPickerLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,8 @@ public class ProfileActivity extends AppCompatActivity {
         btnMyProfile = findViewById(R.id.btnMyProfile);
         btnChangePassword = findViewById(R.id.btnChangePassword);
         btnAppearanceAnalysis = findViewById(R.id.btnAppearanceAnalysis);
+        btnChangeVirtualTryOnImage = findViewById(R.id.btnChangeVirtualTryOnImage);
+        ivVirtualTryOnImage = findViewById(R.id.ivVirtualTryOnImage);
         switchNotifications = findViewById(R.id.switchNotifications);
         btnLogoutNew = findViewById(R.id.btnLogoutNew);
 
@@ -75,6 +78,17 @@ public class ProfileActivity extends AppCompatActivity {
                         Uri selectedImage = result.getData().getData();
                         if (selectedImage != null) {
                             uploadProfileImage(selectedImage);
+                        }
+                    }
+                });
+
+        visualizationPickerLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        Uri selectedImage = result.getData().getData();
+                        if (selectedImage != null) {
+                            uploadVisualizationImage(selectedImage);
                         }
                     }
                 });
@@ -94,6 +108,11 @@ public class ProfileActivity extends AppCompatActivity {
         btnAppearanceAnalysis.setOnClickListener(v -> {
             Intent intent = new Intent(ProfileActivity.this, AppearanceAnalysisActivity.class);
             startActivity(intent);
+        });
+
+        btnChangeVirtualTryOnImage.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            visualizationPickerLauncher.launch(intent);
         });
 
         ImageView btnEditProfileImage = findViewById(R.id.btnEditProfileImage);
@@ -125,7 +144,19 @@ public class ProfileActivity extends AppCompatActivity {
                                  .error(R.drawable.ic_profile)
                                  .into(ivProfileImage);
                         } else {
-                            loadAppearanceData();
+                            ivProfileImage.setImageResource(R.drawable.ic_profile);
+                        }
+
+                        if (data.getUser().getVisualizationImage() != null) {
+                            String baseUrl = ApiClient.BASE_URL.replace("/api/", "");
+                            String imageUrl = baseUrl + data.getUser().getVisualizationImage();
+                            Glide.with(ProfileActivity.this)
+                                 .load(imageUrl)
+                                 .placeholder(R.drawable.ic_profile)
+                                 .error(R.drawable.ic_profile)
+                                 .into(ivVirtualTryOnImage);
+                        } else {
+                            ivVirtualTryOnImage.setImageResource(R.drawable.ic_profile);
                         }
                     }
                 } else {
@@ -187,6 +218,42 @@ public class ProfileActivity extends AppCompatActivity {
                 public void onResponse(Call<ApiResponse<UploadImageResponse>> call, Response<ApiResponse<UploadImageResponse>> response) {
                     if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                         Toast.makeText(ProfileActivity.this, "Profile picture updated!", Toast.LENGTH_SHORT).show();
+                        loadProfileData(); // Reload profile to fetch the new image URL
+                    } else {
+                        Toast.makeText(ProfileActivity.this, "Upload failed", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ApiResponse<UploadImageResponse>> call, Throwable t) {
+                    Toast.makeText(ProfileActivity.this, "Network error", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Could not read image file", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void uploadVisualizationImage(Uri imageUri) {
+        try {
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getContentResolver().query(imageUri, filePathColumn, null, null, null);
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            File file = new File(picturePath);
+            RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
+            MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
+
+            int userId = tokenManager.getUserId();
+            authService.uploadVisualizationImage(userId, body).enqueue(new Callback<ApiResponse<UploadImageResponse>>() {
+                @Override
+                public void onResponse(Call<ApiResponse<UploadImageResponse>> call, Response<ApiResponse<UploadImageResponse>> response) {
+                    if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                        Toast.makeText(ProfileActivity.this, "Virtual Try-On Image uploaded successfully!", Toast.LENGTH_SHORT).show();
                         loadProfileData(); // Reload profile to fetch the new image URL
                     } else {
                         Toast.makeText(ProfileActivity.this, "Upload failed", Toast.LENGTH_SHORT).show();
