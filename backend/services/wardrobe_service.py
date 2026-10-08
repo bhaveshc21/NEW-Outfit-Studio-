@@ -2,6 +2,7 @@ import os
 import werkzeug
 import time
 from datetime import datetime
+from utils.image_utils import remove_background_and_save
 
 class WardrobeService:
     def __init__(self, db_connection):
@@ -18,6 +19,9 @@ class WardrobeService:
             
             image_file.seek(0)
             image_file.save(image_path)
+            
+            # Remove background and update image_path
+            image_path = remove_background_and_save(image_path)
             
             from cv.color_analysis import detect_dominant_color
             color = detect_dominant_color(image_path)
@@ -121,6 +125,9 @@ class WardrobeService:
                 image_file.seek(0)
                 image_file.save(image_path)
                 
+                # Remove background and update image_path
+                image_path = remove_background_and_save(image_path)
+                
                 from cv.color_analysis import detect_dominant_color
                 color = detect_dominant_color(image_path)
                 
@@ -177,6 +184,43 @@ class WardrobeService:
         except Exception as e:
             print(f"Wardrobe DB Error: {e}")
             return False, "Database error occurred while deleting the wardrobe item."
+
+    def get_donation_bin(self, user_id):
+        cursor = self.db.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM donation_bin WHERE user_id = %s ORDER BY created_at DESC", (user_id,))
+        items = cursor.fetchall()
+        cursor.close()
+        for item in items:
+            if isinstance(item.get('created_at'), datetime):
+                item['created_at'] = item['created_at'].isoformat()
+        return items
+
+    def donate_wardrobe_item(self, item_id, user_id):
+        try:
+            cursor = self.db.cursor(dictionary=True)
+            cursor.execute("SELECT * FROM wardrobe_items WHERE id = %s AND user_id = %s", (item_id, user_id))
+            item = cursor.fetchone()
+            
+            if not item:
+                return False, "Item not found or does not belong to user."
+                
+            # Insert into donation_bin
+            cursor.execute("""
+            INSERT INTO donation_bin (user_id, name, category, color, image_path)
+            VALUES (%s, %s, %s, %s, %s)
+            """, (item['user_id'], item['name'], item['category'], item['color'], item['image_path']))
+            
+            # Remove from wardrobe_items
+            cursor.execute("DELETE FROM wardrobe_items WHERE id = %s AND user_id = %s", (item_id, user_id))
+            self.db.commit()
+            cursor.close()
+            
+            # Do NOT remove image file because it's still needed by the donation_bin
+                    
+            return True, None
+        except Exception as e:
+            print(f"Wardrobe DB Error: {e}")
+            return False, "Database error occurred while donating the wardrobe item."
 
     def mark_item_as_worn(self, item_id, user_id):
         try:

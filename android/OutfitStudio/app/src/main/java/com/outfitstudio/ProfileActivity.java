@@ -39,7 +39,6 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageView ivProfileImage, ivVirtualTryOnImage;
     private TextView tvProfileName, tvProfileEmail;
     private TextView btnMyProfile, btnChangePassword, btnAppearanceAnalysis;
-    private Switch switchNotifications;
     private Button btnLogoutNew, btnChangeVirtualTryOnImage;
 
     private AuthApiService authService;
@@ -68,7 +67,6 @@ public class ProfileActivity extends AppCompatActivity {
         btnAppearanceAnalysis = findViewById(R.id.btnAppearanceAnalysis);
         btnChangeVirtualTryOnImage = findViewById(R.id.btnChangeVirtualTryOnImage);
         ivVirtualTryOnImage = findViewById(R.id.ivVirtualTryOnImage);
-        switchNotifications = findViewById(R.id.switchNotifications);
         btnLogoutNew = findViewById(R.id.btnLogoutNew);
 
         imagePickerLauncher = registerForActivityResult(

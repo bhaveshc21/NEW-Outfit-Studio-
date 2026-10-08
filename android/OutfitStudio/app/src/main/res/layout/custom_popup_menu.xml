@@ -49,6 +49,19 @@
         app:drawableTint="@color/primary" />
 
     <TextView
+        android:id="@+id/menu_donation_bin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="Donation Bin"
+        android:textColor="@color/on_background"
+        android:textSize="16sp"
+        android:background="?attr/selectableItemBackground"
+        android:drawablePadding="16dp"
+        app:drawableStartCompat="@android:drawable/ic_menu_agenda"
+        app:drawableTint="@color/primary" />
+
+    <TextView
         android:id="@+id/menu_insights"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

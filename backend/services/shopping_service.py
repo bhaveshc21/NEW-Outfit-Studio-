@@ -3,6 +3,7 @@ import werkzeug
 import time
 from services.wardrobe_service import WardrobeService
 from recommendation.shopping_assistant import ShoppingAssistant
+from utils.image_utils import remove_background_and_save
 
 class ShoppingService:
     def __init__(self, db_connection):
@@ -20,6 +21,9 @@ class ShoppingService:
             
             image_file.seek(0)
             image_file.save(image_path)
+            
+            # Remove background and update image_path
+            image_path = remove_background_and_save(image_path)
             
             from cv.color_analysis import detect_dominant_color
             color = detect_dominant_color(image_path)

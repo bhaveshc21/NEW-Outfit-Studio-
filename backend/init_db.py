@@ -136,6 +136,22 @@ def init_db():
             cursor.execute(planned_outfits_table_query)
             print("Table 'planned_outfits' created or already exists.")
             
+            # Create donation_bin table
+            donation_bin_table_query = """
+            CREATE TABLE IF NOT EXISTS donation_bin (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id INT NOT NULL,
+                name VARCHAR(100),
+                category VARCHAR(50),
+                color VARCHAR(50),
+                image_path VARCHAR(255),
+                donated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            )
+            """
+            cursor.execute(donation_bin_table_query)
+            print("Table 'donation_bin' created or already exists.")
+            
             connection.commit()
             cursor.close()
             connection.close()

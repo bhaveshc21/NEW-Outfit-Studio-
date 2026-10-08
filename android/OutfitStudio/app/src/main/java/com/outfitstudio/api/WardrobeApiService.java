@@ -61,9 +61,18 @@ public interface WardrobeApiService {
             @Path("itemId") int itemId,
             @Query("user_id") int userId
     );
+
+    @POST("wardrobe/item/{itemId}/donate")
+    Call<WardrobeResponse.EmptyResponse> donateWardrobeItem(
+            @Path("itemId") int itemId,
+            @Query("user_id") int userId
+    );
     
     @GET("wardrobe/rarely-used")
     Call<WardrobeResponse.ListResponse> getRarelyUsedItems();
+
+    @GET("wardrobe/donation-bin")
+    Call<WardrobeResponse.ListResponse> getDonationBin();
 
     @POST("wardrobe/item/{itemId}/worn")
     Call<WardrobeResponse.SingleResponse> markItemAsWorn(@Path("itemId") int itemId);

@@ -258,7 +258,7 @@ class OutfitGenerator:
                     is_invalid = True
                 if 'sandal' not in shoe_str_pre:
                     is_invalid = True
-            elif occasion != 'traditional':
+            elif occasion and occasion != 'traditional':
                 if is_kurta_pre:
                     is_invalid = True
 
@@ -312,10 +312,15 @@ class OutfitGenerator:
             if bottom:
                 is_jeans = 'jean' in bot_str
                 is_white_lower = 'white' in bottom.get('color', '').lower()
-                if is_jeans or is_white_lower:
+                is_legging = 'legging' in bot_str
+                is_sweatpant = 'sweat' in bot_str or 'track' in bot_str or 'jogger' in bot_str
+                
+                if is_sweatpant:
+                    comb_penalty += 100.0 # Strict penalty for sweatpants with kurta
+                elif is_jeans or is_white_lower or is_legging:
                     comb_bonus += 5.0 # small bonus for correct pairing, don't overpower
-                else:
-                    comb_penalty += 100.0 # penalty for bad pairing with kurta
+                elif 'trouser' not in bot_str and 'pant' not in bot_str:
+                    comb_penalty += 30.0 # softer penalty for bad pairing with kurta
             else:
                 comb_penalty += 100.0 # penalty for no bottom with kurta
                 
@@ -338,6 +343,18 @@ class OutfitGenerator:
             is_casual_shoe = any(w in shoe_str for w in ['sandal', 'slipper', 'sneaker', 'sport', 'croc'])
             if not is_casual_shoe:
                 comb_penalty += 40.0 # Strict penalty for formal shoes/heels with shorts
+                
+        # Jacket styling rules
+        is_jacket = outerwear and 'jacket' in out_str
+        if is_jacket:
+            is_tshirt = 'tshirt' in top_str or 't-shirt' in top_str
+            if not is_tshirt:
+                comb_penalty += 80.0 # Strict penalty for jackets with non-tshirt tops
+                
+            if bottom:
+                is_valid_bot = 'jean' in bot_str or 'short' in bot_str or 'sweat' in bot_str
+                if not is_valid_bot:
+                    comb_penalty += 80.0 # Strict penalty for jackets with formal/other bottoms
         
         # We only apply a very tiny penalty for extreme formal/casual clashes if they happen, 
         # but let occasion_rules.py do the heavy lifting.

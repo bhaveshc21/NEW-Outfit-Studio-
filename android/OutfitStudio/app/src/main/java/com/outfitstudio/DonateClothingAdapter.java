@@ -81,12 +81,12 @@ public class DonateClothingAdapter extends RecyclerView.Adapter<DonateClothingAd
     private void donateItem(WardrobeItem item) {
         int userId = TokenManager.getInstance(context).getUserId();
         
-        apiService.deleteWardrobeItem(item.getId(), userId).enqueue(new Callback<WardrobeResponse.EmptyResponse>() {
+        apiService.donateWardrobeItem(item.getId(), userId).enqueue(new Callback<WardrobeResponse.EmptyResponse>() {
             @Override
             public void onResponse(Call<WardrobeResponse.EmptyResponse> call, Response<WardrobeResponse.EmptyResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     if (response.body().isSuccess()) {
-                        Toast.makeText(context, item.getName() + " has been removed from your wardrobe.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, item.getName() + " has been added to your donation bin.", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(context, DonationActivity.class);
                         context.startActivity(intent);
                         if (context instanceof Activity) {

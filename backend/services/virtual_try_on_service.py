@@ -57,7 +57,7 @@ class VirtualTryOnService:
         pil_image.save(file_path, "JPEG", quality=85)
         return f"uploads/generated/{filename}"
 
-    def generate_virtual_try_on(self, user_id, outfit_data):
+    def generate_virtual_try_on(self, user_id, outfit_data, user_photo_bytes):
         if not self.client:
             return {"success": False, "message": "Gemini API key is not configured."}
 
@@ -102,24 +102,12 @@ class VirtualTryOnService:
         if not clothing_images:
             return {"success": False, "message": "No valid clothing images found in the selected outfit."}
 
-        # 2. Process User Photo from Profile
-        cursor = self.db.cursor(dictionary=True)
+        # 2. Process User Photo from Bytes
+        import io
         try:
-            cursor.execute("SELECT profile_image FROM users WHERE id = %s", (user_id,))
-            user_record = cursor.fetchone()
-            if not user_record or not user_record.get('profile_image'):
-                return {"success": False, "message": "Please set a profile image in your profile first."}
-                
-            profile_image_path = user_record['profile_image']
-            # profile_image usually starts with '/uploads/', so strip leading slash for os.path.join
-            if profile_image_path.startswith('/'):
-                profile_image_path = profile_image_path[1:]
-                
-            user_photo = self._load_image(profile_image_path)
-            if not user_photo:
-                return {"success": False, "message": "Failed to load your profile image. Please upload a new one."}
-        finally:
-            cursor.close()
+            user_photo = Image.open(io.BytesIO(user_photo_bytes)).convert('RGB')
+        except Exception as e:
+            return {"success": False, "message": "Failed to read the uploaded image. Please provide a valid image."}
 
         # 3. Construct the Multimodal Request
         prompt = get_virtual_try_on_prompt(outfit_parts)

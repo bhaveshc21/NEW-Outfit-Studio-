@@ -24,16 +24,52 @@ def generate_try_on(current_user):
     print(f"DEBUG: generate_try_on route hit by user {user_id}", flush=True)
     db = get_db_connection()
     try:
-        data = request.get_json(silent=True)
-        if not data:
-            return jsonify({"success": False, "message": "Missing JSON body"}), 400
+        user_photo_bytes = None
+        outfit_data = None
+        
+        # Check if the request is multipart/form-data
+        if 'multipart/form-data' in request.content_type:
+            if 'image' not in request.files:
+                return jsonify({"success": False, "message": "Missing image file"}), 400
+            file = request.files['image']
+            user_photo_bytes = file.read()
             
-        outfit_data = data.get('outfit_data')
-        if not outfit_data:
-            return jsonify({"success": False, "message": "Missing outfit_data"}), 400
+            outfit_data_str = request.form.get('outfit_data')
+            if not outfit_data_str:
+                return jsonify({"success": False, "message": "Missing outfit_data"}), 400
+            
+            try:
+                outfit_data = json.loads(outfit_data_str)
+            except json.JSONDecodeError:
+                return jsonify({"success": False, "message": "Invalid JSON in outfit_data"}), 400
+        elif request.is_json:
+            outfit_data = request.json.get('outfit_data')
+            if not outfit_data:
+                return jsonify({"success": False, "message": "Missing outfit_data"}), 400
+                
+            cursor = db.cursor(dictionary=True)
+            cursor.execute("SELECT visualization_image FROM users WHERE id = %s", (user_id,))
+            user_row = cursor.fetchone()
+            cursor.close()
+            
+            if not user_row or not user_row.get('visualization_image'):
+                return jsonify({"success": False, "message": "You haven't uploaded a Virtual Try-On Model image in your profile."}), 400
+                
+            vis_image_path = user_row['visualization_image']
+            if vis_image_path.startswith('/'):
+                vis_image_path = vis_image_path[1:] # remove leading slash
+                
+            import os
+            if not os.path.exists(vis_image_path):
+                return jsonify({"success": False, "message": "Your Virtual Try-On Model image could not be found on the server."}), 400
+                
+            with open(vis_image_path, "rb") as f:
+                user_photo_bytes = f.read()
+        else:
+            return jsonify({"success": False, "message": "Request must be JSON or multipart/form-data"}), 400
 
         service = VirtualTryOnService(db)
-        result = service.generate_virtual_try_on(current_user, outfit_data)
+        result = service.generate_virtual_try_on(current_user, outfit_data, user_photo_bytes)
         if result.get("success"):
             return jsonify(result), 200
         else:

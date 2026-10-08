@@ -70,6 +70,7 @@ def score_outfit(current_user_id):
         result = service.score_outfit(current_user_id, data)
         
         if not result.get('success'):
+            print(f"Score returning 400: {result.get('message')}")
             return jsonify(result), 400
             
         return jsonify(result), 200

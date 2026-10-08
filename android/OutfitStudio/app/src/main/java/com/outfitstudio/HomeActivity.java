@@ -188,6 +188,10 @@ public class HomeActivity extends AppCompatActivity {
                 popupWindow.dismiss();
                 startActivity(new Intent(HomeActivity.this, DonateClothingActivity.class));
             });
+            popupView.findViewById(R.id.menu_donation_bin).setOnClickListener(item -> {
+                popupWindow.dismiss();
+                startActivity(new Intent(HomeActivity.this, DonationBinActivity.class));
+            });
             popupView.findViewById(R.id.menu_insights).setOnClickListener(item -> {
                 popupWindow.dismiss();
                 startActivity(new Intent(HomeActivity.this, UsageInsightsActivity.class));

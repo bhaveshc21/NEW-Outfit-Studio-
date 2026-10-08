@@ -220,7 +220,11 @@ def evaluate_outfit(outfit, occasion=None, weather_data=None, gender="Female"):
         if bot_str:
             is_jeans = 'jean' in bot_str
             is_white_lower = 'white' in bottom.get('color', '').lower()
-            if is_jeans or is_white_lower:
+            is_sweatpant = 'sweat' in bot_str or 'track' in bot_str or 'jogger' in bot_str
+            
+            if is_sweatpant:
+                comb_score -= 40.0 # Strict penalty for sweatpants with kurta
+            elif is_jeans or is_white_lower:
                 comb_score += 5.0 # big bonus for correct pairing
             else:
                 comb_score -= 25.0 # penalty for bad pairing with kurta
@@ -274,17 +278,14 @@ def evaluate_outfit(outfit, occasion=None, weather_data=None, gender="Female"):
     # Final Score Calculation
     total_score = color_score + occ_score + wea_score + comb_score
     
-    if is_occ_inv:
-        return {
-            "success": False,
-            "message": f"Outfit contains items completely inappropriate for {occasion}."
-        }
+    # If the outfit is completely inappropriate for occasion or weather, 
+    # we still return a valid scorecard so the user can see *why* it's bad, 
+    # rather than just returning a 400 error.
+    if is_occ_inv and occasion:
+        suggestions.append(f"Major issue: This outfit contains items completely inappropriate for {occasion}.")
         
     if is_wea_inv:
-        return {
-            "success": False,
-            "message": "Outfit is completely unsuitable for current weather."
-        }
+        suggestions.append("Major issue: This outfit is completely unsuitable for the current weather.")
         
     total_score = round(max(0.0, min(100.0, total_score)), 2)
     

@@ -65,10 +65,11 @@
             android:id="@+id/btnGetDirections"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#B59A83"
-            android:textColor="#FFFFFF"
             android:text="Get Directions"
-            android:layout_marginTop="4dp" />
+            android:textColor="@color/on_primary"
+            android:background="@drawable/bg_button_rounded"
+            android:layout_marginTop="12dp"
+            app:backgroundTint="@null" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

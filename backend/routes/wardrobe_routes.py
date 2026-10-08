@@ -192,6 +192,55 @@ def delete_wardrobe_item(item_id):
         if db.is_connected():
             db.close()
 
+@wardrobe_bp.route('/item/<int:item_id>/donate', methods=['POST'])
+def donate_wardrobe_item(item_id):
+    user_id = request.args.get('user_id')
+    if not user_id:
+        return jsonify({"success": False, "message": "user_id is required"}), 400
+        
+    try:
+        user_id = int(user_id)
+    except ValueError:
+        return jsonify({"success": False, "message": "user_id must be an integer"}), 400
+        
+    db = get_db()
+    try:
+        service = WardrobeService(db)
+        success, error = service.donate_wardrobe_item(item_id, user_id)
+        
+        if error:
+            return jsonify({"success": False, "message": error}), 400
+            
+        return jsonify({
+            "success": True,
+            "message": "Wardrobe item donated successfully"
+        }), 200
+    except Exception as e:
+        print(f"Wardrobe DONATE error: {e}")
+        return jsonify({"success": False, "message": "Internal server error"}), 500
+    finally:
+        if db.is_connected():
+            db.close()
+
+@wardrobe_bp.route('/donation-bin', methods=['GET'])
+@token_required
+def get_donation_bin(current_user_id):
+    db = get_db()
+    try:
+        service = WardrobeService(db)
+        items = service.get_donation_bin(current_user_id)
+        return jsonify({
+            "success": True,
+            "message": "Donation bin retrieved successfully",
+            "data": items
+        }), 200
+    except Exception as e:
+        print(f"Wardrobe GET donation bin error: {e}")
+        return jsonify({"success": False, "message": "Internal server error"}), 500
+    finally:
+        if db.is_connected():
+            db.close()
+
 @wardrobe_bp.route('/rarely-used', methods=['GET'])
 @token_required
 def get_rarely_used(current_user_id):

@@ -46,11 +46,11 @@ class CompleteLookService:
             elif 'jacket' in locked_cat or 'blazer' in locked_cat or 'coat' in locked_cat or 'cardigan' in locked_cat or 'sweater' in locked_cat:
                 generator.outerwear = [locked_item]
                 missing_components = ["Inner Layer", "Bottom", "Footwear"]
-            elif 'shirt' in locked_cat or 'top' in locked_cat:
+            elif 'shirt' in locked_cat or 'top' in locked_cat or 'kurta' in locked_cat:
                 generator.tops = [locked_item]
                 generator.dresses = []
                 missing_components = ["Bottom", "Footwear"]
-            elif 'jean' in locked_cat or 'trouser' in locked_cat or 'pant' in locked_cat or 'bottom' in locked_cat or 'short' in locked_cat or 'skirt' in locked_cat or 'legging' in locked_cat:
+            elif 'jean' in locked_cat or 'trouser' in locked_cat or 'pant' in locked_cat or 'bottom' in locked_cat or 'short' in locked_cat or 'skirt' in locked_cat or 'legging' in locked_cat or 'sweatpant' in locked_cat:
                 generator.bottoms = [locked_item]
                 generator.dresses = []
                 missing_components = ["Top", "Footwear"]

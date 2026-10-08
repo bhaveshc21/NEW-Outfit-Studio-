@@ -11,6 +11,13 @@ import retrofit2.http.Part;
 
 public interface VirtualTryOnApiService {
 
+    @Multipart
     @POST("virtual-try-on/")
-    Call<VirtualTryOnResponse> generateTryOn(@retrofit2.http.Body com.outfitstudio.models.VirtualTryOnRequest request);
+    Call<VirtualTryOnResponse> generateTryOn(
+        @Part MultipartBody.Part image,
+        @Part("outfit_data") RequestBody outfitData
+    );
+
+    @retrofit2.http.POST("virtual-try-on/")
+    Call<VirtualTryOnResponse> generateTryOnJson(@retrofit2.http.Body com.outfitstudio.models.VirtualTryOnRequest request);
 }

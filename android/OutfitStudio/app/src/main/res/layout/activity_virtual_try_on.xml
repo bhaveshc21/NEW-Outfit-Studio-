@@ -10,7 +10,7 @@
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2D Virtual Try-On"
+        android:text="VISUALIZE ON ME"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@color/on_background"
@@ -24,7 +24,7 @@
         android:id="@+id/tvSubtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Please wait while we generate your look using your profile picture..."
+        android:text="Generating your look using your profile model..."
         android:textSize="16sp"
         android:textColor="#666666"
         android:textAlignment="center"
@@ -56,7 +56,7 @@
         android:textColor="@color/on_secondary"
         app:layout_constraintBottom_toTopOf="@id/btnGenerate"
         android:layout_marginBottom="16dp"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnGenerate"
@@ -68,7 +68,7 @@
         android:enabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="24dp"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
         
     <ProgressBar
         android:id="@+id/progressBar"

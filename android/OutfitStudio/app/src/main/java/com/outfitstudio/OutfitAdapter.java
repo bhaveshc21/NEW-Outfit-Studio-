@@ -54,13 +54,18 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
     public void onBindViewHolder(@NonNull OutfitViewHolder holder, int position) {
         GeneratedOutfit outfit = outfits.get(position);
         
-        if (context instanceof com.outfitstudio.HomeActivity) {
+        if (context instanceof com.outfitstudio.HomeActivity || context instanceof com.outfitstudio.ShoppingResultActivity) {
             holder.tvScore.setVisibility(View.GONE);
             holder.tvReason.setVisibility(View.GONE);
             holder.btnRateOutfit.setVisibility(View.GONE);
             holder.btnSaveOutfit.setVisibility(View.GONE);
-            holder.btnVisualizeOutfit.setVisibility(View.GONE);
             holder.cbSelect.setVisibility(View.GONE);
+            
+            if (context instanceof com.outfitstudio.HomeActivity) {
+                holder.btnVisualizeOutfit.setVisibility(View.GONE);
+            } else {
+                holder.btnVisualizeOutfit.setVisibility(View.VISIBLE);
+            }
         } else {
             holder.tvScore.setVisibility(View.VISIBLE);
             holder.tvReason.setVisibility(View.VISIBLE);
