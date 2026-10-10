@@ -13,7 +13,7 @@ import java.io.IOException;
 public class ApiClient {
     // Use the computer's local IP address for physical device testing
     // Using 127.0.0.1 with adb reverse for reliable USB testing
-    public static final String BASE_URL = "http://192.168.1.103:5000/api/";
+    public static final String BASE_URL = "https://new-outfit-studio.onrender.com/api/";
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient(Context context) {
