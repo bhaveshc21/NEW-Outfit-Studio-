@@ -152,6 +152,25 @@ def init_db():
             cursor.execute(donation_bin_table_query)
             print("Table 'donation_bin' created or already exists.")
             
+            # Create saved_outfits table
+            saved_outfits_table_query = """
+            CREATE TABLE IF NOT EXISTS saved_outfits (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id INT NOT NULL,
+                top_id INT NULL,
+                outerwear_id INT NULL,
+                bottom_id INT NULL,
+                footwear_id INT NULL,
+                accessories_ids VARCHAR(255) NULL,
+                fashion_score FLOAT NULL,
+                reason TEXT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            )
+            """
+            cursor.execute(saved_outfits_table_query)
+            print("Table 'saved_outfits' created or already exists.")
+            
             connection.commit()
             cursor.close()
             connection.close()
