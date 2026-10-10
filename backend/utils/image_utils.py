@@ -1,5 +1,4 @@
 import os
-from rembg import remove
 from PIL import Image
 import io
 
@@ -13,6 +12,12 @@ def remove_background_and_save(input_path, output_path=None):
         output_path = input_path
         
     try:
+        try:
+            from rembg import remove
+        except ImportError as e:
+            print(f"Warning: rembg could not be imported due to security policies. Skipping background removal. ({e})")
+            return input_path
+
         with open(input_path, 'rb') as i:
             input_data = i.read()
             
@@ -47,6 +52,12 @@ def remove_background_from_bytes(input_bytes):
     Returns bytes of transparent PNG.
     """
     try:
+        try:
+            from rembg import remove
+        except ImportError as e:
+            print(f"Warning: rembg could not be imported. Skipping background removal. ({e})")
+            return input_bytes
+
         output_bytes = remove(input_bytes)
         return output_bytes
     except Exception as e:

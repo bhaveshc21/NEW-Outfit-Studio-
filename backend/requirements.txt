@@ -8,3 +8,4 @@ mediapipe==0.10.35
 Pillow
 requests
 google-genai
+gunicorn==21.2.0
