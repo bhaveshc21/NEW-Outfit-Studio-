@@ -13,7 +13,7 @@ def remove_background_and_save(input_path, output_path=None):
         
     try:
         try:
-            from rembg import remove
+            from rembg import remove, new_session
         except ImportError as e:
             print(f"Warning: rembg could not be imported due to security policies. Skipping background removal. ({e})")
             return input_path
@@ -21,7 +21,9 @@ def remove_background_and_save(input_path, output_path=None):
         with open(input_path, 'rb') as i:
             input_data = i.read()
             
-        output_data = remove(input_data)
+        # Use the u2netp (small) model to prevent Out-Of-Memory crashes on 512MB servers
+        session = new_session("u2netp")
+        output_data = remove(input_data, session=session)
         
         # Ensure we save as PNG to keep transparency
         img = Image.open(io.BytesIO(output_data))
@@ -53,12 +55,13 @@ def remove_background_from_bytes(input_bytes):
     """
     try:
         try:
-            from rembg import remove
+            from rembg import remove, new_session
         except ImportError as e:
             print(f"Warning: rembg could not be imported. Skipping background removal. ({e})")
             return input_bytes
 
-        output_bytes = remove(input_bytes)
+        session = new_session("u2netp")
+        output_bytes = remove(input_bytes, session=session)
         return output_bytes
     except Exception as e:
         print(f"Error removing background from bytes: {e}")
