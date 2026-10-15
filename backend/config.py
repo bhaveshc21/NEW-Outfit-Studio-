@@ -2,7 +2,11 @@ import os
 from dotenv import load_dotenv
 
 # Load environment variables from .env file if present
-load_dotenv()
+_env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env')
+if os.path.exists(_env_path):
+    load_dotenv(_env_path)
+else:
+    load_dotenv()
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY', 'default-dev-key')

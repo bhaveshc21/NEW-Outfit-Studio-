@@ -48,22 +48,40 @@ def generate_try_on(current_user):
                 return jsonify({"success": False, "message": "Missing outfit_data"}), 400
                 
             cursor = db.cursor(dictionary=True)
-            cursor.execute("SELECT visualization_image FROM users WHERE id = %s", (user_id,))
+            cursor.execute("SELECT visualization_image, profile_image FROM users WHERE id = %s", (user_id,))
             user_row = cursor.fetchone()
             cursor.close()
             
-            if not user_row or not user_row.get('visualization_image'):
-                return jsonify({"success": False, "message": "You haven't uploaded a Virtual Try-On Model image in your profile."}), 400
+            raw_path = user_row.get('visualization_image') if user_row else None
+            if not raw_path and user_row:
+                raw_path = user_row.get('profile_image')
                 
-            vis_image_path = user_row['visualization_image']
-            if vis_image_path.startswith('/'):
-                vis_image_path = vis_image_path[1:] # remove leading slash
+            if not raw_path:
+                return jsonify({"success": False, "message": "You haven't uploaded a Virtual Try-On Model image or profile photo."}), 400
                 
+            cleaned_path = raw_path.lstrip('/\\')
             import os
-            if not os.path.exists(vis_image_path):
+            backend_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            root_dir = os.path.dirname(backend_dir)
+            candidates = [
+                os.path.join(backend_dir, cleaned_path),
+                os.path.join(root_dir, cleaned_path),
+                os.path.abspath(cleaned_path),
+                os.path.join(backend_dir, 'uploads', os.path.basename(cleaned_path)),
+                os.path.join(backend_dir, 'uploads', 'visualizations', os.path.basename(cleaned_path)),
+                os.path.join(backend_dir, 'uploads', 'profiles', os.path.basename(cleaned_path)),
+            ]
+            full_path = None
+            for p in candidates:
+                if os.path.exists(p) and os.path.isfile(p):
+                    full_path = p
+                    break
+                    
+            if not full_path:
+                print(f"DEBUG: Virtual try-on image not found on disk. Tried candidates: {candidates}")
                 return jsonify({"success": False, "message": "Your Virtual Try-On Model image could not be found on the server."}), 400
                 
-            with open(vis_image_path, "rb") as f:
+            with open(full_path, "rb") as f:
                 user_photo_bytes = f.read()
         else:
             return jsonify({"success": False, "message": "Request must be JSON or multipart/form-data"}), 400

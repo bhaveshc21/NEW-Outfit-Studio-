@@ -41,13 +41,24 @@ class VirtualTryOnService:
         """Loads an image from the uploads directory given its relative path stored in DB."""
         if not relative_path:
             return None
-        full_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), relative_path)
-        if os.path.exists(full_path):
-            try:
-                return Image.open(full_path).convert('RGB')
-            except Exception as e:
-                print(f"Error loading image {full_path}: {e}")
-                return None
+        cleaned_path = relative_path.lstrip('/\\')
+        backend_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        root_dir = os.path.dirname(backend_dir)
+        candidates = [
+            os.path.join(backend_dir, cleaned_path),
+            os.path.join(root_dir, cleaned_path),
+            os.path.abspath(cleaned_path),
+            os.path.join(backend_dir, 'uploads', os.path.basename(cleaned_path)),
+            os.path.join(backend_dir, 'uploads', 'wardrobe', os.path.basename(cleaned_path)),
+        ]
+        for p in candidates:
+            if os.path.exists(p) and os.path.isfile(p):
+                try:
+                    return Image.open(p).convert('RGB')
+                except Exception as e:
+                    print(f"Error loading image {p}: {e}")
+                    return None
+        print(f"DEBUG: Could not find wardrobe image on disk: {relative_path}. Tried: {candidates}")
         return None
 
     def _save_generated_image(self, pil_image):
@@ -59,7 +70,7 @@ class VirtualTryOnService:
 
     def generate_virtual_try_on(self, user_id, outfit_data, user_photo_bytes):
         if not self.client:
-            return {"success": False, "message": "Gemini API key is not configured."}
+            return {"success": False, "message": "Gemini API key is not configured. Please add GEMINI_API_KEY to backend/.env."}
 
         # 1. Validate Wardrobe Items and Collect Images
         outfit_parts = []
@@ -109,61 +120,78 @@ class VirtualTryOnService:
         except Exception as e:
             return {"success": False, "message": "Failed to read the uploaded image. Please provide a valid image."}
 
-        # 3. Construct the Multimodal Request
+        # 3. Construct the Multimodal Request for Gemini AI
         prompt = get_virtual_try_on_prompt(outfit_parts)
         
         contents = [prompt, user_photo]
         for img in clothing_images:
             contents.append(img)
 
-        try:
-            model_name = os.environ.get('GEMINI_MODEL', 'gemini-3.1-flash-image')
-            
-            with open("route_hit.log", "a") as f:
-                f.write(f"DEBUG: Starting Gemini generate_content with model {model_name} and {len(contents)} parts...\n")
-            print(f"DEBUG: Starting Gemini generate_content with model {model_name} and {len(contents)} parts...", flush=True)
-            start_time = time.time()
-            # Using generate_content which fails fast on quota errors
-            response = self.client.models.generate_content(
-                model=model_name,
-                contents=contents,
-                config=types.GenerateContentConfig(
-                    response_modalities=["IMAGE"],
-                    image_config=types.ImageConfig(
-                        aspect_ratio="1:1"
+        # Candidate models to try in order of preference
+        models_to_try = [
+            os.environ.get('GEMINI_MODEL', 'gemini-3.1-flash-image'),
+            'gemini-3.1-flash-image-preview',
+            'gemini-3.1-flash-lite-image',
+            'gemini-2.5-flash-image',
+            'gemini-3-pro-image-preview'
+        ]
+        
+        last_error = None
+        for model_name in models_to_try:
+            try:
+                with open("route_hit.log", "a") as f:
+                    f.write(f"DEBUG: Starting Gemini generate_content with model {model_name} and {len(contents)} parts...\n")
+                print(f"DEBUG: Starting Gemini generate_content with model {model_name} and {len(contents)} parts...", flush=True)
+                start_time = time.time()
+                
+                response = self.client.models.generate_content(
+                    model=model_name,
+                    contents=contents,
+                    config=types.GenerateContentConfig(
+                        response_modalities=["IMAGE"],
+                        image_config=types.ImageConfig(
+                            aspect_ratio="1:1"
+                        )
                     )
                 )
-            )
-            with open("route_hit.log", "a") as f:
-                f.write(f"DEBUG: Gemini API responded in {time.time() - start_time:.2f} seconds\n")
-            print(f"DEBUG: Gemini API responded in {time.time() - start_time:.2f} seconds", flush=True)
-            
-            if response and response.parts:
-                generated_image = None
-                for part in response.parts:
-                    if part.inline_data:
-                        generated_image = part.inline_data.data
-                        break
+                with open("route_hit.log", "a") as f:
+                    f.write(f"DEBUG: Gemini API responded in {time.time() - start_time:.2f} seconds\n")
+                print(f"DEBUG: Gemini API responded in {time.time() - start_time:.2f} seconds", flush=True)
+                
+                if response and response.parts:
+                    generated_image = None
+                    for part in response.parts:
+                        if part.inline_data:
+                            generated_image = part.inline_data.data
+                            break
+                            
+                    if generated_image:
+                        filename = f"vto_{uuid.uuid4().hex}_{int(time.time())}.png"
+                        file_path = os.path.join(self.generated_dir, filename)
+                        with open(file_path, "wb") as f:
+                            f.write(generated_image)
                         
-                if generated_image:
-                    # Save to disk
-                    filename = f"vto_{uuid.uuid4().hex}_{int(time.time())}.png"
-                    file_path = os.path.join(self.generated_dir, filename)
-                    with open(file_path, "wb") as f:
-                        f.write(generated_image)
-                    
-                image_url = f"uploads/generated/{filename}"
-                return {
-                    "success": True, 
-                    "message": "Virtual try-on generated successfully.",
-                    "data": {
-                        "image_url": image_url,
-                        "outfit": outfit_data
-                    }
-                }
-            else:
-                return {"success": False, "message": "The AI model did not return an image."}
+                        image_url = f"uploads/generated/{filename}"
+                        return {
+                            "success": True, 
+                            "message": "Virtual try-on generated successfully.",
+                            "data": {
+                                "image_url": image_url,
+                                "outfit": outfit_data
+                            }
+                        }
+            except Exception as e:
+                last_error = e
+                print(f"Gemini API Error with model {model_name}: {e}", flush=True)
+                if "RESOURCE_EXHAUSTED" in str(e) or "429" in str(e):
+                    continue
+                else:
+                    break
 
-        except Exception as e:
-            print(f"Gemini API Error: {e}")
-            return {"success": False, "message": f"AI Generation failed: {str(e)}"}
+        error_str = str(last_error) if last_error else "AI model did not return an image."
+        if "RESOURCE_EXHAUSTED" in error_str or "429" in error_str:
+            friendly_msg = "Gemini API daily quota limit reached (429 RESOURCE_EXHAUSTED). Please update GEMINI_API_KEY in backend/.env with a new key to continue visualizing outfits."
+        else:
+            friendly_msg = f"AI Generation failed: {error_str}"
+            
+        return {"success": False, "message": friendly_msg}

@@ -8,3 +8,5 @@ mediapipe==0.10.35
 Pillow
 requests
 google-genai
+rembg[cpu]
+onnxruntime

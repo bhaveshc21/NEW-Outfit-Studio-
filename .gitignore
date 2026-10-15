@@ -20,6 +20,8 @@ android/OutfitStudio/*.iml
 .DS_Store
 Thumbs.db
 
-# Ignored backend
+# Ignored backend and root uploads
+uploads/
 backend/uploads/
+*.log
 backend/*.log

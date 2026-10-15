@@ -1,5 +1,11 @@
 import os
-from rembg import remove
+try:
+    from rembg import remove
+    REMBG_AVAILABLE = True
+except (ImportError, Exception):
+    REMBG_AVAILABLE = False
+    remove = None
+
 from PIL import Image
 import io
 
@@ -34,6 +40,7 @@ def remove_background_and_save(input_path, output_path=None):
             except Exception as e:
                 print(f"Error removing old image: {e}")
                 
+        print(f"Background removed successfully: {final_output_path}")
         return final_output_path
         
     except Exception as e:
