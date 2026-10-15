@@ -11,9 +11,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import java.io.IOException;
 
 public class ApiClient {
-    // Use the computer's local IP address for physical device testing
-    // Using 127.0.0.1 with adb reverse for reliable USB testing
-    public static final String BASE_URL = "http://127.0.0.1:5000/api/";
+    // Computer's local Wi-Fi IP address for wireless physical device testing
+    public static final String BASE_URL = "http://10.139.148.254:5000/api/";
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient(Context context) {
